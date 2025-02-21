@@ -1,0 +1,35 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Job Name</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> System ArabicName -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempJobName.domainUnitArabicName"  [ngModelOptions]="{standalone: true}" placeholder="Arabic Name" required /> </mat-form-field>  </div> </div>
+          <!-- ====> System EnglishName -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempJobName.domainUnitEnglishName"  [ngModelOptions]="{standalone: true}" placeholder="English Name" required /> </mat-form-field>  </div> </div>
+          <!-- ====> System description -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempJobName.description"  [ngModelOptions]="{standalone: true}" placeholder="Description" required /> </mat-form-field>  </div> </div>
+          <!--
+                    &lt;!&ndash; ====> Domain number &ndash;&gt;
+                    <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempDomain.domainUnitNumber"  [ngModelOptions]="{standalone: true}" placeholder="Number" required /> </mat-form-field>  </div> </div>
+          -->
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addJobName()" cdkFocusInitial>
+    Ok
+  </button>
+</div>

@@ -1,0 +1,27 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <app-loading *ngIf="isLoading"></app-loading>
+    <app-release [releases]="releases" [type]="type" (onSelectValue)="select($event)" ></app-release>
+
+    <div class="card">
+      <div class="card-content">
+        <h4 class="card-title">Planned TCs Executions VS. Actual
+        </h4>
+        <div class="togglebutton">
+          <label>
+            <input type="checkbox" [checked]="false" (change)="toggleChange($event.target.checked)"> Regression
+          </label>
+        </div>
+        <div>
+          <canvas *ngIf="datasets && datasets.length > 0"
+                  baseChart
+                  [datasets]="datasets"
+                  [labels]="labels"
+                  [legend]="chartLegend"
+                  [chartType]="chartType"
+                   >
+          </canvas>
+      </div>
+    </div>
+  </div>
+</div>

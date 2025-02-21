@@ -1,0 +1,111 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content card-body">
+            <h5 class="card-title"><strong>System Domain</strong></h5>
+            <form *ngIf="systemDomain" ngForm="form" #form="ngForm" (ngSubmit)="submitForm()">
+              <div>
+                <div class="row">
+                  <div class="col-md-offset-2 col-md-8"
+                    style="border: thin groove; color: gray; padding-left: 5%; padding-top: 2%;">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <input [disabled]="!viewConfig.editable" required matInput type="text" placeholder="System Domain Number"
+                            name="systemDomainNumber" [(ngModel)]="systemDomain.systemDomainNumber">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <input [disabled]="!viewConfig.editable" required matInput type="text"
+                            placeholder="System Domain Eng Name" name="systemDomainEngName"
+                            [(ngModel)]="systemDomain.systemDomainEngName">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <input [disabled]="!viewConfig.editable" matInput type="text" placeholder="System Description"
+                            name="systemDescription" [(ngModel)]="systemDomain.systemDescription">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <input [disabled]="!viewConfig.editable" required matInput type="text" placeholder="Company Name"
+                            name="companyName" [(ngModel)]="systemDomain.companyName">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field>
+                          <input [disabled]="!viewConfig.editable" required matInput type="text" placeholder="Company Country"
+                            name="companyCountry" [(ngModel)]="systemDomain.companyCountry">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field style="width: 90%;">
+                          <mat-select [disabled]="!viewConfig.editable" (selectionChange)="gdChanged()" placeholder="Select General Department" ngModel
+                            name="gdName" [(ngModel)]="selectedGd" type="text" required #gd="ngModel">
+                            <mat-option *ngFor="let gd of gdList; let i = index" [value]="gd">
+                              {{ gd.gdEnName }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div *ngIf="form.value.gdName && form.value.gdName.departments" class="col-md-6">
+                        <mat-form-field style="width: 90%;">
+                          <mat-select [disabled]="!viewConfig.editable" (selectionChange)="departmentChanged()" placeholder="Select Department" ngModel
+                            name="department" [(ngModel)]="selectedDepartment" type="text" required
+                            #department="ngModel">
+                            <mat-option *ngFor="let department of selectedGd.departments; let i = index"
+                              [value]="department">
+                              {{ department.departmentEnglishName }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="form.value && form.value.department" class="col-md-6">
+                        <mat-form-field style="width: 90%;">
+                          <mat-select [disabled]="!viewConfig.editable" placeholder="Select Section" ngModel name="section" [(ngModel)]="selectedSection"
+                            type="text" required #section="ngModel">
+                            <mat-option *ngFor="let section of selectedDepartment.sections; let i = index"
+                              [value]="section">
+                              {{ section.sectionEnglishName }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-offset-8 col-md-2">
+                        <button *ngIf="viewConfig.editable" type="submit" #tooltip="matTooltip" [disabled]="!form.valid"
+                          matTooltip="Save Changes" class="btn btn-primary btn-round">
+                          <i class="material-icons">save</i>
+                        </button>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" *ngIf="id && id != 'new'" #tooltip="matTooltip" (click)="enableEdit()"
+                          matTooltip="Enable Edit" class="btn btn-success btn-round">
+                          <i class="material-icons">edit</i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

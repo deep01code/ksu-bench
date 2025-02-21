@@ -1,0 +1,29 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Agreement</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> Agreement Name -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempAgreement.name"  [ngModelOptions]="{standalone: true}" placeholder="Agreement Name" required /> </mat-form-field>  </div> </div>
+          <!-- ====> financialNumber -->
+          <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select Agreement Type" [(ngModel)]="tempAgreement.agreementType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedPOTYPE of agreementTypes; let i = index" [value]="selectedPOTYPE" > {{ selectedPOTYPE }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addAgreement()" cdkFocusInitial>
+    Ok
+  </button>
+</div>

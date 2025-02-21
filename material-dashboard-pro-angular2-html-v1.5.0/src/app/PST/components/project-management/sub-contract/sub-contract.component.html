@@ -1,0 +1,200 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row"></div>
+        <div class="card">
+          <div
+            class="card-header card-header-icon"
+            data-background-color="rose"
+          >
+            <i class="material-icons">assignment</i>
+          </div>
+          <h5 class="card-title">
+            <strong>{{ project.projectName }} </strong> Project Details
+          </h5>
+          <div class="card-content card-body">
+            <div class="row">
+              <div class="col-md-offset-1 col-md-10">
+                <div class="row">
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input
+                        disabled
+                        type="text"
+                        placeholder="Project Name"
+                        required
+                        matInput
+                        name="projectName"
+                        [(ngModel)]="project.projectName"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input
+                        disabled
+                        type="number"
+                        placeholder="Project Number"
+                        required
+                        matInput
+                        name="projectNumber"
+                        [(ngModel)]="project.projectNumber"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-select
+                        disabled
+                        placeholder="Select Project Type"
+                        ngModel
+                        name="projectType"
+                        id="projectType"
+                        [(ngModel)]="project.projectType"
+                        type="text"
+                        required
+                        #system="ngModel"
+                      >
+                        <mat-option
+                          *ngFor="let type of proejctTypes; let i = index"
+                          [value]="type"
+                        >
+                          {{ type }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <mat-form-field
+                      ><input
+                        disabled
+                        type="text"
+                        placeholder="Year Of Project"
+                        required
+                        matInput
+                        name="yearOfProject"
+                        [(ngModel)]="project.yearOfProject"
+                    /></mat-form-field>
+                  </div>
+
+                  <div class="col-md-4">
+                    <mat-form-field
+                      ><input
+                        disabled
+                        type="text"
+                        placeholder="Fin#"
+                        required
+                        matInput
+                        name="finNumber"
+                        [(ngModel)]="project.finNumber"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-4">
+                    <mat-form-field
+                      ><input
+                        disabled
+                        type="number"
+                        placeholder="Project Value"
+                        required
+                        matInput
+                        name="projectValue"
+                        [(ngModel)]="project.projectValue"
+                    /></mat-form-field>
+                  </div>
+                </div>
+                <form #form="ngForm" ngForm="form"></form>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm btn-round"
+                  [disabled]="!form.valid || !project.contracts"
+                  (click)="saveChanges()"
+                >
+                  Save Changes!
+                </button>
+                <button
+                *ngIf="formEditable || isNew"
+                type="button"
+                class="btn btn-success btn-sm btn-round"
+                (click)="addSubcontractDialog(newSubcontract)"
+              >
+                Add Subcontract
+              </button>
+                <button
+                  *ngIf="!isNew"
+                  type="button"
+                  #tooltip="matTooltip"
+                  (click)="enableEdit()"
+                  matTooltip="More Details"
+                  class="btn btn-info btn-sm btn-round"
+                >
+                  <i class="material-icons">edit</i>
+                </button>
+                <hr />
+              </div>
+            </div>
+            <!------------------------------------------------------------------------------>
+
+            <div class="row">
+              <div class="table-responsive" *ngIf="project.contracts">
+                <strong>Contracts: </strong>
+                <table class="table table-striped" style="border: thin groove">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 20%">PO#</th>
+                      <th>Vendor Name</th>
+                      <th>Subcontracot Name</th>
+                      <th style="align-content: right; text-align: right">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let subcontract of contract.subcontracts;
+                        let i = index
+                      "
+                    >
+                      <td class="text-center">
+                        {{ subcontract.poNumber }}
+                      </td>
+                      <td>
+                        {{ contract.vendor ? contract.vendor.name : "NO" }}
+                      </td>
+                      <td>
+                        {{
+                          subcontract.subVendor
+                            ? subcontract.subVendor.name
+                            : ""
+                        }}
+                      </td>
+                      <td class="td-actions text-right">
+                        <button
+                          type="button"
+                          #tooltip="matTooltip"
+                          (click)="viewSubcontractDetails(subcontract)"
+                          matTooltip="More Details"
+                          class="btn btn-info btn-round"
+                        >
+                          <i class="material-icons">details</i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!---------------------------------------------------------------------------------->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

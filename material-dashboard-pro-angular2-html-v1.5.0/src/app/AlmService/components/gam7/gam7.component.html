@@ -1,0 +1,15 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+  <div class="col-md-12">
+            <div class="card-content">
+                <h4 class="card-title">Rejected Defects Per Tester</h4>
+                <button class="pull-right" (click)="getCsv()">Export to Excel</button>
+                <ngx-table class="clickable-table"
+                           [configuration]="configuration"
+                           [data]="bugs"
+                           [columns]="columns"
+                           (event)="eventEmitted($event)">
+                </ngx-table>
+            </div>
+        </div>
+     </div>

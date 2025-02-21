@@ -1,0 +1,88 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Mange User</h4>
+                        <button class="btn btn-secondary"
+                                type="button" (click)="backClicked()">
+                            <!--<i class="material-icons">add</i>-->
+                            Back to users list
+                        </button>
+                        <div class="table-responsive">
+                            <table class="table" *ngIf="roleWithUsers">
+                                <thead>
+                                <tr>
+                                    <th class="text-left">#</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="text-left">{{roleWithUsers.roleId}}</td>
+                                    <td width="30%">
+                                        {{roleWithUsers.name}}
+                                    </td>
+                                    <td width="70%">
+                                        {{roleWithUsers.description}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="table-responsive">
+                                <table class="table" *ngIf="roleWithUsers">
+                                    <thead>
+                                    <tr>
+                                        <th>ID - User Name </th>
+                                        <th class="text-right">Is Active </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let userRs of roleWithUsers.users; let i = index">
+                                        <td>{{i+1}} - {{userRs.username}}</td>
+                                        <td class="text-right"> {{userRs.enabled}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-md-12 text-center"><h3>Add/Remove Roles</h3></div>
+                                <div class="col-sm-4 col-sm-offset-1" *ngIf="userList">
+                                    <div class="list-group" id="list1" *ngIf="users">
+                                        <h4>Role Already have</h4>
+                                        <a class="list-group-item" *ngFor="let user of userList; let i = index">{{i+1}} - {{user.username}}
+                                            <input type="checkbox" class="pull-right" (change)="addToListA(user,$event.target.checked)"></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 v-center">
+                                    <button title="Send to list 2" class="btn btn-default center-block add" (click)="removeFromListA()"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                                    <button title="Send to list 1" class="btn btn-default center-block remove" (click)="removeFromListB()"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="list-group" id="list2" *ngIf="users">
+                                        <h4>Available Roles</h4>
+                                        <a *ngFor="let user of users; let i = index" class="list-group-item">{{i+1}} - {{user.username}}
+                                            <input type="checkbox" class="pull-right" (change)="addToListB(user,$event.target.checked)">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center"><h3>Add/Remove Roles</h3></div>
+                                <div class="col-md-12 text-center">
+                                    <button title="Save" class="btn btn-success" (click)="saveRoleToUser()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

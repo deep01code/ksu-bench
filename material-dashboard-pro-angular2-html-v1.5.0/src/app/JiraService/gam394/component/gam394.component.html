@@ -1,0 +1,238 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-title">
+                        Form
+                    </div>
+                    <hr>
+                    <div class="card-body card-content">
+                        <form [formGroup]="crForm" ngForm="crForm" #form="ngForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                <mat-form-field>
+                                    <input type="text" formControlName="systemName" placeholder="SYSTEM NAME" label="systemName" matInput>
+                                </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                <mat-form-field>
+                                    <input type="text" formControlName="crName" placeholder="CR NAME" label="CR_NAME" matInput>
+                                </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input type="text" formControlName="crDescription" placeholder="CR DESCRIPTION" label="CR_DESCRIPTION" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input type="text" formControlName="crBenefits" placeholder="CR BENEFITS" label="CR BENEFITS" matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="CR STREAM" formControlName="crStream">
+                                            <mat-option value="CRM">CRM</mat-option>
+                                            <mat-option value="RBM">RBM</mat-option>
+                                            <mat-option value="CRM/RBM">CRM/RBM</mat-option>
+                                            <mat-option value="ULA">ULA</mat-option>
+                                            <mat-option value="Audit Portal">Audit Portal</mat-option>
+                                            <mat-option value="NSM">NSM</mat-option>
+                                            <mat-option value="BSSTEAI">BSSTEAI</mat-option>
+                                            <mat-option value="OM">OM</mat-option>
+                                            <mat-option value="CRM">CRM</mat-option>
+                                            <mat-option value="CRM">CRM</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input type="text" formControlName="crType" placeholder="CR TYPE" label="crType" matInput>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Priority" formControlName="priority">
+                                            <mat-option value="High">High</mat-option>
+                                            <mat-option value="Medium">Medium</mat-option>
+                                            <mat-option value="Low">Low</mat-option>
+                                            <mat-option value="Urgent">Urgent</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="BUSINESS IMPACT" formControlName="businessImpact">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="CUSTOMER IMPACT" formControlName="customerImpact">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="SECURITY IMPACT" formControlName="securityImpact">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="BUSINESS CRITICAL"
+                                                    formControlName="businessCritical">
+                                            <mat-option value="Y">Yes</mat-option>
+                                            <mat-option value="N">No</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="businessUnit"
+                                                    [(ngModel)]="businessUnit"
+                                                    formControlName="businessUnit">
+                                            <mat-option value="PBU">PBU</mat-option>
+                                            <mat-option value="EBU">EBU</mat-option>
+                                            <mat-option value="Others">Others</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <mat-select placeholder="BUSINESS SUB UNIT"
+                                                    [required]="businessUnit==='Others'"
+                                                    formControlName="businessSubUnit">
+                                            <mat-option value="FSS">FSS</mat-option>
+                                            <mat-option value="CS">CS</mat-option>
+                                            <mat-option value="CC">CC</mat-option>
+                                            <mat-option value="O&M">O&M</mat-option>
+                                            <mat-option value="E2Vault">E2Vault</mat-option>
+                                            <mat-option value="ERP">ERP</mat-option>
+                                            <mat-option value="CWS">CWS</mat-option>
+                                            <mat-option value="ODS">ODS</mat-option>
+                                            <mat-option value="EAI">EAI</mat-option>
+                                            <mat-option value="OIC">OIC</mat-option>
+                                            <mat-option value="STC-PMO">STC-PMO</mat-option>
+                                            <mat-option value="IT-Security">IT-Security</mat-option>
+                                            <mat-option value="ITBT-FSS">ITBT-FSS</mat-option>
+                                            <mat-option value="ITBT-IN">ITBT-IN</mat-option>
+                                            <mat-option value="ITBT-FCC">ITBT-FCC</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" [(ngModel)]="jiraBuNo"
+                                               [required]="jiraCrNo === '' && jiraTaskNo.length === 0"
+                                               formControlName="jiraBuNo" placeholder="JIRA BU NO">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" [(ngModel)]="jiraCrNo"
+                                               [required]="jiraBuNo === '' && jiraTaskNo.length === 0"
+                                               formControlName="jiraCrNo" placeholder="JIRA CR NO">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+ <!--                                   <mat-form-field>
+                                        <input matInput type="text" [(ngModel)]="jiraTaskNo"
+                                               [required]="jiraCrNo === '' && jiraBuNo ===''"
+                                               formControlName="jiraTaskNo" placeholder="JIRA TASK NO">
+                                    </mat-form-field>-->
+
+                                    <tag-input [(ngModel)]="jiraTaskNo"
+                                               [secondaryPlaceholder]="'Enter Jira Task Number*'"
+                                               [placeholder]="'Task Number+'"
+                                               (onAdd)="add($event)"
+                                               [addOnBlur]="true"
+                                               label="New Jira Task No"
+                                               [addOnPaste]="true"
+                                               [required]="jiraBuNo === '' && jiraCrNo"
+                                               formControlName="jiraTaskNo"
+                                               theme='filled-theme'></tag-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="req" placeholder="req">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="reqEmail" placeholder="REQ EMAIL">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="reqPhoneNo" placeholder="REQ PHONE NO">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="own" placeholder="OWN">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="ownEmail" placeholder="OWN EMAIL">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="ownPhoneNo" placeholder="OWN PHONE NO">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="secOwn" placeholder="SEC OWN">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="secOwnEmail" placeholder="SEC OWN EMAIL">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field>
+                                        <input matInput type="text" formControlName="secOwnPhoneNo" placeholder="SEC OWN PHONE NO">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="btn-success btn-lg" (click)="submit()">Create CR</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

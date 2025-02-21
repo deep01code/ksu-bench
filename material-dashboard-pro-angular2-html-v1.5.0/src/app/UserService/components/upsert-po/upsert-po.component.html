@@ -1,0 +1,158 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="row">
+
+
+
+      </div>
+      <div class="card-content" >
+        <app-loading *ngIf="isLoading"></app-loading>
+
+        <form ngForm="form" #form="ngForm">
+          <div class="col-md-12">
+            <div class="row" *ngIf="po">
+              <!-- ====> financialNumber.managerialUnit.unitEnglishName -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true"  matInput   ngModel   name="unitEnglishName"  [(ngModel)]="po.managerialUnit.unitEnglishName"   placeholder="Unit Name" required /> </mat-form-field> </div>
+              <!-- ====> unitNumber -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true" matInput   ngModel   name="unitNumber"  [(ngModel)]="po.managerialUnit.unitNumber"   placeholder="Unit Number" required /> </mat-form-field> </div>
+              <!-- ====> type -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true" matInput   ngModel   name="unitType"  [(ngModel)]="po.managerialUnit.type"   placeholder="Unit Type" required /> </mat-form-field> </div>
+
+            </div>
+            <div class="row">
+              <!-- ====> financialName -->
+              <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field><input matInput   type="text" [(ngModel)]="po.financialName"  [ngModelOptions]="{standalone: true}" placeholder="Financial Name" required /> </mat-form-field>  </div> </div>
+              <!-- ====> financialNumber -->
+              <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="po.financialNumber"  [ngModelOptions]="{standalone: true}" placeholder="Financial Number" required /> </mat-form-field>   </div> </div>
+              <!-- ====> amount -->
+              <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="number" [(ngModel)]="po.value"  [ngModelOptions]="{standalone: true}" placeholder="Value" required /> </mat-form-field>   </div> </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <!-- ====> description -->
+              <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="po.description"  [ngModelOptions]="{standalone: true}" placeholder="Description" required /></mat-form-field>    </div> </div>          <!-- ====> start date -->
+              <!-- ====> start date -->
+              <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field> <input matInput [(ngModel)]="po.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker></mat-form-field>  </div> </div>
+              <!-- ====> end date -->
+              <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field> <input matInput [(ngModel)]="po.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker></mat-form-field>  </div> </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+              <!-- ====> fin# -->
+              <div class="col-sm-4">  <div style="width: 45%"> <mat-form-field>  <mat-select disabled="true" [compareWith]="compareObjects" placeholder="Select Financial #" [(ngModel)]="po.financialParent" [ngModelOptions]="{standalone: true}" type="text" required><mat-option *ngFor="let selectedFinancialNumber of financialNumbers; let i = index"  [value]="selectedFinancialNumber"> {{ selectedFinancialNumber.financialName }} </mat-option> </mat-select></mat-form-field> </div> </div>
+
+              <!-- ====> Venrods# -->
+              <div class="col-sm-4">  <div style="width: 45%"> <mat-form-field> <mat-select [compareWith]="compareObjects" placeholder="Select Vendor" [(ngModel)]="po.vendor" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedVendor of vendors; let i = index" [value]="selectedVendor" > {{ selectedVendor.name }} </mat-option> </mat-select> </mat-form-field> </div> </div>
+
+              <!-- ====> Agreements# -->
+              <div class="col-sm-4" *ngIf="po.vendor" > <div style="width: 45%"> <mat-form-field>   <mat-select [compareWith]="compareObjects" placeholder="Select Agreement" [(ngModel)]="po.agreement" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedAgreement of po.vendor.agreements; let i = index" [value]="selectedAgreement" > {{ selectedAgreement.name }} </mat-option> </mat-select> </mat-form-field> </div> </div>
+
+            </div>
+            <hr/>
+            <div class="row">
+
+              <!-- ====> PoType# -->
+              <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select PO Type" [(ngModel)]="po.poType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedPOTYPE of poTypes; let i = index" [value]="selectedPOTYPE" > {{ selectedPOTYPE }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+
+              <!-- ====> expenseType# -->
+              <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Select Expense Type" [(ngModel)]="po.expenseType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedExpenseType of expenseTypes; let i = index" [value]="selectedExpenseType" > {{ selectedExpenseType }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+            </div>
+
+            <hr/>
+
+            <div class="row">
+              <!-- ====> ps -->
+              <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="is multi Year Agreement"   name="multiYearAgreement" id="multiYearAgreement" type="text" required  [(ngModel)]="po.multiYearAgreement" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+              <!-- ====> projectionPlus -->
+              <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="is Projection Plus"   name="projectionPlus" id="projectionPlus" type="text" required  [(ngModel)]="po.projectionPlus" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+              <!-- ====> open -->
+              <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Is Open"   name="open" id="open" type="text" required  [(ngModel)]="po.open" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+            </div>
+
+            <div class="row">
+              <!-- ====> marginPercent -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="number" [(ngModel)]="po.marginPercent" [ngModelOptions]="{standalone: true}" placeholder="Margin Percent" required/></mat-form-field>  </div> </div>
+
+              <!-- ====> marginCap -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="number" [(ngModel)]="po.marginCap" [ngModelOptions]="{standalone: true}" placeholder="Margin Cap" required/> </mat-form-field>  </div> </div>
+
+
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">  <button class="btn btn-success btn-round" (click)="upsertFinancialNumber()">Update</button></div>
+            </div>
+
+          </div>
+
+        </form>
+
+        <hr/>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="card card-content" *ngIf="po">
+      <div class="row">
+        <div class="col-sm-3"><h3>Related Partial POs</h3></div>
+          <button  class="pull-right" mat-button   (click)="openAddPartialPODialog(po)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+              <label style="color: white" > Add Partial PO</label>
+              <i class="material-icons">add</i>
+          </button>
+
+      </div>
+      <div class="row">
+
+        <div class="col-sm-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Unit Name</th>
+              <th>Unit Number</th>
+              <th>Type</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of po.financialUnits;">
+              <td (click)="openEditPartialPODialog(po,row)" style="cursor: pointer"><a>{{row.financialName}}</a></td>
+              <td>{{row.financialNumber}}</td>
+              <td>{{row.value}}</td>
+              <td>{{row["description"]}}</td>
+              <td>{{row?.startDate}}</td>
+              <td>{{row?.endDate}}</td>
+              <td>{{row.managerialUnit?.unitEnglishName}}</td>
+              <td>{{row.managerialUnit?.unitNumber}}</td>
+              <td>{{row.managerialUnit?.type}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+

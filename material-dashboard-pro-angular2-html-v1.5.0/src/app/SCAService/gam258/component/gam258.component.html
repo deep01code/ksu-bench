@@ -1,0 +1,88 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Select Branch that need to be updated</h4>
+
+                        <ngx-table
+                                [configuration]="configuration" [data]="branch.data" (event)="eventEmitted($event)" [columns]="columns">
+                            <ng-template let-row>
+                                <td>{{row.ID}}</td>
+                                <td>{{row.NAME}}</td>
+                                <td>{{row.ADDRESS}}</td>
+                                <td>{{row.HRS_OPEN}}</td>
+                                <td>{{row.HRS_CLOSE}}</td>
+                                <td>{{row.PHONE}}</td>
+                                <td>
+                                    <button     [disabled]="editList.includes(row)"
+                                                class="btn btn-round btn-fab btn-fab-mini "
+                                                (click)="addToEdit(row)"
+                                                ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </td>
+                            </ng-template>
+                        </ngx-table>
+
+                        <div *ngIf="editList.length">
+                            <hr/>
+                            <h4 class="card-title">Update Branch to proceed </h4>
+                            <br/>
+
+                            <ngx-table *ngIf="editList" [configuration]="configuration2" [data]="editList"
+                                       (event)="eventEmitted($event)" [columns]="update_columns">
+                                <ng-template let-row>
+                                    <td> {{row.ID}}</td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'A')"
+                                        contenteditable="true">
+                                        {{row.NAME}}
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'B')"
+                                        contenteditable="true">
+                                        {{row.ADDRESS}}
+                                    </td>
+                                        <td (focusout)="textChanged(row, $event.target.innerText, 'C')"
+                                        contenteditable="true">
+                                        <mat-form-field>
+                                            <mat-select placeholder="{{row.HRS_OPEN}}">
+                                                <mat-option *ngFor="let open of opens" [value]="open" required minlength="2">
+                                                    {{ open.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'D')"
+                                        contenteditable="true">
+                                        <mat-form-field>
+                                            <mat-select placeholder="{{row.HRS_CLOSE}}">
+                                                <mat-option *ngFor="let close of closes" [value]="close" required minlength="2">
+                                                    {{ close.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'E')"
+                                        contenteditable="true">
+                                        {{row.PHONE}}
+                                    </td>
+                                    <td width="10px">
+                                        <button (click)="removeFromEdit(row)"
+                                                class="btn btn-danger btn-round btn-fab btn-fab-mini">
+                                            <i class="material-icons">clear</i>
+                                        </button>
+                                    </td>
+                                </ng-template>
+                            </ngx-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

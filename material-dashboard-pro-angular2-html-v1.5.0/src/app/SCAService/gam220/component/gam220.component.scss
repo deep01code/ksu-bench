@@ -1,0 +1,11 @@
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+  border:solid rgba(2, 0, 2, 0.51);
+  outline:none;
+  background-color: #ffffff;
+}
+
+.modified{
+  border: solid red;
+}
+

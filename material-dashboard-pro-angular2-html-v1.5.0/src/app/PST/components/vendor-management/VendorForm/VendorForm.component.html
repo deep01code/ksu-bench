@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-12">
+    <h4>Vendor Details: </h4>
+    <form *ngIf="inVendor" ngForm="form" #form="ngForm">
+      <div style="border: thin groove; color: gray; padding-left: 5%; padding-top: 2%;">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="text" placeholder="Vendor Number" name="number"
+                [(ngModel)]="inVendor.number">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="text" placeholder="Vendor Name" name="name"
+                [(ngModel)]="inVendor.name">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field style="width: 80%;">
+              <mat-select [(ngModel)]="inVendor.type"  placeholder="Vendor Type" ngModel
+                name="vendorType" type="text" required #vendorType="ngModel">
+                <mat-option *ngFor="let type of vendorTypes; let i = index" [value]="type">
+                  {{ type }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="text" placeholder="Commercial Registration"
+                name="commercialRegistration" [(ngModel)]="inVendor.commercialRegistration">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="text" placeholder="VAT Number" name="vatNumber"
+                [(ngModel)]="inVendor.vatNumber">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="text" placeholder="Vendor website" name="website"
+                [(ngModel)]="inVendor.website">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input  matInput type="date" placeholder="End Date" name="endDate"
+                [(ngModel)]="inVendor.endDate">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

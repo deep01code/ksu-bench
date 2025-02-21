@@ -1,0 +1,35 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Financial Number</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> financialName -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempFinancialNumber.financialName"  [ngModelOptions]="{standalone: true}" placeholder="Financial Name" required /></mat-form-field>   </div> </div>
+          <!-- ====> financialNumber -->
+          <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field> <input matInput type="text" [(ngModel)]="tempFinancialNumber.financialNumber"  [ngModelOptions]="{standalone: true}" placeholder="Financial Number" required /></mat-form-field>  </div> </div>
+          <!-- ====> amount -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="number" [(ngModel)]="tempFinancialNumber.value"  [ngModelOptions]="{standalone: true}" placeholder="Value" required /></mat-form-field>   </div> </div>
+        </div>
+        <div class="row">
+          <!-- ====> start date -->
+          <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field><input matInput [(ngModel)]="tempFinancialNumber.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker></mat-form-field>  </div> </div>
+          <!-- ====> end date -->
+          <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field> <input matInput [(ngModel)]="tempFinancialNumber.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker></mat-form-field>  </div> </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addFinancialNumber()" cdkFocusInitial>
+    Save
+  </button>
+</div>

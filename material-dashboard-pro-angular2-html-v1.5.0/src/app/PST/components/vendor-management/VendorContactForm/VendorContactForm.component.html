@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-md-12">
+    <h4>Contact Details: </h4>
+    <div class="table-responsive">
+      <table style="border: groove;" *ngIf="inContact" class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 20%;">Contact Name</th>
+            <th> Job title </th>
+            <th>Mobile Number</th>
+            <th>Email Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of inContact; let j = index">
+            <td class="text-center">
+              <mat-form-field style="width: 90%;">
+                <input [disabled]="!editable" matInput style="width: 100X;" [(ngModel)]="contact.name">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 90%;">
+                <input [disabled]="!editable" matInput style="width: 100X;" [(ngModel)]="contact.jobTitle">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 90%;">
+                <input [disabled]="!editable" matInput type="text" style="width: 100X;"
+                  [(ngModel)]="contact.mobileNumber">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 90%;">
+                <input [disabled]="!editable" matInput type="email" style="width: 100X;"
+                  [(ngModel)]="contact.emailAddress">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr *ngIf="newContact">
+            <td>
+              <input placeholder="Name" [(ngModel)]="newContact.name" matInput type="text">
+            </td>
+            <td>
+              <input placeholder="Job Title" [(ngModel)]="newContact.jobTitle" matInput type="text">
+            </td>
+            <td>
+              <input placeholder="Mobile Mumber" [(ngModel)]="newContact.mobileNumber" matInput type="text">
+            </td>
+            <td>
+              <div class="col-md-8">
+                <input placeholder="Email Address" [(ngModel)]="newContact.emailAddress" matInput type="text">
+              </div>
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-primary btn-sm " (click)="addNewContact(i)">Confirm</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="align-content: right;">
+              <button class="btn btn-success btn-round" *ngIf="editable" (click)="addContact(i)">Add Contact</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <form *ngIf="inContact" ngForm="form" #form="ngForm">
+      <div style="border: thin groove; color: gray; padding-left: 5%; padding-top: 2%;">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input [disabled]="!editable" matInput type="text" placeholder="Contact Name" name="name"
+                [(ngModel)]="inContact.name">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input [disabled]="!editable" matInput type="text" placeholder="Contact Job Title" name="jobTitle"
+                [(ngModel)]="inContact.jobTitle">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input [disabled]="!editable" matInput type="number" placeholder="Mobile Number" name="mobileNumber"
+                [(ngModel)]="inContact.mobileNumber">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input [disabled]="!editable" matInput type="email" placeholder="Email Address" name="emailAddress"
+                [(ngModel)]="inContact.emailAddress">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form> -->
+  </div>
+</div>

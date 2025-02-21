@@ -1,0 +1,65 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Create Program
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <form [formGroup]="programForm" (ngSubmit)="submitProgram(programForm.value)">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="Name" formControlName="name"
+                                                            required>
+                                                        <mat-error
+                                                            *ngIf="programForm.get('name').invalid && programForm.get('name').hasError('required')">
+                                                            required
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                        <mat-checkbox
+                                                        formControlName="locationBasedCosts"
+                                                        >
+                                                        Location Based Cost</mat-checkbox>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button mat-button type="submit"
+                                                        style="background-color:#7B1FA2;color: white"
+                                                        [disabled]="!programForm.valid">
+                                                        submit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="programs.length">
+                            <div class="col-md-12">
+                                <mat-table [dataSource]="programsDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="Name">
+                                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="programsColumns"></mat-header-row>
+                                    <mat-row style="cursor: pointer;" (click)="selectProgram(row.id)"
+                                        *matRowDef="let row; columns: programsColumns;"></mat-row>
+                                </mat-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

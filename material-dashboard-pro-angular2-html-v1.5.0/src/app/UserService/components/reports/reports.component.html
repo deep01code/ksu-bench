@@ -1,0 +1,258 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="row">
+
+        <!--<div class="pull-right" style="padding-right: 20px">
+          <button class="btn btn-success btn-round" (click)="addFinancialNumber()">Add FinancialNumber</button>
+        </div>-->
+      </div>
+      <div class="card-content">
+
+        <div>
+
+          <!-- Tab links Start-->
+          <div class="tab">
+            <button #reports class="tablinks" (click)="openTapClick($event, 'totalEmployees')">Total Applications Resources</button>
+            <button class="tablinks" (click)="openTapClick($event, 'Distributions')">Vendor Distributions</button>
+            <button class="tablinks" (click)="openTapClick($event, 'Participation')">GDs Participation</button>
+            <button class="tablinks" (click)="openTapClick($event, 'GenderDistributions')">Gender Distributions</button>
+            <button class="tablinks" (click)="openTapClick($event, 'NationalityDistributions')">Nationality Distributions</button>
+            <button class="tablinks" (click)="openTapClick($event, 'others')">Other Distributions</button>
+           </div>
+          <!-- Tab links End-->
+
+          <!-- Tab content Domains Start  -->
+          <div id="totalEmployees" class="tabcontent">
+
+            <div class="row">
+
+              <div class="col-sm-offset-1 col-sm-9 ">
+                <h3 class="text-center">Resource By Department</h3>
+
+                <canvas *ngIf="applicationTotalReport.datasets && applicationTotalReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="applicationTotalReport.datasets"
+                        [labels]="applicationTotalReport.labels"
+                        [legend]="false"
+                        [chartType]="applicationTotalReport.lineChartType"
+                        [colors]="applicationTotalReport.chartColors">
+                </canvas>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- Tab content Domains End -->
+
+          <!-- Tab content Financial Numbers Start -->
+          <div id="Distributions" class="tabcontent">
+            <!--<h3></h3>-->
+
+            <div class="row">
+              <div class="col-sm-offset-1 col-sm-9 ">
+                <h3 class="text-center">Resource By Vendor</h3>
+
+                <canvas *ngIf="vendorReport.datasets && vendorReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="vendorReport.datasets"
+                        [labels]="vendorReport.labels"
+                        [legend]="false"
+                        [chartType]="vendorReport.lineChartType"
+                        [colors]="vendorReport.chartColors">
+                </canvas>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Tab content Financial Numbers End -->
+
+          <!-- Tab content POs Start -->
+          <div id="Participation" class="tabcontent">
+            <h3 class="text-center">Resource By Department</h3>
+
+             <div class="row" >
+               <div class="col-sm-12">
+                 <div class="table-responsive">
+                   <table class="table table-striped">
+                     <thead>
+                     <tr>
+                       <th>Unit Name</th>
+
+                       <th>Onsite </th>
+                       <th>Offshore </th>
+
+                     </tr>
+                     </thead>
+                     <tbody >
+                     <tr  *ngFor="let row of reportEmployeesPerSite;">
+
+                       <td>{{row["unit_name"]}}</td>
+                       <td>{{row["onsite"]}}</td>
+                       <td>{{row["offsite"]}}</td>
+                     </tr>
+                     </tbody>
+                   </table>
+                   <div class="row">
+                     <h3 class="text-center" *ngIf="reportEmployeesPerSite.length>0">Grand Total {{getGrandTotal()}}</h3>
+
+                   </div>
+                 </div>
+
+               </div>
+            </div>
+
+          </div>
+          <!-- Tab content POs End -->
+
+
+          <!-- Tab content POs Start -->
+          <div id="GenderDistributions" class="tabcontent">
+
+            <h3 class="text-center">Gender Distribution Per Unit</h3>
+            <div class="row" >
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>Unit Name</th>
+
+                      <th>Male </th>
+                      <th>Female </th>
+
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr  *ngFor="let row of reportGenderPerUnit;">
+
+                      <td>{{row["unit_name"]}}</td>
+                      <td>{{row["male"]}}</td>
+                      <td>{{row["female"]}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <h3 class="text-center" *ngIf="reportGenderPerUnit.length>0">Grand Total {{getGrandTotalGenderPerDepartment()}} </h3>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Tab content POs End -->
+
+
+          <!-- Tab content POs Start -->
+          <div id="NationalityDistributions" class="tabcontent">
+
+            <h3 class="text-center">Gender Distribution Per Unit</h3>
+            <div class="row" >
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                       <th>Nationality</th>
+                       <th># of Employees </th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr  *ngFor="let row of reportNationality;">
+
+                       <td>{{row["nationality"]}}</td>
+                      <td>{{row["numberofemployees"]}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                 </div>
+
+              </div>
+            </div>
+
+
+          </div>
+          <!-- Tab content POs End -->
+
+
+          <!-- Tab content POs Start -->
+          <div id="others" class="tabcontent">
+
+            <div class="col-sm-6">
+
+              <div class="row">
+                <h3 class="text-center">By Type</h3>
+                <canvas *ngIf="typeReport.datasets && typeReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="typeReport.datasets"
+                        [labels]="typeReport.labels"
+                        [legend]="true"
+                        [chartType]="typeReport.lineChartType"
+                        [colors]="typeReport.chartColors">
+                </canvas>
+              </div>
+
+              <div class="row">
+                <h3 class="text-center">By Gender</h3>
+                <canvas *ngIf="genderReport.datasets && genderReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="genderReport.datasets"
+                        [labels]="genderReport.labels"
+                        [legend]="true"
+                        [chartType]="genderReport.lineChartType"
+                        [colors]="genderReport.chartColors">
+                </canvas>
+              </div>
+
+            </div>
+            <div class="col-sm-6">
+
+              <div class="row">
+                <h3 class="text-center">By Saudi Nationality</h3>
+                <canvas *ngIf="saudiRationReport.datasets && saudiRationReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="saudiRationReport.datasets"
+                        [labels]="saudiRationReport.labels"
+                        [legend]="true"
+                        [chartType]="saudiRationReport.lineChartType"
+                        [colors]="saudiRationReport.chartColors">
+                </canvas>
+              </div>
+
+              <div class="row">
+                <h3 class="text-center">By Job Type</h3>
+                <canvas *ngIf="jobRationReport.datasets && jobRationReport.datasets.length > 0"
+                        baseChart
+                        [datasets]="jobRationReport.datasets"
+                        [labels]="jobRationReport.labels"
+                        [legend]="false"
+                        [chartType]="jobRationReport.lineChartType"
+                >
+                </canvas>
+              </div>
+
+
+
+
+
+            </div>
+
+
+          </div>
+          <!-- Tab content POs End -->
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

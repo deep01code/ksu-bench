@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content card-body">
+            <app-loading *ngIf="isLoading"></app-loading>
+            <h5 class="card-title"><strong>Vendors</strong> </h5>
+            <div class="table-responsive">
+              <div class=" col-md-12">
+                <button class="btn btn-success btn-round" (click)="addVendor()">Add Vendor</button>
+
+                <div class="row">
+                  <div class="col-xs-3 col-xs-offset-4">
+                    <div class="form-group">
+                      <button class="btn" (click)="downloadVendorUploadTemplate()">Download upload template</button>
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <div class="form-group">
+                      <label class="btn" style="color: white"  for="file">Choose File for bulk upload</label>
+                      <input  type="file" label="bulk upload" id="file"  (change)="handleFileInput($event.target.files)"  >
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th> Vendor Name </th>
+                    <th >Vendor Number</th>
+                    <th> Website</th>
+
+<!--
+                    <th style="align-content: right; text-align: right;">Action</th>
+-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let vendor of vendors; let i = index;">
+                    <td (click)="getVendorDetails(vendor)" style="cursor: pointer"><a>{{vendor.name}}</a></td>
+                    <td>{{vendor.number}}</td>
+                    <td>{{vendor.website}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+      <app-loading *ngIf="isLoading"></app-loading>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card-content">
+            <h4 class="card-title">Reopened defects Per release</h4>
+              <button class="pull-right" (click)="getCsv()">Export to Excel</button>
+              <ngx-table [configuration]="configuration"
+                         [data]="crsAndDefects"
+                         [columns]="columns"
+                         (event)="eventEmitted($event)">
+              </ngx-table>
+          </div>
+        </div>
+      </div>

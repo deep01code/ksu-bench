@@ -1,0 +1,60 @@
+<form [formGroup]="budgetForm" (ngSubmit)="submitBudget(budgetForm.value)">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <input matInput type="number" [(ngModel)]="inputBudget.original" placeholder="Original Budget" formControlName="original"
+                                   required>
+                            <mat-error
+                                    *ngIf="budgetForm.get('original').invalid && budgetForm.get('original').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <input matInput type="number" [(ngModel)]="inputBudget.current" placeholder="Current Budget" formControlName="current"
+                                   required>
+                            <mat-error
+                                    *ngIf="budgetForm.get('current').invalid && budgetForm.get('current').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input readonly matInput [(ngModel)]="inputBudget.startDate" formControlName="startDate"
+                                   [matDatepicker]="startDate"
+                                   placeholder="Start Date" required>
+                            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #startDate disabled="false"></mat-datepicker>
+                            <mat-error
+                                    *ngIf="budgetForm.get('startDate').invalid && budgetForm.get('startDate').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input readonly matInput [(ngModel)]="inputBudget.endDate" formControlName="endDate" [matDatepicker]="endDate"
+                                   placeholder="End Date" required>
+                            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #endDate disabled="false"></mat-datepicker>
+                            <mat-error
+                                    *ngIf="budgetForm.get('endDate').invalid && budgetForm.get('endDate').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button mat-button type="submit" style="background-color:#7B1FA2;color: white" [disabled]="!budgetForm.valid">
+                            submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

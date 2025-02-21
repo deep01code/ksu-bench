@@ -1,0 +1,640 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <!--START zTree-->
+        <div class="row">
+          <h3>Select Managerial Unit to add employee</h3>
+        </div>
+        <div class="row">
+          <div class="col-sm-4" >
+            <div  style="background-color: whitesmoke;overflow: scroll;height: 200px">
+              <ul id="treeDemo" class="ztree"></ul>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <table *ngIf="selectedUnit" class="table table-striped" style="border: thin groove">
+              <tbody>
+              <tr>
+                <td>Unit Type</td>
+                <td>{{selectedUnit.type}}</td>
+              </tr>
+              <tr>
+                <td>Unit Number</td>
+                <td>{{selectedUnit.unitNumber}}</td>
+              </tr>
+              <tr>
+                <td>Unit En Name</td>
+                <td>{{selectedUnit.unitEnglishName}}</td>
+              </tr>
+              <tr>
+                <td>Unit Ar Name</td>
+                <td>{{selectedUnit.unitArabicName}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <br/>
+
+          </div>
+        </div>
+        <!--END zTree-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-content">
+              <form
+
+                      ngForm="form"
+                      #form="ngForm"
+              >
+                <mat-tab-group [(selectedIndex)]="selectedTabIndex">
+                  <mat-tab label="Personal Information">
+                    <!--Start of personal information form-->
+                    <div class="card-body card-content">
+                      <div class="row">
+                        <div class="col-sm-4"> is stc employee ? <input type="checkbox" [checked]="employee.stcEmployee" (change)="updateIsStcEmployee(!employee.stcEmployee)"/> </div>
+                        <div class="col-md-4" *ngIf="!employee.stcEmployee"> <mat-form-field  > <mat-select [compareWith]="compareObjects"  [(value)]="employee.employeeFinancialUnit" placeholder="Select PO"  name="project" id="project" type="text" required > <mat-option  *ngFor="let po of pos; let i = index" [value]="po" > {{ po.financialName }} </mat-option> </mat-select> </mat-form-field> </div>
+                        <div class="col-md-3" *ngIf="!employee.stcEmployee"> <mat-form-field style="width: 90%"> <mat-select placeholder="ps"   name="ps" id="ps" type="text" required  [(ngModel)]="employee.ps" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field> </div>
+
+                      </div>
+
+                      <hr/>
+
+                      <div >
+                        <div >
+                          <div class="row">
+                            <h5 style="color: #9c9c9c">Basic Information</h5>
+                            <!-- ====> employeeEnglishName -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   name="employeeEnglishName" [(ngModel)]="employee.employeeEnglishName"   placeholder="English Name" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeArabicName -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput      name="employeeArabicName"  [(ngModel)]="employee.employeeArabicName"   placeholder="Arabic Name" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeNumber -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input    matInput   ngModel   name="employeeNumber"  [(ngModel)]="employee.employeeNumber"  placeholder="Employee Number" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeId -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="employeeId"  [(ngModel)]="employee.employeeId"   placeholder="Id/Passport" required /> </mat-form-field> </div>
+
+                          </div>
+
+
+                          <div class="row">
+                            <!-- ====> phoneNumber -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   name="phoneNumber" [(ngModel)]="employee.phoneNumber"   placeholder="Phone Number" required /> </mat-form-field> </div>
+                            <!-- ====> dob -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <input matInput [(ngModel)]="employee.dob"   name="dob"     placeholder="Birth Date" required [matDatepicker]="dob" value="employee.dob"  disabled> <mat-datepicker-toggle matSuffix [for]="dob" ></mat-datepicker-toggle> <mat-datepicker #dob disabled="false"></mat-datepicker> </mat-form-field> </div>
+                            <!-- ====> startDate -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <input matInput [(ngModel)]="employee.startDate"   name="startDate"     placeholder="Start Date" required [matDatepicker]="startDate" value="employee.startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </mat-form-field> </div>
+                            <!-- ====> endDate -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <input matInput [(ngModel)]="employee.endDate"   name="endDate"      placeholder="End Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </mat-form-field> </div>
+
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> stcEmail -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="stcEmail"  [(ngModel)]="employee.stcEmail"   placeholder="Stc Email" required /> </mat-form-field> </div>
+                            <!-- ====> personalEmail -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="personalEmail"  [(ngModel)]="employee.personalEmail"   placeholder="Personal Email" required /> </mat-form-field> </div>
+                            <!-- ====> gender -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Select Gender" ngModel name="gender" id="gender" type="text" required [(ngModel)]="employee.gender" > <mat-option value="MALE"> Male </mat-option> <mat-option value="FEMALE"> Female </mat-option> </mat-select> </mat-form-field> </div>
+                            <!-- ====> nationality -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Select Nationality" ngModel name="nationality" id="nationality" type="text" required [(ngModel)]="employee.nationality" > <mat-option *ngFor=" let nat of nationalityies; let i = index " [value]="nat.value" > {{ nat.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                          </div>
+
+                          <div class="row">
+
+
+                            <!-- ====> maritalStatus -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Marital Status" ngModel name="maritalStatus" id="Marital Status" type="text" required [(ngModel)]="employee.maritalStatus" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> numberofSponsors -->
+                            <div *ngIf="employee.maritalStatus==true" class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="Spouse"  [(ngModel)]="employee.numberofSponsors"   placeholder="Number of Spouse" required /> </mat-form-field> </div>
+
+                            <!-- ====> numberofChild -->
+                            <div *ngIf="employee.maritalStatus==true" class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="number of Child"  [(ngModel)]="employee.numberofChild"   placeholder="Number of Child" required /> </mat-form-field> </div>
+
+                          </div>
+
+                          <hr/>
+
+                          <div class="row">
+                            <h5 style="color: #9c9c9c">Work Information</h5>
+
+                            <!-- ====> workingType -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select placeholder="Working Type" [(ngModel)]="employee.workingType"  name="workingType" id="workingType" type="text" required > <mat-option *ngFor="let workingType  of workingTypes; let i = index" [value]="workingType['value']" > {{ workingType['value'] }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> building -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="building"  [(ngModel)]="employee.building"   placeholder="Building" required /> </mat-form-field> </div>
+
+                            <!-- ====> floor -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="floor"  [(ngModel)]="employee.floor"   placeholder="Floor" required /> </mat-form-field> </div>
+
+                            <!-- ====> desk -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="desk"  [(ngModel)]="employee.desk"   placeholder="Desk" required /> </mat-form-field> </div>
+
+
+                          </div>
+                          <div class="row">
+                            <!--&lt;!&ndash; ====> jobName &ndash;&gt;
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Job Name" [(ngModel)]="employee.jobName" name="jobName" id="jobName" type="text" required > <mat-option *ngFor="let jobName of jobNames; let i = index" [value]="jobName.value" > {{ jobName.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            &lt;!&ndash; ====> jobCategory &ndash;&gt;
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Job Category" [(ngModel)]="employee.jobCategory" name="jobCategory" id="jobCategory" type="text" required > <mat-option *ngFor="let jobCategory of jobCategories; let i = index" [value]="jobCategory.value" > {{ jobCategory.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            &lt;!&ndash; ====> workingType &ndash;&gt;
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select placeholder="Working Type" [(ngModel)]="employee.workingType"  name="workingType" id="workingType" type="text" required > <mat-option *ngFor="let workingType of workingTypes; let i = index" [value]="workingType.value" > {{ workingType.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            &lt;!&ndash; ====> systemDomains &ndash;&gt;
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select [compareWith]="compareObjects" placeholder="System Domains" [(ngModel)]="employee.systemDomains" name="systemDomains" id="systemDomains" type="text" multiple > <mat-option *ngFor="let domain of systemDomains; let i = index" [value]="domain" > {{ domain.systemDomainEngName }} </mat-option> </mat-select> </mat-form-field> </div>
+-->
+                            <!-- ====> skills -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="skills"  [(ngModel)]="employee.skills"   placeholder="Skills" required /> </mat-form-field> </div>
+
+                            <!-- ====> domain# -->
+                            <div class="col-sm-3">  <div style="width: 45%">  <mat-form-field> <mat-select [compareWith]="compareObjects" placeholder="Select Domain" [(ngModel)]="employee.domain" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedDomain of domains; let i = index" [value]="selectedDomain" > {{ selectedDomain.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+                            <!-- ====> system# -->
+                            <div class="col-sm-3" *ngIf="employee.domain" >  <div style="width: 45%"> <mat-form-field> <mat-select [compareWith]="compareObjects" placeholder="Select System" [(ngModel)]="employee.system" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedSystem of employee.domain.domainBasicUnits | myfilter:systemFilter ; let i = index" [value]="selectedSystem" > {{ selectedSystem.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+                            <!-- ====> jobName# -->
+                            <div class="col-sm-3" *ngIf="employee.domain">  <div style="width: 45%"> <mat-form-field> <mat-select [compareWith]="compareObjects"  placeholder="Select Job Name" [(ngModel)]="employee.jobName" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedJobName of employee.domain.domainBasicUnits | myfilter:jobNameFilter ; let i = index" [value]="selectedJobName" > {{ selectedJobName.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+                            <!-- ====> jobLevel# -->
+                            <div class="col-sm-3" *ngIf="employee.domain">  <div style="width: 45%"> <mat-form-field> <mat-select  [compareWith]="compareObjects" placeholder="Select Job Level" [(ngModel)]="employee.jobLevel" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedJobLevel of employee.domain.domainBasicUnits | myfilter:jobLevelFilter ; let i = index" [value]="selectedJobLevel" > {{ selectedJobLevel.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+
+                          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          <!--&lt;!&ndash; ====> generalDepartment &ndash;&gt;
+                          <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select [compareWith]="compareObjects" placeholder="Select General Department"  name="gd" type="text" required  (selectionChange)="gdChanged()" [(ngModel)]="employee.generalDepartment" > <mat-option *ngFor=" let gd of generalDepartments; let i = index " [value]="gd" > {{ gd.gdEnName }} </mat-option> </mat-select> </mat-form-field> </div>
+
+
+                          &lt;!&ndash; ====> department &ndash;&gt;
+                          <div  class="col-md-3" > <mat-form-field style="width: 90%"> <mat-select [compareWith]="compareObjects" (selectionChange)="departmentChanged()" placeholder="Select Department" ngModel name="department" type="text" required #department="ngModel"  [(ngModel)]="employee.department"> <mat-option *ngFor=" let department of tempDepartmentsList; let i = index " [value]="department" > {{ department.departmentEnglishName }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                          &lt;!&ndash; ====> section &ndash;&gt;
+                          <div  class="col-md-3" > <mat-form-field style="width: 90%"> <mat-select [compareWith]="compareObjects" placeholder="Select Section" ngModel name="section" type="text" required #section="ngModel" [(ngModel)]="employee.section"> <mat-option *ngFor=" let section of tempSectionsList; let i = index " [value]="section"  > {{ section.sectionEnglishName }} </mat-option> </mat-select> </mat-form-field> </div>
+-->
+
+
+
+
+
+
+
+
+                        </div>
+
+
+
+                        <hr/>
+                        <div class="row" >
+                         <div class="col-sm-3"> <input type="button" class="btn btn-success btn-round" (click)="submitForm()" value="Submit" /></div>
+                          <div class="col-sm-3"> <input *ngIf="id!='new'" type="button" class="btn btn-primary btn-round" (click)="financialTabClick()" value="Next" /></div>
+                        </div>
+                        <!--*ngIf="employee.project && (employee.project.projectType=='MS' || employee.project.projectType=='Scope') "-->
+
+                      </div>
+
+
+                    </div>
+                    <!--End of personal info form *ngIf="employee.project && (employee.project.projectType=='TM' || employee.project.projectType=='Projection') "-->
+                  </mat-tab>
+<!--*ngIf="employee.project && (employee.project.projectType=='TM' || employee.project.projectType=='Projection') "-->
+                  <mat-tab *ngIf="id!='new'" id="financialTab" #financialTab  >
+                    <ng-template mat-tab-label>
+                      <span class="financialTab"> Financial Information</span>
+                    </ng-template>
+
+<!--*ngIf="employee.project.projectType=='Projection'"-->
+                    <!--End of Financial Information-->
+                    <div class="row" >
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="basic"  [(ngModel)]="employee.basic" (input)="calculateSalary()"  placeholder="Basic" required /> </mat-form-field> </div>
+
+                      <!-- ====> housing -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="housing"  [(ngModel)]="employee.housing"   placeholder="Housing" required /> </mat-form-field> </div>
+
+                      <!-- ====> transportation -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="transportation"  [(ngModel)]="employee.transportation"   placeholder="Transportation" required /> </mat-form-field> </div>
+
+                      <!-- ====> employeeGOSI -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number"  matInput   ngModel   disabled name="employeeGOSI"  [(ngModel)]="employee.employeeGOSI"   placeholder="Employee G O S I" required /> </mat-form-field> </div>
+
+                      <!-- ====> companyGOSI -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number"  matInput   ngModel   disabled name="companyGOSI"  [(ngModel)]="employee.companyGOSI"   placeholder="Company G O S I" required /> </mat-form-field> </div>
+
+                      <!-- ====> employeeSalary -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="employeeSalary"  [(ngModel)]="employee.employeeSalary"   placeholder="Employee Salary" required /> </mat-form-field> </div>
+
+                      <!-- ====> totalSalary -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="totalSalary"  [(ngModel)]="employee.totalSalary"   placeholder="Total Salary" required /> </mat-form-field> </div>
+
+                      <!-- ====> medical -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="medical"  [(ngModel)]="employee.medical"   placeholder="Medical" required /> </mat-form-field> </div>
+
+                      <!-- ====> endOfService -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="endOfService"  [(ngModel)]="employee.endOfService"   placeholder="End Of Service" required /> </mat-form-field> </div>
+
+                      <!-- ====> iqamaRenewal -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="iqamaRenewal"  [(ngModel)]="employee.iqamaRenewal"   placeholder="Iqama Renewal" required /> </mat-form-field> </div>
+
+                      <!-- ====> governmentFees -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="governmentFees"  [(ngModel)]="employee.governmentFees"   placeholder="Government Fees" required /> </mat-form-field> </div>
+
+                      <!-- ====> ajeerFees -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="ajeerFees"  [(ngModel)]="employee.ajeerFees"   placeholder="Ajeer Fees" required /> </mat-form-field> </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div class="">
+                      <button  class="btn btn-success btn-round"  (click)="submitForm()"> Submit  </button>
+
+                    </div>
+                  </mat-tab>
+
+<!--*ngIf="employee.project && employee.project.projectType=='Projection'"-->
+                  <mat-tab *ngIf="id!='new'" id="benefitsTab" label="Benefits" >
+                    <!-- ====> benefits -->
+<!--
+                    <div class="">
+                      <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select placeholder="Select Benefit" ngModel name="selectedBenefit" id="selectedBenefit"  type="text" required > <mat-option *ngFor="let selectedBenefit of benefitList; let i = index" [value]="selectedBenefit.value" > {{ selectedBenefit.name }} </mat-option> </mat-select> </mat-form-field> </div>
+                      <div class="col-md-1">  <mat-form-field style="width: 90%">    <input type="amount" matInput   ngModel   name="amount"  #amount="ngModel"   placeholder="Amount" required /> </mat-form-field> </div>
+
+                      <button (click)="addBenefit(form.value.selectedBenefit,amount.value)" class="btn btn-round btn-info btn-xs"> <i class="material-icons">add</i> </button>
+
+
+                      <div class="row">
+                        <div class="table-responsive">
+                          <table class="table table-shopping">
+                            <header>
+                              <tr>
+                                <th class="text-center">index</th>
+                                <th class="text-center">Type</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Delete</th>
+                              </tr>
+                            </header>
+                            <body>
+                            <tr *ngFor="let benefit of employee.benefits; let i = index">
+                              <td>{{i}}</td>
+                              <td>{{benefit.benefitType}}</td>
+                              <td>{{benefit.amount}}</td>
+                              <td> <input (click)="removeBenefit(i)" class="mat-button" placeholder="delete"/></td>
+                            </tr>
+                            </body>
+                          </table>
+                        </div>
+                      </div>
+
+                    </div>
+-->
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-content card-body">
+                            <h5 class="card-title"><strong>Benefits</strong></h5>
+                            <div class="table-responsive">
+                              <div class="col-md-offset-10 col-md-2">
+                                <button class="btn btn-success btn-round" (click)="openAddBenefitDialog()" >Add Benefit</button>
+                              </div>
+                              <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                  <th>Type</th>
+                                  <th>Amount</th>
+                                  <th>Date</th>
+                                  <th>Delete</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let benefit of employee.benefits; let i = index">
+                                  <td>
+                                    {{benefit.benefitType}}
+                                  </td>
+                                  <td>
+                                    {{benefit.amount}}
+                                  </td>
+                                  <td>
+                                    {{benefit.benefitDate | date: 'dd/MM/yyyy'}}
+                                  </td>
+                                  <td>
+                                    <button (click)="removeBenefit(i)" class="btn btn-danger btn-round">Delete</button>
+                                  </td>
+<!--                                  <td>
+                                    {{vendor.endDate | date: 'dd/MM/yyyy'}}
+                                  </td>-->
+<!--
+                                  <td class="td-actions text-right">
+                                    <button type="button" #tooltip="matTooltip" (click)="getVendorDetails(vendor)"
+                                            matTooltip="More Details" class="btn btn-info btn-round">
+                                      <i class="material-icons">details</i>
+                                    </button>
+                                    <button type="button" #tooltip="matTooltip" *ngIf="!vendor.endDate" (click)="deleteVendor(vendor)"
+                                            matTooltip="More Details" class="btn btn-danger btn-round">
+                                      <i class="material-icons">delete</i>
+                                    </button>
+                                  </td>
+-->
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </mat-tab>
+
+                  <mat-tab *ngIf="id!='new'" id="attendanceTab" label="Attendance Exception" >
+                    <!-- ====> attendance -->
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-content card-body">
+                            <h5 class="card-title"><strong>Attendance Exceptions</strong></h5>
+                            <div class="table-responsive">
+                              <div class="col-md-offset-10 col-md-2">
+                                <button class="btn btn-success btn-round" (click)="openAddAttendanceExceptionDialog()" >Add Exception</button>
+                              </div>
+                              <table class="table table-striped">
+                                <thead>
+                                <tr>
+
+                                  <th>Start Date</th>
+                                  <th>End Date</th>
+                                  <th>Delete</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let exception of employee.attendanceExceptions; let i = index">
+
+                                  <td>
+                                    {{exception.startDate | date: 'dd/MM/yyyy'}}
+                                  </td>
+                                  <td>
+                                    {{exception.endDate | date: 'dd/MM/yyyy'}}
+                                  </td>
+                                  <td>
+                                    <button (click)="deleteAttendanceException(exception)" class="btn btn-danger btn-round">Delete</button>
+                                  </td>
+
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </mat-tab>
+
+                  <mat-tab *ngIf="id!='new'" label="Files">
+                    <!--Start of Project Information-->
+                    <!--<div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field style="width: 90%">
+                          <input
+                                  matInput
+                                  ngModel
+                                  name="projectName"
+                                  #projectName="ngModel"
+                                  placeholder="Project Name"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field style="width: 90%">
+                          <input
+                                  matInput
+                                  ngModel
+                                  name="projectNumber"
+                                  #projectNumber="ngModel"
+                                  placeholder="Project Number"
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>-->
+                    <div *ngFor="let progressInfo of progressInfos" class="mb-2">
+                      <span>{{ progressInfo.fileName }}</span>
+                      <div class="progress">
+                        <div
+                                class="progress-bar progress-bar-info progress-bar-striped"
+                                role="progressbar"
+                                attr.aria-valuenow="{{ progressInfo.value }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                [ngStyle]="{ width: progressInfo.value + '%' }"
+                        >
+                          {{ progressInfo.value }}%
+                        </div>
+                      </div>
+                    </div>
+
+                    <label class="btn btn-default">
+                      <input type="file" multiple (change)="selectFiles($event)" />
+                    </label>
+
+                    <button
+                            class="btn btn-success"
+                            [disabled]="!selectedFiles"
+                            (click)="uploadFiles()"
+                    >
+                      Upload
+                    </button>
+
+                    <div class="pull-right">
+                      <label for="pageSize">File Type:</label>
+                      <select id="pageSize" (change)="updateSelectType($event.target['value'])"  [value]="selecteduploadType" >
+                        <option  *ngFor="let i of uploadType"  value="{{i}}">{{i}}</option>
+                      </select>
+                    </div>
+                    <div class="alert alert-light" role="alert">{{ message }}</div>
+
+                    <div class="card-content">
+
+                      <mat-tab-group *ngIf="selectedTabIndex == 3">
+                        <mat-tab   label="Certificates" >
+                          <div class="card" >
+                            <div class="card-header">List of Certificates</div>
+                            <ul
+                                    class="list-group list-group-flush"
+                                    *ngFor="let file  of employee.certificates "
+                            >
+                              <li class="list-group-item">
+                                <a href="{{ file }}">{{ file }}</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </mat-tab>
+                        <mat-tab   label="CVs">
+                          <div class="card">
+                            <div class="card-header">List of CVs</div>
+                            <ul
+                                    class="list-group list-group-flush"
+                                    *ngFor="let file  of employee.cvs "
+                            >
+                              <li class="list-group-item">
+                                <a href="{{ file }}">{{ file }}</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </mat-tab>
+                        <mat-tab label="Letters">
+                          <div class="card">
+                            <div class="card-header">List of Letters</div>
+                            <ul
+                                    class="list-group list-group-flush"
+                                    *ngFor="let file  of employee.letters "
+                            >
+                              <li class="list-group-item">
+                                <a href="{{ file }}">{{ file }}</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </mat-tab>
+                      </mat-tab-group>
+
+                    </div>
+
+
+
+
+
+
+
+
+                    <!--End of Project Information-->
+                  </mat-tab>
+
+                  <mat-tab *ngIf="id!='new'" label="History Track">
+                    <!--Start of Project Information-->
+
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card">
+                          <div class="card-content card-body">
+                            <h5 class="card-title"><strong>Logs timeline</strong></h5>
+                            <div class="table-responsive">
+
+                              <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                  <th>Change Type</th>
+                                  <th>Version</th>
+                                  <th>State</th>
+                                  <th>Changed Information</th>
+                                  <th>Date</th>
+                                  <th>Change By User</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let log of employeeLogs; let i = index">
+                                  <td>
+                                    {{log['type']}}
+                                  </td>
+                                  <td>
+                                    {{log['version']}}
+                                  </td>
+                                  <td >
+                                    {{
+                                    log['state']
+                                            .replaceAll('{',"")
+                                            .replaceAll('[',"")
+                                            .replaceAll(']',"")
+                                            .replaceAll('}',"")
+                                            .replaceAll('"',"")
+                                     }}
+
+                                  </td>
+                                  <td>
+                                    {{
+                                    log['changed_properties']
+                                            .replaceAll('{',"")
+                                            .replaceAll('[',"")
+                                            .replaceAll(']',"")
+                                            .replaceAll('}',"")
+                                            .replaceAll('"',"")
+
+                                    }}
+                                  </td>
+                                  <td>
+                                    {{log['commit_date']}}
+                                  </td>
+                                  <td>
+                                    {{log['author']}}
+                                  </td>
+                                  <!--                                  <td>
+                                                                      {{vendor.endDate | date: 'dd/MM/yyyy'}}
+                                                                    </td>-->
+                                  <!--
+                                                                    <td class="td-actions text-right">
+                                                                      <button type="button" #tooltip="matTooltip" (click)="getVendorDetails(vendor)"
+                                                                              matTooltip="More Details" class="btn btn-info btn-round">
+                                                                        <i class="material-icons">details</i>
+                                                                      </button>
+                                                                      <button type="button" #tooltip="matTooltip" *ngIf="!vendor.endDate" (click)="deleteVendor(vendor)"
+                                                                              matTooltip="More Details" class="btn btn-danger btn-round">
+                                                                        <i class="material-icons">delete</i>
+                                                                      </button>
+                                                                    </td>
+                                  -->
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+
+
+                    <!--End of Project Information-->
+                  </mat-tab>
+
+
+
+                </mat-tab-group>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+    <strong>New Benefit</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- ====> start date -->
+                    <div class="col-md-3"> <div style="width: 90%"> <input matInput [(ngModel)]="tempAttendanceException.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </div> </div>
+                    <!-- ====> start date -->
+                    <div class="col-md-3"> <div style="width: 90%"> <input matInput [(ngModel)]="tempAttendanceException.endDate"  [ngModelOptions]="{standalone: true}" placeholder="End Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </div> </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button  [mat-dialog-close]="data"  (click)="upsertAttendanceException()" cdkFocusInitial>
+        Ok
+    </button>
+</div>

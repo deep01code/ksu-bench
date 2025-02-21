@@ -1,0 +1,223 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-text" data-background-color="purple">
+                        <h4 class="card-title">Add Release</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <mat-form-field>
+                                    <mat-select placeholder="Category" [(ngModel)]="selectedReleaseType">
+                                        <mat-option *ngFor="let type of releaseTypes" [value]="type">
+                                            {{ type.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-sm-4 ">
+                                <mat-input-container>
+                                    <input matInput
+                                           [(ngModel)]="selectedStartDate"
+                                           [matDatepicker]="startDate"
+                                           placeholder="Start Date">
+                                    <mat-datepicker-toggle matSuffix [for]="startDate">
+                                    </mat-datepicker-toggle>
+                                </mat-input-container>
+                                <mat-datepicker
+                                        #startDate
+                                        [touchUi]="touch"
+                                        [startView]="'month'">
+                                </mat-datepicker>
+                            </div>
+                            <div class="col-sm-4">
+                                <mat-input-container>
+                                    <input matInput
+                                           [(ngModel)]="selectedEndDate"
+                                           [matDatepicker]="enddDate"
+                                           placeholder="End Date">
+                                    <mat-datepicker-toggle matSuffix [for]="enddDate">
+                                    </mat-datepicker-toggle>
+                                </mat-input-container>
+                                <mat-datepicker
+                                        #enddDate
+                                        [touchUi]="touch"
+                                        [startView]="'month'">
+                                </mat-datepicker>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label"></label>
+                                    <input matInput type="text" class="form-control" placeholder="Release Number"
+                                           [(ngModel)]="selectedReleaseDateNumber"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <button class="btn btn-primary" (click)="addReleaseDate()">Add</button>
+                            </div>
+                            <!--<div class="col-sm-2">-->
+                                <!--<button class="btn btn-rose btn-fill" data-toggle="modal"-->
+                                        <!--data-target="#myModal">-->
+                                    <!--Modify-->
+                                <!--</button>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <h4 class="modal-title">Release</h4>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <div class="form-group is-filled ">
+                                    <div class="row">
+                                        <div class="col-md-10 col-lg-8 ml-auto mr-auto">
+                                            <!--<mat-form-field class="mat-input-container mat-form-field ng-tns-c2-111-->
+                                            <!--mat-primary-->
+                                            <!--mat-form-field-type-mat-input mat-form-field-can-float-->
+                                            <!--mat-form-field-hide-listName">-->
+                                            <div class="mat-input-wrapper mat-form-field-wrapper">
+                                                <div class="mat-input-flex mat-form-field-flex">
+                                                    <div class="mat-input-infix mat-form-field-infix">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="col-sm-4">
+                                                                    <mat-input-container>
+                                                                        <input matInput
+                                                                               [(ngModel)]="modifiedStartDate"
+                                                                               [matDatepicker]="sDate"
+                                                                               placeholder="start date">
+                                                                        <mat-datepicker-toggle matSuffix
+                                                                                               [for]="sDate">
+                                                                        </mat-datepicker-toggle>
+                                                                    </mat-input-container>
+                                                                    <mat-datepicker
+                                                                            #sDate
+                                                                            [touchUi]="touch"
+                                                                            [startView]="'month'">
+                                                                    </mat-datepicker>
+                                                                </div>
+                                                                <div class="col-sm-4 col-xs-12 alignRight">
+                                                                    <mat-input-container>
+                                                                        <input matInput
+                                                                               [(ngModel)]="modifiedEndDate"
+                                                                               [matDatepicker]="eDate"
+                                                                               placeholder="end date">
+                                                                        <mat-datepicker-toggle matSuffix
+                                                                                               [for]="eDate">
+                                                                        </mat-datepicker-toggle>
+                                                                    </mat-input-container>
+                                                                    <mat-datepicker
+                                                                            #eDate
+                                                                            [touchUi]="touch"
+                                                                            [startView]="'month'">
+                                                                    </mat-datepicker>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--</mat-form-field>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-simple"
+                                        (click)="updateReleaseDate()">Submit</button>
+                                <button type="button" class="btn btn-danger btn-simple"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Releases List</h4>
+                        <div class="toolbar">
+                            <!--        Here you can write extra buttons/actions for the toolbar              -->
+                        </div>
+                        <div class="material-datatables table-responsive">
+                            <!-- Start table -->
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover"
+                                   cellspacing="0" width="100%" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Release Number</th>
+                                    <th>Category</th>
+                                    <th>Star tDate</th>
+                                    <th>End Date</th>
+                                    <th class="disabled-sorting text-right">Actions</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                </tfoot>
+                                <tbody>
+                                <tr *ngFor="let list of listReleases ">
+                                    <td>{{list.releaseDateId.releaseNumber}}</td>
+                                    <td>{{list.releaseType.name}}</td>
+                                    <td>{{list.startDate | date: 'fullDate'}}</td>
+                                    <td>{{list.endDate | date: 'fullDate'}}</td>
+                                    
+                                    <td class="td-actions text-right">
+                                        <button (click)="selectedRelease(list)" type="button" class="btn btn-success"
+                                                data-toggle="modal"
+                                                data-target="#myModal" [value]="list">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" class="btn btn-rose btn-fill" (click)="showSwal('warning-message-and-confirmation') "> 
+											<i class="material-icons" (click)="setParmater(list)">close</i> 
+										</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- End table -->
+                        </div>
+                    </div>
+                    <!-- end content-->
+                </div>
+                <!--  end card  -->
+            </div>
+            <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+
+    </div>
+</div>
+
+
+

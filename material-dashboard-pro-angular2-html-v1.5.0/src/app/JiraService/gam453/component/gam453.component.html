@@ -1,0 +1,88 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">CRs</h4>
+
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-9">
+                                <button class="btn btn-primary pull-right" (click)="updateRadiance()">Update Now</button>
+                            </div>
+                        </div>
+                        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                            <ng-container matColumnDef="BU">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> BU </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.bu}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CR">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> CR </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.cr}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="RBM">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> RBM </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("RBM",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CRMG">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> CRMG </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("CRMG",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="BEAI">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> BEAI </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("BEAI",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="OM">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> OM </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("OM",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NSM" >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> NSM </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("NSM",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="ULA">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> ULA </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{getSystem("ULA",element.tawasol)}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="RadianceId" >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> RadianceId </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.radianceId}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="add">
+                                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <button (click)="addToRadiance(element)"
+                                            routerLink="/jiraService/gam394"
+                                            class="btn btn-round btn-fab btn-fab-mini"
+                                            [disabled]="element.radianceId"
+                                            ngClass="{{element.radianceId?'inactive':'btn-success'}}"
+                                    >
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                        </mat-table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,249 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-content">
+              <form
+                *ngIf="generalDepartments.length"
+                ngForm="form"
+                #form="ngForm"
+              >
+                <mat-tab-group>
+                  <mat-tab label="Personal Information">
+                    <!--Start of personal information form-->
+                    <div class="card-body card-content">
+                      <div class="row">
+                        <div class="col-md-4"> <mat-form-field> <mat-select placeholder="Select Project" ngModel name="project" id="project" type="text" required > <mat-option *ngFor="let project of projects; let i = index" [value]="project" > {{ project.projectName }} </mat-option> </mat-select> </mat-form-field> </div>
+                      </div>
+
+
+                        <div *ngIf="form.value.project">
+                        <div >
+                          <div class="row">
+                            <!-- ====> employeeEnglishName -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   name="employeeEnglishName" [(ngModel)]="employee.employeeEnglishName"   placeholder="Employee English Name" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeArabicName -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput      name="employeeArabicName"  [(ngModel)]="employee.employeeArabicName"   placeholder="Employee Arabic Name" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeNumber -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number"  matInput   ngModel   name="employeeNumber"  [(ngModel)]="employee.employeeNumber"  placeholder="Employee Number" required /> </mat-form-field> </div>
+
+                            <!-- ====> employeeId -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="employeeId"  [(ngModel)]="employee.employeeId"   placeholder="Employee Id" required /> </mat-form-field> </div>
+                          </div>
+
+
+                          <div class="row">
+                            <!-- ====> generalDepartment -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select placeholder="Select General Department" ngModel name="gd" type="text" required #gd="ngModel" (selectionChange)="gdChanged()" > <mat-option *ngFor=" let gd of generalDepartments; let i = index " [value]="gd" > {{ gd.gdEnName }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> department -->
+                            <div *ngIf="form.value.gd && form.value.gd.departments" class="col-md-3" > <mat-form-field style="width: 90%"> <mat-select (selectionChange)="departmentChanged()" placeholder="Select Department" ngModel name="department" type="text" required #department="ngModel" > <mat-option *ngFor=" let department of form.value.gd.departments; let i = index " [value]="department" > {{ department.departmentEnglishName }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> section -->
+                            <div *ngIf="form.value && form.value.department" class="col-md-3" > <mat-form-field style="width: 90%"> <mat-select placeholder="Select Section" ngModel name="section" type="text" required #section="ngModel" > <mat-option *ngFor=" let section of form.value.department.sections; let i = index " [value]="section" > {{ section.sectionEnglishName }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> vendor -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select [compareWith]="compareObjects" placeholder="Vendor" [(ngModel)]="employee.vendor" name="vendor" id="vendor" type="text" required > <mat-option *ngFor="let vendor of vendors; let i = index" [value]="vendor" > {{ vendor.name }} </mat-option> </mat-select> </mat-form-field> </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> startDate -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <input matInput [(ngModel)]="employee.startDate"   name="startDate"     placeholder="Start Date" required [matDatepicker]="startDate" value="employee.startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </mat-form-field> </div>
+                            <!-- ====> endDate -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <input matInput [(ngModel)]="employee.endDate"   name="endDate"      placeholder="End Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </mat-form-field> </div>
+                            <!-- ====> stcEmail -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="stcEmail"  [(ngModel)]="employee.stcEmail"   placeholder="Stc Email" required /> </mat-form-field> </div>
+                            <!-- ====> personalEmail -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="personalEmail"  [(ngModel)]="employee.personalEmail"   placeholder="Personal Email" required /> </mat-form-field> </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> jobName -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Job Name" [(ngModel)]="employee.jobName" name="jobName" id="jobName" type="text" required > <mat-option *ngFor="let jobName of jobNames; let i = index" [value]="jobName.value" > {{ jobName.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> jobCategory -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Job Category" [(ngModel)]="employee.jobCategory" name="jobCategory" id="jobCategory" type="text" required > <mat-option *ngFor="let jobCategory of jobCategories; let i = index" [value]="jobCategory.value" > {{ jobCategory.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> workingType -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select placeholder="Working Type" [(ngModel)]="employee.workingType"  name="workingType" id="workingType" type="text" required > <mat-option *ngFor="let workingType of workingTypes; let i = index" [value]="workingType.value" > {{ workingType.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> systemDomains -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select [compareWith]="compareObjects" placeholder="System Domains" [(ngModel)]="employee.systemDomains" name="systemDomains" id="systemDomains" type="text" multiple > <mat-option *ngFor="let domain of systemDomains; let i = index" [value]="domain" > {{ domain.systemDomainEngName }} </mat-option> </mat-select> </mat-form-field> </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> domain -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Domain" [(ngModel)]="employee.domain"  name="domain" id="domain" type="text" required > <mat-option *ngFor="let domain of domains; let i = index" [value]="domain.value" > {{ domain.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> level -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">  <mat-select  placeholder="Level" [(ngModel)]="employee.level" name="level" id="level" type="text" required > <mat-option *ngFor="let level of levels; let i = index" [value]="level.value" > {{ level.value }} </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> skills -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="skills"  [(ngModel)]="employee.skills"   placeholder="Skills" required /> </mat-form-field> </div>
+
+                            <!-- ====> ps -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select placeholder="ps"   name="ps" id="ps" type="text" required  [(ngModel)]="employee.ps" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field> </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> building -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="building"  [(ngModel)]="employee.building"   placeholder="Building" required /> </mat-form-field> </div>
+
+                            <!-- ====> floor -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="floor"  [(ngModel)]="employee.floor"   placeholder="Floor" required /> </mat-form-field> </div>
+
+                            <!-- ====> desk -->
+                            <div class="col-md-3">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="desk"  [(ngModel)]="employee.desk"   placeholder="Desk" required /> </mat-form-field> </div>
+
+                            <!-- ====> nationality -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Select Nationality" ngModel name="nationality" id="nationality" type="text" required [(ngModel)]="employee.nationality" > <mat-option *ngFor=" let nat of nationalityies; let i = index " [value]="nat.value" > {{ nat.value }} </mat-option> </mat-select> </mat-form-field> </div>
+                          </div>
+
+                          <div class="row">
+                            <!-- ====> gender -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Select Gender" ngModel name="gender" id="gender" type="text" required [(ngModel)]="employee.gender" > <mat-option value="MALE"> Male </mat-option> <mat-option value="FEMALE"> Female </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> maritalStatus -->
+                            <div class="col-md-3"> <mat-form-field style="width: 90%"> <mat-select  placeholder="Marital Status" ngModel name="maritalStatus" id="Marital Status" type="text" required [(ngModel)]="employee.maritalStatus" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field> </div>
+
+                            <!-- ====> numberofSponsors -->
+                            <div *ngIf="employee.maritalStatus==true" class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="Spouse"  [(ngModel)]="employee.numberofSponsors"   placeholder="Number of Spouse" required /> </mat-form-field> </div>
+
+                            <!-- ====> numberofChild -->
+                            <div *ngIf="employee.maritalStatus==true" class="col-md-3">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="number of Child"  [(ngModel)]="employee.numberofChild"   placeholder="Number of Child" required /> </mat-form-field> </div>
+
+                          </div>
+
+
+
+
+
+
+
+
+
+                        </div>
+                          <div class="row" *ngIf="form.value.project && (form.value.project.projectType=='TM' || form.value.project.projectType=='Projection') ">
+                            <input type="button" class="btn btn-primary btn-round"  (click)="financialTabClick()" value="Next" />
+                          </div>
+                          <div class="" *ngIf="form.value.project && (form.value.project.projectType=='MS' || form.value.project.projectType=='Scope') ">
+                            <input type="button" class="btn btn-success btn-round"  (click)="submitForm()" value="Submit" />
+
+                          </div>
+
+                      </div>
+
+
+                    </div>
+                    <!--End of personal info form *ngIf="form.value.project && (form.value.project.projectType=='TM' || form.value.project.projectType=='Projection') "-->
+                  </mat-tab>
+
+                  <mat-tab     *ngIf="form.value.project && (form.value.project.projectType=='TM' || form.value.project.projectType=='Projection') ">
+                    <ng-template mat-tab-label>
+                      <span class="financialTab"> Financial Information</span>
+                    </ng-template>
+
+
+                    <!--End of Financial Information-->
+                    <div class="row" *ngIf="form.value.project.projectType=='Projection'">
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="basic"  #basic="ngModel" (input)="calculateSalary()"  placeholder="Basic" required /> </mat-form-field> </div>
+
+                      <!-- ====> housing -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="housing"  #housing="ngModel"   placeholder="Housing" required /> </mat-form-field> </div>
+
+                      <!-- ====> transportation -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="transportation"  #transportation="ngModel"   placeholder="Transportation" required /> </mat-form-field> </div>
+
+                      <!-- ====> employeeGOSI -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number"  matInput   ngModel   disabled name="employeeGOSI"  #employeeGOSI="ngModel"   placeholder="Employee G O S I" required /> </mat-form-field> </div>
+
+                      <!-- ====> companyGOSI -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number"  matInput   ngModel   disabled name="companyGOSI"  #companyGOSI="ngModel"   placeholder="Company G O S I" required /> </mat-form-field> </div>
+
+                      <!-- ====> employeeSalary -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="employeeSalary"  #employeeSalary="ngModel"   placeholder="Employee Salary" required /> </mat-form-field> </div>
+
+                      <!-- ====> totalSalary -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   disabled name="totalSalary"  #totalSalary="ngModel"   placeholder="Total Salary" required /> </mat-form-field> </div>
+
+                      <!-- ====> medical -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="medical"  #medical="ngModel"   placeholder="Medical" required /> </mat-form-field> </div>
+
+                      <!-- ====> endOfService -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="endOfService"  #endOfService="ngModel"   placeholder="End Of Service" required /> </mat-form-field> </div>
+
+                      <!-- ====> iqamaRenewal -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="iqamaRenewal"  #iqamaRenewal="ngModel"   placeholder="Iqama Renewal" required /> </mat-form-field> </div>
+
+                      <!-- ====> governmentFees -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="governmentFees"  #governmentFees="ngModel"   placeholder="Government Fees" required /> </mat-form-field> </div>
+
+                      <!-- ====> ajeerFees -->
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input type="number" matInput   ngModel   name="ajeerFees"  #ajeerFees="ngModel"   placeholder="Ajeer Fees" required /> </mat-form-field> </div>
+
+
+
+
+
+                    </div>
+
+                    <!-- ====> dailyRate -->
+                    <div class="row" *ngIf="form.value.project.projectType=='TM'">
+                      <div class="col-md-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="dailyRate"  #dailyRate="ngModel"   placeholder="Daily Rate" required /> </mat-form-field> </div>
+                    </div>
+
+                    <div class="">
+                      <button  class="btn btn-success btn-round"  (click)="submitForm()"> Submit  </button>
+
+                    </div>
+                  </mat-tab>
+
+
+
+<!--
+                  <mat-tab label="Files">
+                    &lt;!&ndash;Start of Project Information&ndash;&gt;
+                    <div class="row">
+                      <div class="col-md-4">
+                        <mat-form-field style="width: 90%">
+                          <input
+                                  matInput
+                                  ngModel
+                                  name="projectName"
+                                  #projectName="ngModel"
+                                  placeholder="Project Name"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field style="width: 90%">
+                          <input
+                                  matInput
+                                  ngModel
+                                  name="projectNumber"
+                                  #projectNumber="ngModel"
+                                  placeholder="Project Number"
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    &lt;!&ndash;End of Project Information&ndash;&gt;
+                  </mat-tab>
+-->
+                </mat-tab-group>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">{{selectedGd?"View "+selectedGd.gd.gdEnName+" details":"General Departments"}}</h4>
+            <div>
+              <span *ngIf="selectedGd!=null">
+                <button (click)="deselectGd()" type="button" class="btn btn-primary btn-round">
+                  <i class="material-icons">arrow_back_ios</i> Back
+                </button>
+              </span>
+            </div>
+            <div *ngIf="selectedGd!=null">
+              <app-gd-details [generalDepartment]="selectedGd"></app-gd-details>
+            </div>
+
+            <div *ngIf="newGd">
+              <!-- <mat-form-field>
+                <input placeholder="general Department Number" [(ngModel)]="newGd.generalDepartmentNumber" matInput type="number">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="general Department English Name" [(ngModel)]="newGd.gdEnName" matInput type="text">
+              </mat-form-field>
+              <mat-form-field>
+                <input placeholder="general Department Arabic Name" [(ngModel)]="newGd.gdArName" matInput type="text">
+              </mat-form-field> 
+              <button type="submit" class="btn btn-success" (click)="addNewGeneralDepartment(i)">Add</button>-->
+              <mat-divider></mat-divider>
+            </div>
+            <div *ngIf="selectedGd==null">
+              <div class="row">
+                <div style="align-content: right;" class="col-md-offset-10 col-md-2">
+                  <button class="btn btn-success btn-round" #tooltip="matTooltip" matTooltip="Add new General Department"
+                    (click)="addGeneralDepartment(i)">Add New GD</button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table *ngIf="selectedGd==null" class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="text-center">GD Number</th>
+                      <th> English Name </th>
+                      <th>Arabic Name</th>
+                      <th style="align-content: right; text-align: right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let gd of generalDepartments; let i = index;">
+                      <td class="text-center">
+                        <mat-form-field style="width: 20%;">
+                          <input [disabled]="!gd.editable" name="generalDepartmentNumber" matInput [(ngModel)]="gd.generalDepartmentNumber">
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field style="width: 90%;">
+                          <input [disabled]="!gd.editable" name="gdEnName" matInput [(ngModel)]="gd.gdEnName">
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field style="width: 90%;">
+                          <input [disabled]="!gd.editable" name="gdArName" matInput [(ngModel)]="gd.gdArName">
+                        </mat-form-field>
+                      </td>
+                      <td class="td-actions text-right">
+                        <button type="button" #tooltip="matTooltip" matTooltip="More Details" (click)="selectGd(i)"
+                          class="btn btn-info btn-round">
+                          <i class="material-icons">details</i>
+                        </button>
+                        <button type="button" #tooltip="matTooltip" (click)="openDialog(i)"
+                          matTooltip="Edit {{gd.gdEnName}}" class="btn btn-success btn-round">
+                          <i class="material-icons">edit</i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="newGd">
+                      <td>
+                        <input placeholder="General Department Number" [(ngModel)]="newGd.generalDepartmentNumber"
+                          matInput type="text">
+                      </td>
+                      <td>
+                        <input placeholder="English Name" [(ngModel)]="newGd.gdEnName" matInput type="text">
+                      </td>
+                      <td>
+                        <input placeholder="Arabic Name" [(ngModel)]="newGd.gdArName" matInput type="text">
+                      </td>
+                      <td>
+                        <button type="submit" class="btn btn-sm btn-primary" (click)="addNewGeneralDepartment(i)">Confirm</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-2 col-md-offset-8"><button class="btn primary btn-round btn-primary" style="align-self: right;"
+                  (click)="saveChanges()">Save Changes</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

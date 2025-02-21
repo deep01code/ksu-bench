@@ -1,0 +1,49 @@
+pipeline {
+  agent any
+	
+  triggers {
+    pollSCM('* * * * *')
+  }
+  
+  
+  
+	
+  stages {
+	stage("Fetch ") {
+      steps {																				
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/ui/material-dashboard-pro-angular2-html-v1.5.0 && pwd && ls && /usr/bin/git fetch --all'"
+      }
+    }
+	
+	
+	
+	stage("Reset ") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/ui/material-dashboard-pro-angular2-html-v1.5.0 && pwd && ls && /usr/bin/git reset --hard origin/testMaster  '"
+    
+      }
+    }
+    
+    
+    stage("Create Dest Files ") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/ui/material-dashboard-pro-angular2-html-v1.5.0 && pwd && ls && /usr/bin/ng build --prod '"
+    
+      }
+    }
+    
+
+
+    stage("Build Docker Image") {
+        steps {
+             sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/ui/material-dashboard-pro-angular2-html-v1.5.0 && pwd && ls && docker rmi test-gamma-ui -f &&  docker rm testui_ui_1 -f &&  /usr/bin/docker build -t test-gamma-ui:latest .'"
+        }
+    }
+	
+    stage("Deploy") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/compose-files/testui && pwd && ls && /usr/local/bin/docker-compose up -d'"
+      }
+    }
+  }
+}

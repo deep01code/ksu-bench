@@ -1,0 +1,64 @@
+<form [formGroup]="responsibleForm" (ngSubmit)="submitResponsible(responsibleForm.value)">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <mat-select placeholder="Type"
+                                        formControlName="type" [(ngModel)]="inputResponsible.type" required>
+                                <mat-option value="Director">Director</mat-option>
+                                <mat-option value="Admin">Admin</mat-option>
+                                <mat-option value="ProjectManager">Project Manager</mat-option>
+                                <mat-option value="TCSRepresentative">TCS Representative</mat-option>
+                            </mat-select>
+                            <mat-error
+                                    *ngIf="responsibleForm.get('type').invalid && responsibleForm.get('type').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputResponsible.name" placeholder="Name" formControlName="name"
+                                   required>
+                            <mat-error
+                                    *ngIf="responsibleForm.get('name').invalid && responsibleForm.get('name').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputResponsible.email" placeholder="Email" formControlName="email"
+                                   required>
+                            <mat-error
+                                    *ngIf="responsibleForm.get('email').invalid && responsibleForm.get('email').hasError('required')">
+                                required
+                            </mat-error>
+                            <mat-error
+                                    *ngIf="responsibleForm.get('email').invalid && responsibleForm.get('email').hasError('email')">
+                                not a valid email
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputResponsible.number" type="number" placeholder="phone number" formControlName="number"
+                                   required>
+                            <mat-error
+                                    *ngIf="responsibleForm.get('number').invalid && responsibleForm.get('number').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <button mat-button type="submit" style="background-color:#7B1FA2;color: white" [disabled]="!responsibleForm.valid">
+                            submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

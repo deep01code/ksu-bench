@@ -1,0 +1,153 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>PO Details</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <form #form="ngForm" ngForm="form">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput required
+                [disabled]="!data.editable"
+                name="poNumber"
+                placeholder="PO#"
+                [(ngModel)]="data.contract.poNumber"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                [disabled]="!data.editable"
+                required
+                name="poIssueDate"
+                [(ngModel)]="data.contract.poIssueDate"
+                [matDatepicker]="poIssueDate"
+                placeholder="Choose PO Issue Date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="poIssueDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #poIssueDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                [disabled]="!data.editable"
+                required
+                name="poEndDate"
+                [(ngModel)]="data.contract.poEndDate"
+                [matDatepicker]="poEndDate"
+                placeholder="Choose PO End Date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="poEndDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #poEndDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput required
+                [disabled]="!data.editable"
+                name="poValue"
+                placeholder="PO Value"
+                [(ngModel)]="data.contract.poValue"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput required
+                [disabled]="!data.editable || data.projectType != 'Projection'"
+                name="marginPercent"
+                placeholder="Margin Percent"
+                [(ngModel)]="data.contract.marginPercent"
+              /> </mat-form-field
+            ><span>%</span>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput required
+                [disabled]="!data.editable || data.projectType != 'Projection'"
+                name="marginCap"
+                placeholder="Margin Cap"
+                [(ngModel)]="data.contract.marginCap"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field style="width: 90%">
+              <mat-select
+                placeholder="Select Vendor"
+                [disabled]="!data.editable"
+                ngModel
+                name="vendor"
+                id="vendor"
+                [compareWith]="selectedVendor"
+                [(ngModel)]="data.contract.vendor"
+                type="text"
+                required
+                #vendor="ngModel"
+              >
+                <mat-option
+                  *ngFor="let vendor of data.vendors; let i = index"
+                  [value]="vendor"
+                >
+                  {{ vendor.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                name="subProjectDescription"
+                matInput required
+                [disabled]="!data.editable"
+                placeholder="Sub Project Description"
+                [(ngModel)]="data.contract.subProjectDescription"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      &nbsp;
+      <div class="row">
+        <div class="col-md-12">
+          <hr />
+          <h1 mat-dialog-title style="text-decoration: underline">
+            <strong>Contact Details</strong>
+          </h1>
+          <app-VendorContactForm
+            [inContact]="data.contract.contacts"
+            [editable]="data.editable"
+          >
+          </app-VendorContactForm>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [disabled]="!form.valid" [mat-dialog-close]="data" cdkFocusInitial>
+    Ok
+  </button>
+</div>

@@ -1,0 +1,72 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div
+            class="card-header card-header-icon"
+            data-background-color="rose"
+          >
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content card-body">
+            <h5 class="card-title"><strong>System Domain</strong></h5>
+            <div class="row">
+              <div class="col-md-offset-10 col-md-2 col">
+                <button
+                  class="btn btn-success btn-round col"
+                  (click)="addSystemDomain()"
+                >
+                  Add System
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>System#</th>
+                    <th>System Name</th>
+                    <th>System Description</th>
+                    <th>Company Name</th>
+                    <th>Company Country</th>
+                    <th>General Department</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    <th style="align-content: right; text-align: right">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let domain of systemDomains; let i = index">
+                  <tr>
+                    <td>{{ domain.systemDomainNumber }}</td>
+                    <td>{{ domain.systemDomainEngName }}</td>
+                    <td>{{ domain.systemDescription }}</td>
+                    <td>{{ domain.companyName }}</td>
+                    <td>{{ domain.companyCountry }}</td>
+                    <td>{{ domain.gdName }}</td>
+                    <td>{{ domain.departmentName }}</td>
+                    <td>{{ domain.sectionName }}</td>
+
+                    <td class="td-actions text-right">
+                      <button
+                        type="button"
+                        #tooltip="matTooltip"
+                        (click)="getSystemDetails(domain)"
+                        matTooltip="More Details"
+                        class="btn btn-info btn-round"
+                      >
+                        <i class="material-icons">details</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

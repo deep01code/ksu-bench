@@ -1,0 +1,92 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Mange Users</h4>
+                        <div class="table-responsive">
+
+                            <div class="pull-right">
+                                <!--<button type="button"-->
+                                        <!--class="btn btn-success"-->
+                                        <!--(click)="createNewUser()"-->
+                                <!--&gt;-->
+                                    <!--<i class="material-icons">add_circle</i>-->
+                                <!--</button>-->
+                            </div>
+                            <input
+                                    type="search"
+                                    placeholder="search"
+                                    value=""
+                                    [(ngModel)]="filter"
+                                    matInput
+                                    class="form-control"
+                            >
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th>Name</th>
+                                    <th>Active</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr #mList *ngFor="let user of userRoleList | filter:filter:'username'; let i = index" >
+                                    <!--<td class="text-center">{{user.id}}</td>-->
+                                    <td class="text-center">{{ i + 1}}</td>
+                                    <td width="50%" (click)="getUserDetails(user)" style="cursor: pointer"><a>{{user.username}}</a></td>
+
+                                    <td width="50%">
+<!--
+                                            <a [routerLink]="[user.username]" [queryParams]="{username: user.username}">{{user.username}}</a>
+-->
+                                        <table>
+                                            <tr><th>ID - Role Name </th>
+                                                <!--<th>Description: </th>-->
+                                            </tr>
+                                            <tr class="child" *ngFor="let role of user.roles; let i = index">
+                                                <!--<td>{{role.roleId}} - {{role.name}}</td>-->
+                                                <td>{{ i+1 }}  - {{role.roleName}}</td>
+                                            <!--<td> {{role.description}}</td>-->
+                                        </tr></table>
+                                    </td>
+                                    <td>{{user.enabled}}</td>
+                                    <td class="td-actions text-right">
+                                        <button *ngIf="user.enabled==false"
+                                                [matTooltip]="'ture'=='true' ? 'Activate' : 'Activate' "
+                                                matTooltipShowDelay="0"
+                                                matTooltipHideDelay="0"
+                                                matTooltipPosition="below"
+                                                type="button"
+                                                class="btn btn-default"
+                                                (click)="updateUserStatus(user.username)"
+                                        >
+                                            <i class="material-icons">how_to_reg</i>
+                                        </button>
+                                        <button *ngIf="user.enabled==true"
+                                                [matTooltip]="'ture'=='true' ? 'Deactivate' : 'Deactivate' "
+                                                matTooltipShowDelay="0"
+                                                matTooltipHideDelay="0"
+                                                matTooltipPosition="below"
+                                                type="button"
+                                                class="btn btn-danger"
+                                                (click)="updateUserStatus(user.username)"
+                                        >
+                                            <i class="material-icons">remove_circle</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

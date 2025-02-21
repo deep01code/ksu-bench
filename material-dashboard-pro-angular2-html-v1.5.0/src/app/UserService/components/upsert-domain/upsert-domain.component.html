@@ -1,0 +1,206 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="row">
+
+
+
+      </div>
+      <div class="card-content" >
+        <app-loading *ngIf="isLoading"></app-loading>
+
+        <form ngForm="form" #form="ngForm">
+          <div class="col-md-12">
+            <div class="row" *ngIf="domain">
+              <!-- ====> domainUnitArabicName -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="unitArabicName"  [(ngModel)]="domain.domainUnitArabicName"   placeholder="Arabic Name" required /> </mat-form-field> </div>
+              <!-- ====> domainUnitEnglishName -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="unitEnglishName"  [(ngModel)]="domain.domainUnitEnglishName"   placeholder="English Name" required /> </mat-form-field> </div>
+              <!-- ====> domainUnitEnglishName -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="description"  [(ngModel)]="domain.description"   placeholder="Description" required /> </mat-form-field> </div>
+              <!-- ====> managerialUnit -->
+              <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true"  matInput   ngModel   name="managerialUnit"  [(ngModel)]="domain.managerialUnit.unitEnglishName"   placeholder="Managerial Unit" required /> </mat-form-field> </div>
+
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-4">  <button class="btn btn-success btn-round" (click)="upsertDomain()">Update</button></div>
+            </div>
+
+          </div>
+
+        </form>
+
+        <hr/>
+
+
+      </div>
+
+    </div>
+
+
+
+    <div class="card">
+      <div class="card-content" *ngIf="domain">
+
+        <!-- Tab links Start-->
+        <div class="tab">
+          <button class="tablinks" (click)="openTapClick($event, 'systems')">Systems</button>
+          <button class="tablinks" (click)="openTapClick($event, 'jobNames')">Job Names</button>
+          <button class="tablinks" (click)="openTapClick($event, 'jobLevels')">Job Levels</button>
+
+        </div>
+        <!-- Tab links End-->
+
+        <!-- Tab content Systems Start -->
+        <div id="systems" class="tabcontent">
+          <!--<h3></h3>-->
+
+          <button mat-button (click)="openAddSystemDialog(domain,null)" cdkFocusInitial class="btn btn-round "
+                  style="background-color: #7b1fa2">
+            <label style="color: white"> Add System</label>
+            <i class="material-icons">add</i>
+          </button>
+
+          <!--Start Pagination table-->
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>System English Name</th>
+                    <th>System Arabic Name</th>
+                    <th>Description</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let row of systems;">
+                    <!--
+                                                          <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                    -->
+                    <td (click)="openAddSystemDialog(domain,row)" style="cursor: pointer">
+                      <a>{{row.domainUnitEnglishName}}</a></td>
+                    <td>{{row.domainUnitArabicName}}</td>
+                    <td>{{row.description}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+          <!--Start End table-->
+
+        </div>
+        <!-- Tab content Systems End -->
+
+
+        <!-- Tab content Systems Start -->
+        <div id="jobNames" class="tabcontent">
+          <!--<h3></h3>-->
+
+          <button mat-button (click)="openAddJobNameDialog(domain,null)" cdkFocusInitial class="btn btn-round "
+                  style="background-color: #7b1fa2">
+            <label style="color: white"> Add Job Name</label>
+            <i class="material-icons">add</i>
+          </button>
+
+          <!--Start Pagination table-->
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>English Job Name</th>
+                    <th>Arabic Job Name</th>
+
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let row of jobNames ;">
+                    <!--
+                                                          <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                    -->
+                    <td (click)="openAddJobNameDialog(domain,row)" style="cursor: pointer">
+                      <a>{{row.domainUnitEnglishName}}</a></td>
+                    <td>{{row.domainUnitArabicName}}</td>
+
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+          <!--Start End table-->
+
+        </div>
+        <!-- Tab content Systems End -->
+
+
+        <!-- Tab content Systems Start -->
+        <div id="jobLevels" class="tabcontent">
+          <!--<h3></h3>-->
+
+          <button mat-button (click)="openAddJobLevelDialog(domain,null)" cdkFocusInitial class="btn btn-round "
+                  style="background-color: #7b1fa2">
+            <label style="color: white"> Add Job Level</label>
+            <i class="material-icons">add</i>
+          </button>
+
+          <!--Start Pagination table-->
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>English Job Level</th>
+                    <th>Arabic Job Level</th>
+
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let row of jobLevels ;">
+                    <!--
+                                                          <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                    -->
+                    <td (click)="openAddJobLevelDialog(domain,row)" style="cursor: pointer">
+                      <a>{{row.domainUnitEnglishName}}</a></td>
+                    <td>{{row.domainUnitArabicName}}</td>
+
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+          </div>
+          <!--Start End table-->
+
+        </div>
+        <!-- Tab content Systems End -->
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+

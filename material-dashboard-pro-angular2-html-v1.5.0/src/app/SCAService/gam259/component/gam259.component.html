@@ -1,0 +1,71 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <!--<app-loading *ngIf="isLoading"></app-loading>-->
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="card-content">
+                <h4 class="card-title">Add new Branch</h4>
+                <form (change)="validate()" ngForm="form" #form="ngForm" (ngSubmit)="submit()">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Branch Name
+                                <span class="star">*</span>
+                            </label>
+                            <input name="name" matInput type="text" class="form-control" required minlength="4"
+                                   [(ngModel)]="newBranch.name"
+                            >
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Branch Address
+                                <span class="star">*</span>
+                            </label>
+                            <input name="address" matInput type="text" class="form-control" required minlength="4"
+                                   [(ngModel)]="newBranch.address"
+                            >
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group label-floating">
+                            <label class="control-label">Branch Phone
+                                <span class="star">*</span>
+                            </label>
+                            <input name="phone" matInput name="BranchPhone" type="phone" pattern="[0-9]{9}" class="form-control" required minlength="8"
+                                   [(ngModel)]="newBranch.phone"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-select (onClose)="validate()" name="open" placeholder="Open" required [(ngModel)]="newBranch.open">
+                                <mat-option *ngFor="let open of opens" [value]="open.value">
+                                    {{ open.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-form-field>
+                            <mat-select (onClose)="validate()" name="close" placeholder="Close" required [(ngModel)]="newBranch.close">
+                                <mat-option *ngFor="let close of closes" [value]="close.value">
+                                    {{ close.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!--<div class="col-sm-4">-->
+                        <!--<button [disabled]="!BranchPhone || !selectedOpenTime || !selectedCloseTime" class="btn btn-primary" (click)="addNewBranch()">Move to Next Step</button>-->
+                    <!--</div>-->
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

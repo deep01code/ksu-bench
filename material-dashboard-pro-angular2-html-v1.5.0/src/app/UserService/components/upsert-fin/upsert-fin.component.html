@@ -1,0 +1,133 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="row">
+<!--                <div class="pull-left">
+                    <input label="stc email" type="text" [(ngModel)]="search">
+                    <label class="btn  btn-round" (click)="loadPaginationTables()">Search:</label>
+                </div>
+                <div class="pull-right" style="padding-right: 20px">
+                    <button class="btn btn-success btn-round" (click)="addFinancialNumber()">Add FinancialNumber</button>
+                </div>-->
+
+            </div>
+             <div class="card-content" >
+                <app-loading *ngIf="isLoading"></app-loading>
+                 <div class="row" *ngIf="financialNumber">
+                    <!-- ====> financialNumber.managerialUnit.unitEnglishName -->
+                    <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true"  matInput   ngModel   name="unitEnglishName"  [(ngModel)]="financialNumber.managerialUnit.unitEnglishName"   placeholder="Unit Name" required /> </mat-form-field> </div>
+                    <!-- ====> unitNumber -->
+                    <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input disabled="true" matInput   ngModel   name="unitNumber"  [(ngModel)]="financialNumber.managerialUnit.unitNumber"   placeholder="Unit Number" required /> </mat-form-field> </div>
+
+                </div>
+                <div class="row" *ngIf="financialNumber">
+                    <!-- ====> financialName -->
+                    <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="financialName"  [(ngModel)]="financialNumber.financialName"   placeholder="financial Name" required /> </mat-form-field> </div>
+                    <!-- ====> financialNumber -->
+                    <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="financialNumber"  [(ngModel)]="financialNumber.financialNumber"   placeholder="financial Number" required /> </mat-form-field> </div>
+                    <!-- ====> amount -->
+                    <div class="col-sm-4">  <mat-form-field style="width: 90%">    <input  matInput   ngModel   name="value"  [(ngModel)]="financialNumber.value"   placeholder="Value" required /> </mat-form-field> </div>
+
+                </div>
+                <div class="row" *ngIf="financialNumber">
+                    <!-- ====> start date -->
+                    <div class="col-sm-4"> <div style="width: 90%"> <input matInput [(ngModel)]="financialNumber.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </div> </div>
+                    <!-- ====> end date -->
+                    <div class="col-sm-4"> <div style="width: 90%"> <input matInput [(ngModel)]="financialNumber.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </div> </div>
+
+                    <div class="col-sm-4">  <button class="btn btn-success btn-round" (click)="upsertFinancialNumber()">Update</button></div>
+                </div>
+                <hr/>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="card card-content" *ngIf="financialNumber">
+
+            <div class="row">
+                <div class="col-sm-3"><h3>Related POs</h3></div>
+            </div>
+            <div class="row">
+
+                <div class="col-sm-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Number</th>
+                            <th>Value</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Unit Name</th>
+                            <th>Unit Number</th>
+                            <th>Type</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of financialNumber.financialUnits;">
+                            <td (click)="editPO(row.id)" style="cursor: pointer"><a>{{row.financialName}}</a></td>
+                            <td>{{row.financialNumber}}</td>
+                            <td>{{row.value}}</td>
+                            <td>{{row?.startDate}}</td>
+                            <td>{{row?.endDate}}</td>
+                            <td>{{row.managerialUnit?.unitEnglishName}}</td>
+                            <td>{{row.managerialUnit?.unitNumber}}</td>
+                            <td>{{row.managerialUnit?.type}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--<h1 mat-dialog-title style="text-decoration: underline">
+    <strong>New Benefit</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    &lt;!&ndash; ====> financialName &ndash;&gt;
+                    <div class="col-sm-4">  <div style="width: 90%">    <input type="text" [(ngModel)]="financialNumber.financialName"  [ngModelOptions]="{standalone: true}" placeholder="Financial Name" required /> </div> </div>
+                    &lt;!&ndash; ====> financialNumber &ndash;&gt;
+                    <div class="col-sm-4">  <div style="width: 90%">    <input type="text" [(ngModel)]="financialNumber.financialNumber"  [ngModelOptions]="{standalone: true}" placeholder="Financial Number" required /> </div> </div>
+                    &lt;!&ndash; ====> amount &ndash;&gt;
+                    <div class="col-sm-4">  <div style="width: 90%">    <input type="number" [(ngModel)]="financialNumber.value"  [ngModelOptions]="{standalone: true}" placeholder="Value" required /> </div> </div>
+                </div>
+                <div class="row">
+                    &lt;!&ndash; ====> start date &ndash;&gt;
+                    <div class="col-sm-4"> <div style="width: 90%"> <input matInput [(ngModel)]="financialNumber.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </div> </div>
+                    &lt;!&ndash; ====> end date &ndash;&gt;
+                    <div class="col-sm-4"> <div style="width: 90%"> <input matInput [(ngModel)]="financialNumber.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </div> </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button  [mat-dialog-close]="data"  (click)="addFinancialNumber()" cdkFocusInitial>
+        Ok
+    </button>
+</div>-->

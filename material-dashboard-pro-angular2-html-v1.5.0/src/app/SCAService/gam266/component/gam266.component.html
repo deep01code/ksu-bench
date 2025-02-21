@@ -1,0 +1,174 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="container">
+            <div class="card" style="width: 80%">
+                <div class="card-header card-header-icon" data-background-color="purple">
+                    <i class="material-icons">assignment</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">App Update</h4>
+                    <form (change)="validate(appUpdateForm)" #appUpdateForm="ngForm">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group  label-floating">
+                                    <label for="Type"></label>
+                                    <mat-form-field style="width: 90%;height: 40%">
+                                        <mat-select id="Type" [(ngModel)]="appUpdate.type" placeholder="Type"
+                                                    required name="typeControl">
+                                            <mat-option value="Package"> Package</mat-option>
+                                            <mat-option value="Screen"> Screen</mat-option>
+                                            <mat-option value="Service"> Service</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group label-floating">
+                                    <label for="updateAppId" class="control-label">Id *</label>
+                                    <input required matInput
+                                           style="margin-top: 8px"
+                                           name="idControl" [(ngModel)]="appUpdate.id"
+                                           id="updateAppId" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="header">
+                                    Arabic
+                                </div>
+                                <div class="form-group label-floating">
+                                    <label for="arabicDescription"
+                                           class="control-label"></label>
+                                    <textarea [rows]="7" name="arabicControl" [(ngModel)]="appUpdate.arabic" required id="arabicDescription" class="form-control custom-border"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="header">
+                                    English
+                                </div>
+                                <div class="form-group label-floating">
+                                    <label for="englishDescription"
+                                           class="control-label"></label>
+                                    <textarea [rows]="7" name="englishControl" [(ngModel)]="appUpdate.english" required id="englishDescription" class="form-control custom-border"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="row">-->
+                            <!--<div class="col-md-12">-->
+                                <!--<mat-tab-group style="overflow: hidden; !important;">-->
+                                    <!--<mat-tab label="Arabic">-->
+                                        <!--<div class="row" style="width: 90%">-->
+                                            <!--<div class="col-md-12">-->
+                                                <!--<div class="form-group label-floating">-->
+                                                    <!--<label for="arabicDescription"-->
+                                                           <!--class="control-label">Description</label>-->
+                                                    <!--<input required id="arabicDescription" class="form-control">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<br/>-->
+                                        <!--&lt;!&ndash;<div class="row" style="width: 90%">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+
+                                                <!--&lt;!&ndash;<div *ngFor="let arabic of arabics ; let i=index">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="col-md-8">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;<input type="text" listName="property"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;[(ngModel)]="arabics[i].value"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;name="name{{i}}"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;class="form-control" required/>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="col-md-4" style="margin-top: 15px">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<button class="btn btn-round btn-fab btn-fab-mini "&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;style=" background-color: #7b1fa2"&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;(click)="deleteArabic(i)">&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;<span class="material-icons bottom-left">delete</span>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<div class="row" style="width: 90%">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="col-md-2" style="margin-top: 10px">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;add property&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                                                <!--&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<button class="btn btn-round btn-fab btn-fab-mini "&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;style=" background-color: #7b1fa2"&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;(click)="addArabic()">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<i class="material-icons">add</i>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--</mat-tab>-->
+
+                                    <!--<mat-tab label="English">-->
+                                        <!--<div class="row" style="width: 90%">-->
+                                            <!--<div class="col-md-12">-->
+                                                <!--&lt;!&ndash;<div class="form-group label-floating">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<label for="englishDescription"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;class="control-label">Description</label>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<textarea [rows]="10" required id="englishDescription" class="form-control custom-border"></textarea>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<br/>-->
+                                        <!--&lt;!&ndash;<div class="row" style="width: 90%">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+
+                                                <!--&lt;!&ndash;<div *ngFor="let english of englishes ; let n=index">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="col-md-8">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;<input type="text" listName="property"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;[(ngModel)]="englishes[n].value"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;name="name{{n}}"&ndash;&gt;-->
+                                                                   <!--&lt;!&ndash;class="form-control" required/>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<div class="col-md-4" style="margin-top: 15px">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<button class="btn btn-round btn-fab btn-fab-mini "&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;style=" background-color: #7b1fa2"&ndash;&gt;-->
+                                                                <!--&lt;!&ndash;(click)="deleteEnglish(n)">&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;<span class="material-icons bottom-left">delete</span>&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<div class="row" style="width: 90%">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<div class="col-md-2" style="margin-top: 10px">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;add property&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                                                <!--&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<button class="btn btn-round btn-fab btn-fab-mini "&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;style=" background-color: #7b1fa2"&ndash;&gt;-->
+                                                            <!--&lt;!&ndash;(click)="addEnglish()">&ndash;&gt;-->
+                                                        <!--&lt;!&ndash;<i class="material-icons">add</i>&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--</mat-tab>-->
+                                <!--</mat-tab-group>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<button type="submit" class="btn btn-success" [disabled]="!appUpdate.form.valid">Submit</button>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

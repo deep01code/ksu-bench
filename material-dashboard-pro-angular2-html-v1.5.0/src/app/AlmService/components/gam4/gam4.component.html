@@ -1,0 +1,56 @@
+<div class="main-content">
+	<div class="container-fluid">
+<app-loading *ngIf="isLoading"></app-loading>
+<!--		<div class="col-sm-5">
+			<div class="form-group label-floating">
+				<label>Select Release</label>
+				<select (change)="select($event.target.value)" class="form-control">
+					<option [value]="release.id" *ngFor="let release of releases" >{{release.name}}</option>
+				</select>
+			</div>
+		</div>-->
+		<app-release [releases]="releases" type="release" (onSelectValue)="select($event)" ></app-release>
+
+		<div class="card">
+			<div class="card-header card-header-icon" data-background-color="rose">
+				<i class="material-icons">assignment</i>
+			</div>
+			<div class="card-content">
+
+				<h4 class="card-title">Number of TCs Executed Day to Day</h4>
+				<div class="togglebutton">
+					<label>
+						<input type="checkbox" checked (change)="toggleChange($event.target.checked)"> Get All Executed TCs per Day
+					</label>
+				</div>
+				<div style="position: relative; height: 55vh">
+					<canvas baseChart
+							[datasets]="barChartData"
+							[labels]="barChartLabels"
+							[options]="barChartOptions"
+							[legend]="barChartLegend"
+							[chartType]="barChartType"
+							(chartHover)="chartHovered($event)"
+							[colors]="colors"
+							(chartClick)="chartClicked($event, 'custom-html')">
+					</canvas>
+				</div>
+
+
+				<div style="position: relative; height: 55vh">
+					<canvas baseChart
+							[datasets]="detailedBarChartData"
+							[labels]="barChartLabels"
+							[options]="detailedBarChartOptions"
+							[legend]="barChartLegend"
+							[chartType]="barChartType"
+							(chartHover)="chartHovered($event)"
+							[colors]="colors"
+							(chartClick)="chartClicked($event, 'custom-html')">
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--this is a comment -->
+</div>

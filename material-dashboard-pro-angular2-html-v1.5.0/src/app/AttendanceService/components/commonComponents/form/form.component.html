@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-content">
+      <app-loading *ngIf="isLoading"></app-loading>
+    <div class="row">
+      <div class="col-md-4">
+        <legend>Year</legend>
+        <div class="col-lg-5 col-md-8 col-sm-4">
+          <mat-form-field>
+            <mat-select placeholder="Choose Year" [(ngModel)]="selectedYear">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <legend>Projects</legend>
+        <div class="row">
+          <div class="col-lg-5 col-md-8 col-sm-4">
+            <mat-form-field>
+              <mat-select multiple placeholder="Choose Projects" [(ngModel)]="selectedProjects"
+                          name=projects[0] ariaLabel="projects[0]">
+                <mat-option *ngFor="let project of projects" [value]="project">
+                  {{ project }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+        <legend>Roles</legend>
+
+        <div class="row">
+          <div class="col-lg-5 col-md-8 col-sm-4">
+            <mat-form-field>
+              <mat-select multiple placeholder="Choose Roles" [(ngModel)]="selectedRoles"
+                          name=roles[0] ariaLabel="roles[0]">
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{ role }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <button class="btn  btn-primary" (click)="submitForm()">Submit</button>
+      </div>
+    </div>
+    <!--next div is the end of card-->
+  </div>
+</div>

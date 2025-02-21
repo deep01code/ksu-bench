@@ -1,0 +1,29 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Benefit</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> type -->
+          <div class="col-md-4">  <div style="width: 90%">  <mat-select placeholder="Select Benefit" [(ngModel)]="tempBenefit.benefitType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedBenefit of benefitList; let i = index" [value]="selectedBenefit.value" > {{ selectedBenefit.name }} </mat-option> </mat-select> </div> </div>
+          <!-- ====> amount -->
+          <div class="col-md-4">  <div style="width: 90%">    <input type="number" [(ngModel)]="tempBenefit.amount"  [ngModelOptions]="{standalone: true}" placeholder="Amount" required /> </div> </div>
+          <!-- ====> date -->
+          <div class="col-md-3"> <div style="width: 90%"> <input matInput [(ngModel)]="tempBenefit.benefitDate"  [ngModelOptions]="{standalone: true}" placeholder="Benefit Date" required [matDatepicker]="benefitDate"  disabled> <mat-datepicker-toggle matSuffix [for]="benefitDate" ></mat-datepicker-toggle> <mat-datepicker #benefitDate disabled="false"></mat-datepicker> </div> </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addBenefit()" cdkFocusInitial>
+    Ok
+  </button>
+</div>

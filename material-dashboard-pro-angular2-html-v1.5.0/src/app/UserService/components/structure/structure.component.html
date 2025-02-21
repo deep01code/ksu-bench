@@ -1,0 +1,367 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content card-body">
+            <app-loading *ngIf="isLoading"></app-loading>
+
+            <h5 class="card-title"><strong>Managerial Units 360 Controller</strong></h5>
+
+              <div class="row">
+                  <button mat-button (click)="openAddManagerialUnitDialog(null)" cdkFocusInitial
+                          class="btn btn-round btn-info "> Add Sector <i class="material-icons">add</i></button>
+              </div>
+              <br/>
+<!--
+              <button mat-button  [mat-dialog-close]="data"  (click)="addBenefit()" cdkFocusInitial class="btn btn-round btn-info btn-xs"> Add Sector <i class="material-icons">add</i> </button>
+-->
+
+            <div class="row">
+              <div class="col-sm-4" >
+
+                <div  style="background-color: whitesmoke;overflow: scroll;height: 300px">
+                  <ul id="treeDemo" class="ztree"></ul>
+                </div>
+              </div>
+              <div class="col-sm-8">
+              <table *ngIf="selectedUnit" class="table table-striped" style="border: thin groove">
+                 <tbody>
+                 <tr>
+                     <td>Unit Type</td>
+                     <td>{{selectedUnit.type}}</td>
+                 </tr>
+                 <tr>
+                   <td>Unit Number</td>
+                   <td>{{selectedUnit.unitNumber}}</td>
+                 </tr>
+                 <tr>
+                   <td>Unit En Name</td>
+                   <td>{{selectedUnit.unitEnglishName}}</td>
+                 </tr>
+                 <tr>
+                   <td>Unit Ar Name</td>
+                   <td>{{selectedUnit.unitArabicName}}</td>
+                 </tr>
+                 </tbody>
+               </table>
+                <br/>
+
+                  <!--Add Unit Modal-->
+                  <button *ngIf="selectedUnit && selectedUnit.type!=UnityType().SECTION" mat-button   (click)="openAddManagerialUnitDialog(selectedUnit)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                   <label style="color: white" *ngIf="selectedUnit.type==UnityType().SECTOR"> Add General Department</label>
+                   <label style="color: white" *ngIf="selectedUnit.type==UnityType().GENERAL_DEPARTMENT"> Add Department</label>
+                   <label style="color: white" *ngIf="selectedUnit.type==UnityType().DEPARTMENT"> Add Section</label>
+                   <i class="material-icons">add</i>
+               </button>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+
+       <!--inner table-->
+      <div class="col-md-12">
+           <div class="card">
+              <div class="card-content card-body">
+                 <!-- <mat-tab-group>
+                      <mat-tab label="Employees">
+                      </mat-tab>
+
+
+                      <mat-tab label="Financial Numbers" >
+                          &lt;!&ndash;openAddFinancialNumberDialog&ndash;&gt;
+
+                          &lt;!&ndash;  <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                  <tr>
+                                      <th>Name</th>
+                                      <th>Vendor</th>
+                                      <th>Number</th>
+                                      <th>Job Name</th>
+                                      <th>Project</th>
+                                      <th>General Dep</th>
+                                      <th>Department</th>
+                                      <th>section</th>
+
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr *ngFor="let row of employees;">
+                                      <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                                      <td>{{row.vendor.name}}</td>
+                                      <td>{{row.employeeNumber}}</td>
+                                      <td>{{row.jobName}}</td>
+                                      <td>{{row.project.projectName}}</td>
+                                      <td>{{row.generalDepartment.gdEnName}}</td>
+                                      <td>{{row.department.departmentEnglishName}}</td>
+                                      <td>{{row.section.sectionEnglishName}}</td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>&ndash;&gt;
+
+
+                      </mat-tab>
+
+
+                      <mat-tab label="POs">
+                      </mat-tab>
+
+                      <mat-tab label="Domains">
+                      </mat-tab>
+
+                  </mat-tab-group>-->
+                  <!-- Tab links Start-->
+                  <div class="tab">
+                      <button #systemDomains class="tablinks" (click)="openTapClick($event, 'systemDomains')">Domains</button>
+                      <button class="tablinks" (click)="openTapClick($event, 'financialNumbers')">Financial Numbers</button>
+                      <button class="tablinks" (click)="openTapClick($event, 'pos')">POs</button>
+                      <button class="tablinks" (click)="openTapClick($event, 'employees')">Employees</button>
+                  </div>
+                  <!-- Tab links End-->
+
+                  <!-- Tab content Domains Start  -->
+                  <div id="systemDomains" class="tabcontent">
+
+                      <button  mat-button   (click)="openAddDomainDialog(selectedUnit)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                          <label style="color: white" > Add Domain</label>
+                          <i class="material-icons">add</i>
+                      </button>
+
+
+                      <!--Start Pagination table-->
+                      <div class="row" >
+
+                          <div class="col-sm-12">
+                              <div class="table-responsive">
+                                  <table class="table table-striped">
+                                      <thead>
+                                      <tr>
+                                          <th>Name</th>
+                                          <th>Description</th>
+                                          <th>domainNumber</th>
+
+
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let row of domains;">
+                                          <td (click)="editDomain(row.id)" style="cursor: pointer">
+                                              <a>{{row.domainUnitArabicName}}</a></td>
+                                          <td>{{row.description}}</td>
+                                          <td>{{row.domainUnitNumber}}</td>
+
+                                      </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+
+                          <div class="row" >
+                              <div  style="padding-top: 50px;padding-left: 40%" id="domains-container"></div>
+                          </div>
+                          <div class="pull-right">
+                              <label for="pageSize3">Page Size:</label>
+                              <select id="pageSize3" [(ngModel)]="financialNumberSelectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+                                  <option [value]="i" *ngFor="let i of financialNumberPageSizeArray">{{i}}</option>
+                              </select>
+                          </div>
+
+                      </div>
+                      <!--Start End table-->
+                  </div>
+                  <!-- Tab content Domains End -->
+
+                  <!-- Tab content Financial Numbers Start -->
+                  <div id="financialNumbers" class="tabcontent">
+                      <!--<h3></h3>-->
+
+                      <button  mat-button   (click)="openAddFinancialNumberDialog(selectedUnit)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                          <label style="color: white" > Add Financial Number</label>
+                          <i class="material-icons">add</i>
+                      </button>
+
+                      <!--Start Pagination table-->
+                      <div class="row" >
+                          <div class="col-sm-12">
+                              <div class="table-responsive">
+                                  <table class="table table-striped">
+                                      <thead>
+                                      <tr>
+                                          <th>Name</th>
+                                          <th>Number</th>
+                                          <th>Value</th>
+                                          <th>Start Date</th>
+                                          <th>End Date</th>
+
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let row of financialNumbers;">
+                                          <!--
+                                                                                <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                                          -->
+                                          <td (click)="editFinancialNumber(row.id)" style="cursor: pointer">
+                                              <a>{{row.financialName}}</a></td>
+                                          <td>{{row.financialNumber}}</td>
+                                          <td>{{row.value}}</td>
+                                          <td>{{row.startDate}}</td>
+                                          <td>{{row.endDate}}</td>
+                                      </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+
+                          <div class="row" >
+                              <div  style="padding-top: 50px;padding-left: 40%" id="pagination-container"></div>
+                          </div>
+                          <div class="pull-right">
+                              <label for="pageSize">Page Size:</label>
+                              <select id="pageSize" [(ngModel)]="financialNumberSelectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+                                  <option [value]="i" *ngFor="let i of financialNumberPageSizeArray">{{i}}</option>
+                              </select>
+                          </div>
+
+                      </div>
+                      <!--Start End table-->
+
+                  </div>
+                  <!-- Tab content Financial Numbers End -->
+
+                  <!-- Tab content POs Start -->
+                  <div id="pos" class="tabcontent">
+                      <button  mat-button   (click)="openAddPODialog(selectedUnit)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                          <label style="color: white" > Add PO</label>
+                          <i class="material-icons">add</i>
+                      </button>
+
+
+                      <!--Start Pagination table-->
+                      <div class="row" >
+
+                          <div class="col-sm-12">
+                              <div class="table-responsive">
+                                  <table class="table table-striped">
+                                      <thead>
+                                      <tr>
+                                          <th>Name</th>
+                                          <th>Number</th>
+                                          <th>Value</th>
+                                          <th>Start Date</th>
+                                          <th>End Date</th>
+                                          <th>Vendor</th>
+                                          <th>Agreement</th>
+
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <tr *ngFor="let row of pos;">
+                                          <td (click)="editPO(row.id)" style="cursor: pointer">
+                                              <a>{{row.financialName}}</a></td>
+                                          <td>{{row.financialNumber}}</td>
+                                          <td>{{row.value}}</td>
+                                          <td>{{row.startDate}}</td>
+                                          <td>{{row.endDate}}</td>
+                                          <td>{{row.vendor.name}}</td>
+                                          <td>{{row.agreement.name}}</td>
+                                      </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+
+                          <div class="row" >
+                              <div  style="padding-top: 50px;padding-left: 40%" id="pos-container"></div>
+                          </div>
+                          <div class="pull-right">
+                              <label for="pageSize2">Page Size:</label>
+                              <select id="pageSize2" [(ngModel)]="financialNumberSelectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+                                  <option [value]="i" *ngFor="let i of financialNumberPageSizeArray">{{i}}</option>
+                              </select>
+                          </div>
+
+                      </div>
+                      <!--Start End table-->
+                  </div>
+                  <!-- Tab content POs End -->
+
+                  <!-- Tab content Employees Start  -->
+                  <div id="employees" class="tabcontent">
+                      <h3>Employees</h3>
+
+                      <button  mat-button   (click)="openAddEmployeeDialog(selectedUnit)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                          <label style="color: white" > Add Employee</label>
+                          <i class="material-icons">add</i>
+                      </button>
+
+
+                      <!--Start Pagination table-->
+                      <div class="row" >
+
+                          <div class="table-responsive">
+                              <table class="table table-striped">
+                                  <thead>
+                                  <tr>
+                                      <th>Name</th>
+                                      <th>Unit</th>
+                                      <th>PO</th>
+                                      <th>Domain</th>
+                                      <th>Email</th>
+                                      <th>Working Type</th>
+
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr *ngFor="let row of employees;">
+                                      <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                                      <td>{{(row.employeeManagerialUnit)?row.employeeManagerialUnit.unitEnglishName:'---'}}</td>
+                                      <td>{{(row.employeeFinancialUnit)?row.employeeFinancialUnit.financialName:'---'}}</td>
+                                      <td>{{(row.jobName)?row.jobName.domainUnitEnglishName:'---'}}</td>
+                                      <td>{{row.stcEmail}}</td>
+                                      <td>{{row.workingType}}</td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+
+                          <div class="row" >
+                              <div  style="padding-top: 50px;padding-left: 40%" id="employees-container"></div>
+                          </div>
+                          <div class="pull-right">
+                              <label for="pageSize4">Page Size:</label>
+                              <select id="pageSize4" [(ngModel)]="financialNumberSelectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+                                  <option [value]="i" *ngFor="let i of financialNumberPageSizeArray">{{i}}</option>
+                              </select>
+                          </div>
+
+                      </div>
+                      <!--Start End table-->
+
+                  </div>
+                  <!-- Tab content Employees End -->
+
+
+              </div>
+          </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

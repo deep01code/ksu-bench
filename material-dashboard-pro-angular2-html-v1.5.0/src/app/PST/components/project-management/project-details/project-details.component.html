@@ -1,0 +1,356 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row"></div>
+        <div class="card">
+          <div
+            class="card-header card-header-icon"
+            data-background-color="rose"
+          >
+            <i class="material-icons">assignment</i>
+          </div>
+          <h5 class="card-title"><strong>Project Details</strong></h5>
+          <div class="card-content card-body">
+            <div class="row">
+              <button (click)="setTest()">Set Test</button>
+              <div class="col-md-offset-1 col-md-10">
+                <form #form="ngForm" ngForm="form">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input
+                          [disabled]="!formEditable"
+                          type="text"
+                          placeholder="Project Name"
+                          required
+                          matInput
+                          name="projectName"
+                          [(ngModel)]="project.projectName"
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input
+                          [disabled]="!formEditable"
+                          type="number"
+                          placeholder="Project Number"
+                          required
+                          matInput
+                          name="projectNumber"
+                          [(ngModel)]="project.projectNumber"
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-select
+                          [disabled]="!formEditable"
+                          placeholder="Select Project Type"
+                          ngModel
+                          name="projectType"
+                          id="projectType"
+                          [(ngModel)]="project.projectType"
+                          type="text"
+                          required
+                          #projectType="ngModel"
+                        >
+                          <mat-option
+                            *ngFor="let type of proejctTypes; let i = index"
+                            [value]="type"
+                          >
+                            {{ type }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field
+                        ><input
+                          [disabled]="!formEditable"
+                          type="text"
+                          placeholder="Year Of Project"
+                          required
+                          matInput
+                          name="yearOfProject"
+                          [(ngModel)]="project.yearOfProject"
+                      /></mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                      <mat-form-field
+                        ><input
+                          [disabled]="!formEditable"
+                          type="text"
+                          placeholder="Fin#"
+                          required
+                          matInput
+                          name="finNumber"
+                          [(ngModel)]="project.finNumber"
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                      <mat-form-field
+                        ><input
+                          [disabled]="!formEditable"
+                          type="number"
+                          placeholder="Project Value"
+                          required
+                          matInput
+                          name="projectValue"
+                          [(ngModel)]="project.projectValue"
+                      /></mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input
+                          [disabled]="!formEditable"
+                          matInput
+                          required
+                          name="startDate"
+                          [(ngModel)]="project.startDate"
+                          [matDatepicker]="startDate"
+                          placeholder="Choose Start Date"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="startDate"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #startDate></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input
+                          [disabled]="!formEditable"
+                          matInput
+                          required
+                          name="endDate"
+                          [(ngModel)]="project.endDate"
+                          [matDatepicker]="endDate"
+                          placeholder="Choose End Date"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="endDate"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #endDate></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-select
+                          [disabled]="!formEditable"
+                          multiple
+                          placeholder="Select System Domain"
+                          ngModel
+                          name="systemDomains"
+                          id="systemDomains"
+                          [compareWith]="compareWithId"
+                          [(ngModel)]="project.systemDomains"
+                          type="text"
+                          required
+                          #system="ngModel"
+                        >
+                          <mat-option
+                            *ngFor="let system of systemDomains; let i = index"
+                            [value]="system"
+                          >
+                            {{ system.systemDomainEngName }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field style="width: 90%">
+                        <mat-select
+                          [disabled]="!formEditable"
+                          [compareWith]="compareWithId"
+                          placeholder="Select Requesting GD"
+                          ngModel
+                          name="requestingGD"
+                          [(ngModel)]="project.requestingGD"
+                          type="text"
+                          required
+                          #requestingGD="ngModel"
+                        >
+                          <mat-option
+                            *ngFor="let gd of generalDepartments; let i = index"
+                            [value]="gd"
+                          >
+                            {{ gd.gdEnName }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <input
+                          [disabled]="!formEditable"
+                          type="text"
+                          placeholder="Sector Owner"
+                          required
+                          matInput
+                          name="sectorOwner"
+                          [(ngModel)]="project.sectorOwner"
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-select
+                          [disabled]="!formEditable"
+                          placeholder="Select Expense Type"
+                          ngModel
+                          name="expenseType"
+                          id="expenseType"
+                          [(ngModel)]="project.expenseType"
+                          type="text"
+                          required
+                          #expenseType="ngModel"
+                        >
+                          <mat-option value="CAPEX"> CAPEX </mat-option>
+                          <mat-option value="OPEX"> OPEX </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-checkbox
+                        name="multiYearAgreement"
+                        [(ngModel)]="project.multiYearAgreement"
+                        >Multi Year Agreement</mat-checkbox
+                      >
+                    </div>
+                    <div class="col-md-4">
+                      <mat-checkbox
+                        name="ps"
+                        [(ngModel)]="project.ps"
+                        >PS</mat-checkbox
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-offset-1 col-md-8">
+                      <mat-form-field style="width: 80%">
+                        <textarea
+                          [disabled]="!formEditable"
+                          type="box"
+                          placeholder="Project Description"
+                          required
+                          matInput
+                          name="proejctDescription"
+                          [(ngModel)]="project.proejctDescription"
+                        ></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm btn-round"
+                  [disabled]="!form.valid || !project.contracts"
+                  (click)="saveChanges()"
+                >
+                  Save Changes!
+                </button>
+                <button
+                  *ngIf="formEditable || isNew"
+                  type="button"
+                  class="btn btn-success btn-sm btn-round"
+                  (click)="addContractDialog(newContract)"
+                >
+                  Add Contract
+                </button>
+                <button
+                  *ngIf="!isNew"
+                  type="button"
+                  #tooltip="matTooltip"
+                  (click)="enableEdit()"
+                  matTooltip="More Details"
+                  class="btn btn-info btn-sm btn-round"
+                >
+                  <i class="material-icons">edit</i>
+                </button>
+                <hr />
+              </div>
+            </div>
+            <!------------------------------------------------------------------------------>
+
+            <div class="row">
+              <div class="table-responsive" *ngIf="project.contracts">
+                <strong>Contracts: </strong>
+                <table class="table table-striped" style="border: thin groove">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 20%">PO#</th>
+                      <th>PO Value</th>
+                      <th>Vendor Name</th>
+                      <th>Start Date</th>
+                      <th style="align-content: right; text-align: right">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let contract of project.contracts; let i = index"
+                    >
+                      <td class="text-center">
+                        {{ contract.poNumber }}
+                      </td>
+                      <td>
+                        {{ contract.poValue }}
+                      </td>
+                      <td>
+                        {{ contract.vendor ? contract.vendor.name : "" }}
+                      </td>
+                      <td>
+                        {{ contract.poIssueDate | date: "dd/MM/yyyy" }}
+                      </td>
+                      <td class="td-actions text-right">
+                        <button
+                          type="button"
+                          #tooltip="matTooltip"
+                          (click)="editContractDialog(contract)"
+                          matTooltip="More Details"
+                          class="btn btn-success btn-round"
+                        >
+                          <i class="material-icons">edit</i>
+                        </button>
+                        <button
+                          type="button"
+                          #tooltip="matTooltip"
+                          (click)="viewSubcontractDetails(project, i)"
+                          matTooltip="More Details"
+                          class="btn btn-info btn-round"
+                        >
+                          <i class="material-icons">details</i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!---------------------------------------------------------------------------------->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="main-content">
+    <div class="container-fluid"> 
+        <div class="col-lg-12 col-md-12"> 
+            <div class="card">
+                <div class="card-header card-header-tabs" data-background-color="rose">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <!-- <span class="nav-tabs-title">Tasks:</span> -->
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+								<li class="active">
+                                    <a href="#gam86" data-toggle="tab" name="gam86" (click)="tabIsClicked($event.target.name)">
+                                        overview
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#gam7" data-toggle="tab" name="gam7" (click)="tabIsClicked($event.target.name)">
+                                        Testers Defects
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#gam27" data-toggle="tab" name="gam27" (click)="tabIsClicked($event.target.name)">
+                                        Defects Per CR
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#gam28" data-toggle="tab" name="gam28" (click)="tabIsClicked($event.target.name)">
+                                        Defects Per Developer
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#gam29" data-toggle="tab" name="gam29" (click)="tabIsClicked($event.target.name)">
+                                        Reopened Defect Per CR
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#gam30" data-toggle="tab" name="gam30" (click)="tabIsClicked($event.target.name)">
+                                        Reopened Defect Per Dev
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#gam85" data-toggle="tab" name="gam85" (click)="tabIsClicked($event.target.name)">
+                                        Defect SLAs
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="tab-content">
+                    	<!-- List goes Here -->
+                    	<app-release [releases]="releases" [type]="type" (onSelectValue)="select($event)"  ></app-release>
+						<div class="tab-pane active" id="gam86">
+                        	<app-gam86 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam86')"></app-gam86>
+                        </div>
+                        <div class="tab-pane" id="gam7">
+                        	<app-gam7 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam7')"></app-gam7>
+                        </div>
+                        <div class="tab-pane" id="gam27">
+                        	<app-gam27 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam27')"></app-gam27>
+                        </div>
+                        <div class="tab-pane" id="gam28">
+                        	<app-gam28 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam28')"></app-gam28>
+                        </div>
+                        <div class="tab-pane" id="gam29">
+                        	<app-gam29 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam29')"></app-gam29>
+                        </div>
+                        <div class="tab-pane" id="gam30">
+                        	<app-gam30 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam30')"></app-gam30>
+                        </div>
+                        <div class="tab-pane" id="gam85">
+                        	<app-gam85 [selectedRelease]="selectedRelease" *ngIf="isActiveTab('gam85')"></app-gam85>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>     

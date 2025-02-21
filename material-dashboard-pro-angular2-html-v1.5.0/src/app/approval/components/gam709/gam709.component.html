@@ -1,0 +1,125 @@
+<div class="container-fluid">
+
+    <div *ngIf="validToken && workflow && !done" class="container-fluid">
+
+
+
+
+        <br/>
+        <br/>
+        <br/>
+
+        <div class="col-md-12">
+            <div class="card">
+                <form [formGroup]="form" class="form-horizontal">
+                    <div class="card-header card-header-text" data-background-color="rose">
+                        <h4 class="card-title">Auto Generated Cost Report fore {{workflow.attendanceReport.projectName}}</h4>
+                    </div>
+                    <h3>Please select your action to the cost generated report</h3>
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">Creation Time</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <p class="form-control-static">{{workflow.creationTime}}</p>
+                            </div>
+                        </div>
+                    </div>                <div class="row">
+                    <label class="col-sm-2 label-on-left">Current Budget</label>
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <p class="form-control-static">{{numberWithCommas(workflow.attendanceReport.currentBudget) }}</p>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">Current Cost</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <p class="form-control-static">{{numberWithCommas(workflow.attendanceReport.currentCost)}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">Start Date</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <p class="form-control-static">{{workflow.attendanceReport.startDate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">End Date</label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <p class="form-control-static">{{workflow.attendanceReport.endDate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">Download </label>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <p class="form-control-static">
+                                    <a href='http://172.20.214.180:7180/workflowservice/download?path={{workflow.reportPath}}'>Click Here</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <label class="col-sm-2 label-on-left">Checkboxes and radios</label>
+                        <div class="col-sm-10 checkbox-radios">
+
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" formControlName="action" value="approve" > Approve
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" formControlName="action" value="reject" > Reject
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="card-content">
+
+                        <div *ngIf="form.value.action && form.value.action=='reject'" class="row">
+                            <label class="col-sm-2 label-on-left"><label style="color:red">*</label>Justification</label>
+                            <div class="col-sm-10">
+                                <div class="form-group label-floating is-empty">
+                                    <label class="control-label"></label>
+                                    <input type="text" class="form-control" formControlName="justification">
+                                    <p *ngIf="!isClickable() && form.value.action=='reject'" >Justification must be more than 10 characters..</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="card-content">
+                        <div class="row">
+                            <button [disabled]="!isClickable()" class="btn btn-fill btn-rose" (click)="submit()">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!validToken" class="container-fluid"> <h1>you have invalid token</h1></div>
+
+
+    <div *ngIf="done">
+        <h1> You Submit Your Action Successfully</h1>
+    </div>
+</div>
+
+
+
+

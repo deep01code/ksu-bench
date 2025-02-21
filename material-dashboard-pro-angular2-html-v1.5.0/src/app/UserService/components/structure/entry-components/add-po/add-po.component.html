@@ -1,0 +1,85 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New PO</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> financialName -->
+          <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field> <input matInput type="text" [(ngModel)]="tempPO.financialName"  [ngModelOptions]="{standalone: true}" placeholder="PO Name" required /></mat-form-field>  </div> </div>
+          <!-- ====> financialNumber -->
+          <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field> <input matInput type="text" [(ngModel)]="tempPO.financialNumber"  [ngModelOptions]="{standalone: true}" placeholder="PO Number" required /></mat-form-field>  </div> </div>
+          <!-- ====> amount -->
+          <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field> <input matInput type="number" [(ngModel)]="tempPO.value"  [ngModelOptions]="{standalone: true}" placeholder="Value" required /> </mat-form-field>  </div> </div>
+        </div>
+        <hr/>
+        <div class="row">
+          <!-- ====> description -->
+          <div class="col-sm-4">  <div style="width: 90%">   <mat-form-field> <input matInput type="text" [(ngModel)]="tempPO.description"  [ngModelOptions]="{standalone: true}" placeholder="Description" required /> </mat-form-field>  </div> </div>          <!-- ====> start date -->
+          <!-- ====> start date -->
+          <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field> <input matInput [(ngModel)]="tempPO.startDate"  [ngModelOptions]="{standalone: true}" placeholder="Start Date" required [matDatepicker]="startDate"  disabled> <mat-datepicker-toggle matSuffix [for]="startDate" ></mat-datepicker-toggle> <mat-datepicker #startDate disabled="false"></mat-datepicker> </mat-form-field>  </div> </div>
+          <!-- ====> end date -->
+          <div class="col-sm-4"> <div style="width: 90%">  <mat-form-field> <input matInput [(ngModel)]="tempPO.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker> </mat-form-field>  </div> </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+          <!-- ====> fin# -->
+          <div class="col-sm-4">  <div style="width: 45%">  <mat-form-field> <mat-select  placeholder="Select Financial #" [(ngModel)]="tempPO.financialParent" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedFinancialNumber of financialNumbers; let i = index" [value]="selectedFinancialNumber" > {{ selectedFinancialNumber.financialName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+          <!-- ====> Venrods# -->
+          <div class="col-sm-4">  <div style="width: 45%"> <mat-form-field> <mat-select  placeholder="Select Vendor" [(ngModel)]="tempPO.vendor" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedVendor of vendors; let i = index" [value]="selectedVendor" > {{ selectedVendor.name }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+          <!-- ====> Agreements# -->
+          <div class="col-sm-4" *ngIf="tempPO.vendor">   <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Select Agreement" [(ngModel)]="tempPO.agreement" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedAgreement of tempPO.vendor.agreements; let i = index" [value]="selectedAgreement" > {{ selectedAgreement.name }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+        </div>
+        <hr/>
+        <div class="row">
+
+          <!-- ====> PoType# -->
+          <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select PO Type" [(ngModel)]="tempPO.poType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedPOTYPE of poTypes; let i = index" [value]="selectedPOTYPE" > {{ selectedPOTYPE }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+
+          <!-- ====> expenseType# -->
+          <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Select Expense Type" [(ngModel)]="tempPO.expenseType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedExpenseType of expenseTypes; let i = index" [value]="selectedExpenseType" > {{ selectedExpenseType }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+          <!-- ====> ps -->
+          <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="is multi Year Agreement"   name="multiYearAgreement" id="multiYearAgreement" type="text" required  [(ngModel)]="tempPO.multiYearAgreement" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+          <!-- ====> projectionPlus -->
+          <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="is Projection Plus"   name="projectionPlus" id="projectionPlus" type="text" required  [(ngModel)]="tempPO.projectionPlus" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+          <!-- ====> open -->
+          <div class="col-sm-4"> <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Is Open"   name="open" id="open" type="text" required  [(ngModel)]="tempPO.open" > <mat-option [value]="true"> Yes </mat-option> <mat-option [value]="false"> No </mat-option> </mat-select> </mat-form-field></div> </div>
+
+        </div>
+
+        <div class="row">
+          <!-- ====> marginPercent -->
+          <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="number" [(ngModel)]="tempPO.marginPercent" [ngModelOptions]="{standalone: true}" placeholder="Margin Percent" required/></mat-form-field>  </div> </div>
+
+          <!-- ====> marginCap -->
+          <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="number" [(ngModel)]="tempPO.marginCap" [ngModelOptions]="{standalone: true}" placeholder="Margin Cap" required/></mat-form-field>  </div> </div>
+
+
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addPO()" cdkFocusInitial>
+    Save
+  </button>
+</div>

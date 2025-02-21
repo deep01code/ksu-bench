@@ -1,0 +1,51 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <div class="card">
+
+
+
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">Logs & Errors</i>
+      </div>
+       <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+
+              <!--
+              id;
+    domainUnitArabicName;
+    domainUnitEnglishName;
+    description;
+    companyName;
+    companyCountry;
+    domainUnitNumber;
+    managerialUnit:ManagerialUnit;
+              -->
+              <th>Message</th>
+              <th>Date</th>
+
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of errorMessages;">
+              <td class="col-xs-8">{{row['msg']}}</td>
+              <td class="col-xs-4">{{row['time']}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

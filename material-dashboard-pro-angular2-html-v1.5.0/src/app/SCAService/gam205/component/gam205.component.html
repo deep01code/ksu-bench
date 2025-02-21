@@ -1,0 +1,411 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-content">
+                                <h4 class="card-title">Service Concept</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-content">
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <h6>Title *</h6>
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label for="serviceConceptTitle" class="control-label">
+                                                    </label>
+                                                    <input required id ="serviceConceptTitle" [(ngModel)]="info.serviceConceptTitle" type="text" class="form-control">
+
+                                                    <div *ngIf="isInputValid('title')"
+                                                         class="alert alert-danger">
+                                                        Title is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="margin-top: 5%">
+
+                                                <div class="checkbox" >
+                                                    <label for="isUrgent">
+                                                        <input id="isUrgent" [(ngModel)]="info.isUrgent" type="checkbox" name="optionsCheckboxes"> This project is
+                                                        classified
+                                                        as urgent
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-content">
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <h6>overview *</h6>
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label for="serviceConceptOverview" class="control-label"></label>
+                                                    <div class="custom-border">
+                                                        <textarea required [(ngModel)]="info.serviceConceptOverview" id="serviceConceptOverview" class="form-control" [rows]="3"></textarea>
+                                                    </div>
+                                                    <div *ngIf="isInputValid('overview')"
+                                                         class="alert alert-danger">
+                                                        overview is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <h6>Business Objectives *</h6>
+                                                </div>
+                                                <div class="form-group label-floating">
+                                                    <label for="serviceConceptBusinessObjectives" class="control-label"></label>
+                                                    <div class="custom-border">
+                                                        <textarea required [(ngModel)]="info.businessObjectives" id="serviceConceptBusinessObjectives" class="form-control" [rows]="3"></textarea>
+                                                    </div>
+                                                    <div *ngIf="isInputValid('businessObjectives')"
+                                                         class="alert alert-danger">
+                                                        business objectives are required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="card-content">
+                                <h4 class="card-title">Contact Information</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-content">
+                                <div class="col-md-6">
+                                    <h6 class="card-title">Requester Info</h6>
+                                    <div class="custom-border-1">
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating">
+                                                <label  for="requesterEmail" class="control-label">Email address *</label>
+                                                <input required (blur)="getRequesterInfo()" [(ngModel)]="info.requesterEmail" id="requesterEmail" type="text" class="form-control"  >
+                                                <div *ngIf="isInputValid('requesterEmail')"
+                                                     class="alert alert-danger">
+                                                    Requester Email is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="requesterName" class="control-label">Requester *</label>
+                                                <input [(ngModel)]="info.requesterName" id="requesterName" type="text" class="form-control">
+                                                <div *ngIf="isInputValid('requesterName')"
+                                                     class="alert alert-danger">
+                                                    Requester Name is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="requesterDepartment" class="control-label">Department *</label>
+                                                <input [(ngModel)]="info.requesterDepartment" id="requesterDepartment" type="text" class="form-control">
+                                                <div *ngIf="isInputValid('requesterDepartment')"
+                                                     class="alert alert-danger">
+                                                    Requester Department is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating">
+                                                <label for="requesterBusinessUnit" class="control-label">Business Unit *</label>
+                                                <input [(ngModel)]="info.requesterBusinessUnit" id="requesterBusinessUnit"  type="text" class="form-control">
+                                                <div *ngIf="isInputValid('requesterBusinessUnit')"
+                                                     class="alert alert-danger">
+                                                    Requester business unit is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="requesterPhone" class="control-label">Mobile Phone *</label>
+                                                <input [(ngModel)]="info.requesterMobilePhone" id="requesterPhone"  type="tel" class="form-control">
+                                                <div *ngIf="isInputValid('requesterMobilePhone')"
+                                                     class="alert alert-danger">
+                                                    Requester mobile phone unit is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="card-title">Approver Info</h6>
+                                    <div class="custom-border-1">
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating">
+                                                <label for="approverEmail" class="control-label">Email address *</label>
+                                                <input required (blur)="getApproverInfo()" [(ngModel)]="info.approverEmail" id="approverEmail" type="text" class="form-control">
+                                                <div *ngIf="isInputValid('approverEmail')"
+                                                     class="alert alert-danger">
+                                                    Approver email is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="approverName" class="control-label">Approver *</label>
+                                                <input [(ngModel)]="info.approverName" id="approverName"  type="text" class="form-control">
+                                                <div *ngIf="isInputValid('approverName')"
+                                                     class="alert alert-danger">
+                                                    Approver name is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="approverDepartment" class="control-label">Department *</label>
+                                                <input [(ngModel)]="info.approverDepartment" id="approverDepartment"  type="text" class="form-control">
+                                                <div *ngIf="isInputValid('approverDepartment')"
+                                                     class="alert alert-danger">
+                                                    Approver department is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating">
+                                                <label for="approverTitle" class="control-label">Title *</label>
+                                                <input required [(ngModel)]="info.approverTitle" id="approverTitle" type="text" class="form-control">
+                                                <div *ngIf="isInputValid('approverTitle')"
+                                                     class="alert alert-danger">
+                                                    Approver title is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label for="approverBusinessUnit" class="control-label">Business Unit *</label>
+                                                <input required [(ngModel)]="info.approverBusinessUnit" id="approverBusinessUnit" type="text" class="form-control">
+                                                <div *ngIf="isInputValid('approverBusinessUnit')"
+                                                     class="alert alert-danger">
+                                                    Approver business unit is required.
+                                                </div>
+                                            </div>
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Mobile Phone *</label>
+                                                <input required [(ngModel)]="info.approverMobilePhone" type="tel" class="form-control">
+                                                <div *ngIf="isInputValid('approverMobilePhone')"
+                                                     class="alert alert-danger">
+                                                    Approver mobile phone is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="card-content">
+                                <h4 class="card-title">Business Prioritization</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card-content">
+                                <div class="col-md-3">
+
+                                    <h6 class="card-title">Risk Assessment</h6>
+                                    <div class="custom-border-1">
+
+                                        <div class="form-group label-floating">
+                                            <label for="regulatoryRisk"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="regulatoryRisk" placeholder="Regulatory risk" [(ngModel)]="info.riskAssessmentRegularity">
+                                                    <mat-option *ngFor="let val of dropDownLists.REG_RISK.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div *ngIf="isInputValid('reqRisk')"
+                                             class="alert alert-danger">
+                                            Regulatory risk is required.
+                                        </div>
+                                        <div class="form-group label-floating">
+                                            <label for="operationalRisk"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="operationalRisk" placeholder="Operational risk" [(ngModel)]="info.riskAssessmentOperational">
+                                                    <mat-option *ngFor="let val of dropDownLists.OP_RISK.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('opRisk')"
+                                                 class="alert alert-danger">
+                                                Operational risk is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <h6 class="card-title">Business Impact</h6>
+                                    <div class="custom-border-1">
+                                        <div class="form-group label-floating">
+                                            <label for="impactOnRevenues"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="impactOnRevenues" placeholder="Impact on revenues" [(ngModel)]="info.businessImpactOnrevenues">
+                                                    <mat-option *ngFor="let val of dropDownLists.IMP_REV.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('impOnRev')"
+                                                 class="alert alert-danger">
+                                                Impact on revenues is required.
+                                            </div>
+                                        </div>
+                                        <div class="form-group label-floating">
+                                            <label for="impactOnCustExp"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="impactOnCustExp" placeholder="Impact on cust. exp." [(ngModel)]="info.businessImpactOnCustomerExp">
+                                                    <mat-option *ngFor="let val of dropDownLists.IMP_CUST.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('impOnCustExp')"
+                                                 class="alert alert-danger">
+                                                Impact on customer experience is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <h6 class="card-title">Targeted Segments</h6>
+                                    <div class="custom-border-1">
+                                        <div class="form-group label-floating">
+                                            <label for="targetedSegments"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="targetedSegments" multiple placeholder="Choose Targeted Segments" [(ngModel)]="info.targetedSegments">
+                                                    <mat-option *ngFor="let val of dropDownLists.TARGET_SYS.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('targetedSegs')"
+                                                 class="alert alert-danger">
+                                                choose at least one of targeted segments.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="card-title">Eligibility Criteria</h6>
+                                    <div class="custom-border-1">
+                                        <div class="form-group label-floating">
+                                            <label for="eligibilityCriteria"></label>
+                                            <mat-form-field style="width: 90%; margin-left: 5%">
+                                                <mat-select required id="eligibilityCriteria" multiple
+                                                            placeholder="Choose Eligibility Criteria"
+                                                            [(ngModel)]="info.eligibilityCriterias"
+                                                            ngDefaultControl
+                                                >
+                                                    <mat-option *ngFor="let val of dropDownLists.ELIGIBILITY.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('eligCriteria')"
+                                                 class="alert alert-danger">
+                                                choose at least one eligibility criteria.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="card-content">
+                                    <h4 class="card-title">Channel Requirements</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card-content">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating">
+                                            <label for="chanelRequirements"></label>
+                                            <mat-form-field style="width: 100%">
+                                                <mat-select required id="chanelRequirements" multiple
+                                                            [(ngModel)]="info.chanelRequirements"
+                                                            ngDefaultControl>
+                                                    <mat-option *ngFor="let val of dropDownLists.CHANNEL.data" [value]="val.LOV_VAL">
+                                                        {{ val.LOV_VAL }}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                            <div *ngIf="isInputValid('channelReqs')"
+                                                 class="alert alert-danger">
+                                                choose at least one channel requirement.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="card-content">
+                                    <h4 class="card-title">Additional Information/notes</h4>
+                                </div>
+                            </div>
+                            <div class="form-group label-floating">
+                                <label for="additionalInfo" class="control-label"></label>
+                                <div class="custom-border">
+                                    <textarea [(ngModel)]="info.additionalInfo"  id="additionalInfo" class="form-control" [rows]="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

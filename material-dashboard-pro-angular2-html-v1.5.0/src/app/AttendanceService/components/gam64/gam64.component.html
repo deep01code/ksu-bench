@@ -1,0 +1,133 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+
+        <div class="card">
+
+        <div class="card-header card-header-icon" data-background-color="purple">
+        	<i class="material-icons">assignment</i>
+        </div>
+        <div class="card-content">
+        
+        <h4 class="card-title">Number of Employees On site and Off shore</h4>
+        <!-- start here -->  
+        <!-- <div class="col-md-4"> -->
+        <!-- <legend>Year</legend> -->
+        <!-- <div class="col-lg-5 col-md-8 col-sm-4">
+          <mat-form-field>
+            <mat-select (change)="select($event.target.value)" listName="Select Date" class="form-control">
+              <mat-option value="date.value" *ngFor="let date of dates" >
+                {{date.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> --> 
+      <!-- </div> -->
+        <!-- end here  -->
+        <!-- old list start here -->
+        <div class="col-md-5">
+          <!-- <label class="control-label">Select Dates</label> -->
+          <div class="form-group label-floating custom-select">
+            <select name="two" (change)="select($event.target.value)" placeholder="Select Date" class="form-control custom-select">
+              <option selected>Select Dates</option>
+              <option [value]="date.value" *ngFor="let date of dates" >{{date.viewValue}}</option>
+            </select>
+          </div>
+        </div>
+         
+        <!-- old list End here -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    
+                    <div class="card-header" data-background-color="orange">
+                        <i class="material-icons">equalizer</i>
+                    </div>
+                    
+                    <div class="card-content">
+                        <p class="category">On Site</p>
+                        <h3 *ngFor="let row of attendees" class="card-title">
+                  				{{row.onSite}}
+						</h3>
+						<!-- <h3 class="card-title">$3,245</h3> -->
+                    </div>
+                    <!-- 
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i>
+                             -->
+                            <!--  <h4 *ngFor="let date of dates" >{{date.viewValue }}</h4>-->
+                            <!--      <tt>singleSelect = {{date.viewValue }}</tt>
+                            
+                            <h4 type="text" name="date"  [(ngModel)]="viewValue"></h4>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                
+                
+                <!-- <div class="card card-stats">
+                    <div class="card-header" data-background-color="green">
+                        <i class="material-icons">store</i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Revenue</p>
+                        <h3 class="card-title">$3,245</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">date_range</i> Last 24 Hours
+                        </div>
+                    </div>
+                </div> -->
+            
+            
+            </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    
+                    <div class="card-header" data-background-color="orange">
+                        <i class="material-icons">equalizer</i>
+                    </div>
+                    
+                    <div class="card-content">
+                        <p class="category">Off Shore</p>
+                        <h3 *ngFor="let row of attendees" class="card-title">
+                        {{row.offShore}}
+                    </h3>
+                    </div>
+                    <!-- 
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-danger">warning</i>
+                            <a href="#pablo">Get More Space...</a>
+                        </div>
+                    </div>
+                     -->
+                </div>
+            </div>  
+<!--                     <div class="col-md-6">
+                        <legend>Customisable Select</legend>
+
+                        <div class="row">
+                            <div class="col-lg-5 col-md-8 col-sm-4">
+                                  <select multiple listName="Multiple Cities" [(ngModel)]="currentCity" name="Paris" ariaLabel="cities[0]">
+                                      <select *ngFor="let city of cities" [value]="city.value">
+                                          {{ city.viewValue }}
+                                      </select>
+                                      </select>
+                            </div>
+                            <div class="col-lg-5 col-md-8 col-sm-4">
+                                    <select listName="Single City" name="city">
+                                      <select *ngFor="let city of cities" [value]="city.value">
+                                        {{ city.viewValue }}
+                                      </select>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+ -->                    
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+</div>

@@ -1,0 +1,918 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Program Details
+                        </h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button mat-button routerLink="/attendanceService/programForm"
+                                    style="background-color:#7B1FA2;color: white;float: right;" type="submit">
+                                    Back
+                                </button>
+                            </div>
+                        </div>
+                        <br />
+                        <mat-accordion>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Budgets
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Program Budgets
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div class="card-header card-header-icon" data-background-color="purple">
+                                    <i class="material-icons">assignment</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Create Budget
+                                    </h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <form (ngSubmit)="submitBudget(budgetForm.value)"
+                                                    [formGroup]="budgetForm">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-2">
+                                                                        <mat-form-field>
+                                                                            <input formControlName="original" matInput
+                                                                                placeholder="Original Budget" required
+                                                                                type="number">
+                                                                            <mat-error
+                                                                                *ngIf="budgetForm.get('original').invalid && budgetForm.get('original').hasError('required')">
+                                                                                required
+                                                                            </mat-error>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <mat-form-field>
+                                                                            <input formControlName="current" matInput
+                                                                                placeholder="Current Budget" required
+                                                                                type="number">
+                                                                            <mat-error
+                                                                                *ngIf="budgetForm.get('current').invalid && budgetForm.get('current').hasError('required')">
+                                                                                required
+                                                                            </mat-error>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field>
+                                                                            <input [matDatepicker]="startDate"
+                                                                                formControlName="startDate" matInput
+                                                                                placeholder="Start Date" readonly
+                                                                                required>
+                                                                            <mat-datepicker-toggle [for]="startDate"
+                                                                                matSuffix></mat-datepicker-toggle>
+                                                                            <mat-datepicker #startDate disabled="false"
+                                                                                touchUi></mat-datepicker>
+                                                                            <mat-error
+                                                                                *ngIf="budgetForm.get('startDate').invalid && budgetForm.get('startDate').hasError('required')">
+                                                                                required
+                                                                            </mat-error>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field>
+                                                                            <input [matDatepicker]="endDate"
+                                                                                formControlName="endDate" matInput
+                                                                                placeholder="End Date" readonly
+                                                                                required>
+                                                                            <mat-datepicker-toggle [for]="endDate"
+                                                                                matSuffix></mat-datepicker-toggle>
+                                                                            <mat-datepicker #endDate disabled="false"
+                                                                                touchUi></mat-datepicker>
+                                                                            <mat-error
+                                                                                *ngIf="budgetForm.get('endDate').invalid && budgetForm.get('endDate').hasError('required')">
+                                                                                required
+                                                                            </mat-error>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button [disabled]="!budgetForm.valid"
+                                                                            mat-button
+                                                                            style="background-color:#7B1FA2;color: white"
+                                                                            type="submit">
+                                                                            submit
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div *ngIf="budgets.length" class="row">
+                                                <div class="col-md-12">
+                                                    <div class="table">
+                                                        <mat-table [dataSource]="budgetsDataSource"
+                                                            class="mat-elevation-z8">
+                                                            <ng-container matColumnDef="Original">
+                                                                <mat-header-cell *matHeaderCellDef>Original
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.original}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Current">
+                                                                <mat-header-cell *matHeaderCellDef>Current
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.current}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="start date">
+                                                                <mat-header-cell *matHeaderCellDef>start date
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.startDate |date:'MM/dd/yyyy'}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="end date">
+                                                                <mat-header-cell *matHeaderCellDef>end date
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.endDate |date:'MM/dd/yyyy'}} </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row *matHeaderRowDef="budgetColumns">
+                                                            </mat-header-row>
+                                                            <mat-row *matRowDef="let row; columns: budgetColumns;">
+                                                            </mat-row>
+                                                        </mat-table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel (opened)="displayDepartmentDetails(true)"
+                                (closed)="displayDepartmentDetails(false)">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Departments
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Program Departments
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card-header card-header-icon" data-background-color="purple">
+                                            <i class="material-icons">assignment</i>
+                                        </div>
+                                        <div class="card-content">
+                                            <h4 class="card-title">Create Department
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <form (ngSubmit)="createDepartment(departmentForm.value)"
+                                                            [formGroup]="departmentForm">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-3">
+                                                                        <mat-form-field>
+                                                                            <input formControlName="name" matInput
+                                                                                placeholder="Name" required>
+                                                                            <mat-error
+                                                                                *ngIf="departmentForm.get('name').invalid && departmentForm.get('name').hasError('required')">
+                                                                                required
+                                                                            </mat-error>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <button [disabled]="!departmentForm.valid"
+                                                                            mat-button
+                                                                            style="background-color:#7B1FA2;color: white"
+                                                                            type="submit">
+                                                                            submit
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="departments.length" class="row">
+                                                <div class="col-md-12">
+                                                    <div class="table">
+                                                        <mat-table [dataSource]="departmentsDataSource"
+                                                            class="mat-elevation-z8">
+                                                            <ng-container matColumnDef="Name">
+                                                                <mat-header-cell *matHeaderCellDef>Name
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.name}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row *matHeaderRowDef="departmentColumns">
+                                                            </mat-header-row>
+                                                            <mat-row (click)="selectDepartment(row)"
+                                                                *matRowDef="let row; columns: departmentColumns;"
+                                                                [ngClass]="{'highlight': selectedDepartment.id == row.id}">
+                                                            </mat-row>
+                                                        </mat-table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Responsibles
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Program Responsibles
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form (ngSubmit)="submitProgramResponsibleForm(programResponsibleForm.value)"
+                                            [formGroup]="programResponsibleForm">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-2">
+                                                                <mat-form-field>
+                                                                    <mat-select formControlName="type"
+                                                                        placeholder="Type" required>
+                                                                        <mat-option value="Director">
+                                                                            Director
+                                                                        </mat-option>
+                                                                        <mat-option value="Admin">
+                                                                            Admin
+                                                                        </mat-option>
+                                                                        <mat-option value="ProjectManager">
+                                                                            Project
+                                                                            Manager
+                                                                        </mat-option>
+                                                                        <mat-option value="TCSRepresentative">
+                                                                            TCS
+                                                                            Representative
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                    <mat-error
+                                                                        *ngIf="programResponsibleForm.get('type').invalid && programResponsibleForm.get('type').hasError('required')">
+                                                                        required
+                                                                    </mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <mat-form-field>
+                                                                    <input formControlName="name" matInput
+                                                                        placeholder="Name" required>
+                                                                    <mat-error
+                                                                        *ngIf="programResponsibleForm.get('name').invalid && programResponsibleForm.get('name').hasError('required')">
+                                                                        required
+                                                                    </mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field>
+                                                                    <input formControlName="email" matInput
+                                                                        placeholder="Email" required>
+                                                                    <mat-error
+                                                                        *ngIf="programResponsibleForm.get('email').invalid && programResponsibleForm.get('email').hasError('required')">
+                                                                        required
+                                                                    </mat-error>
+                                                                    <mat-error
+                                                                        *ngIf="programResponsibleForm.get('email').invalid && programResponsibleForm.get('email').hasError('email')">
+                                                                        not
+                                                                        a
+                                                                        valid
+                                                                        email
+                                                                    </mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <mat-form-field>
+                                                                    <input formControlName="number" matInput
+                                                                        placeholder="phone number" required
+                                                                        type="number">
+                                                                    <mat-error
+                                                                        *ngIf="programResponsibleForm.get('number').invalid && programResponsibleForm.get('number').hasError('required')">
+                                                                        required
+                                                                    </mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button [disabled]="!programResponsibleForm.valid"
+                                                                    mat-button
+                                                                    style="background-color:#7B1FA2;color: white"
+                                                                    type="submit">
+                                                                    submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div *ngIf="programResponsibles" class="row">
+                                    <div class="col-md-12">
+                                        <div class="table">
+                                            <mat-table [dataSource]="programResponsiblesDataSource"
+                                                class="mat-elevation-z8">
+                                                <ng-container matColumnDef="Type">
+                                                    <mat-header-cell *matHeaderCellDef>
+                                                        Type
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Name">
+                                                    <mat-header-cell *matHeaderCellDef>
+                                                        Name
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="Email">
+                                                    <mat-header-cell *matHeaderCellDef>
+                                                        Email
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                                </ng-container>
+                                                <ng-container matColumnDef="phone No">
+                                                    <mat-header-cell *matHeaderCellDef>
+                                                        phone
+                                                        No
+                                                    </mat-header-cell>
+                                                    <mat-cell *matCellDef="let element"> {{element.number}} </mat-cell>
+                                                </ng-container>
+                                                <mat-header-row *matHeaderRowDef="resposiblesColumns"></mat-header-row>
+                                                <mat-row *matRowDef="let row; columns: resposiblesColumns;"></mat-row>
+                                            </mat-table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Program Configurations
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        Program Configurations
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row" *ngIf="program && program.ratesRules">
+                                    <form (ngSubmit)="updateProgramConfig(program.ratesRules)"
+                                        [formGroup]="ratesRulesForm">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+
+                                                        <div class="col-md-3"></div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <input type="number" matInput
+                                                                    formControlName="IN_NO_OUT"
+                                                                    [(ngModel)]="program.ratesRules.in_NO_OUT"
+                                                                    placeholder="No out" required>
+                                                                <mat-error
+                                                                    *ngIf="ratesRulesForm.get('IN_NO_OUT').invalid && ratesRulesForm.get('IN_NO_OUT').hasError('required')">
+                                                                    required
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <input type="number" matInput
+                                                                    formControlName="OUT_NO_IN" matInput
+                                                                    [(ngModel)]="program.ratesRules.out_NO_IN"
+                                                                    placeholder="No in" required>
+                                                                <mat-error
+                                                                    *ngIf="ratesRulesForm.get('OUT_NO_IN').invalid && ratesRulesForm.get('OUT_NO_IN').hasError('required')">
+                                                                    required
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3"></div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <input type="number" matInput
+                                                                    formControlName="FULL_DAY_MAX"
+                                                                    [(ngModel)]="program.ratesRules.full_DAY_MAX"
+                                                                    placeholder="Full Day Max" required>
+                                                                <mat-error
+                                                                    *ngIf="ratesRulesForm.get('FULL_DAY_MAX').invalid && ratesRulesForm.get('FULL_DAY_MAX').hasError('required')">
+                                                                    required
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <input type="number" matInput
+                                                                    formControlName="FULL_DAY_MIN"
+                                                                    [(ngModel)]="program.ratesRules.full_DAY_MIN"
+                                                                    placeholder="Full Day Min" required>
+                                                                <mat-error
+                                                                    *ngIf="ratesRulesForm.get('FULL_DAY_MIN').invalid && ratesRulesForm.get('FULL_DAY_MIN').hasError('required')">
+                                                                    required
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3"></div>
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <input type="number" matInput
+                                                                    formControlName="HALF_DAY_MIN"
+                                                                    [(ngModel)]="program.ratesRules.half_DAY_MIN"
+                                                                    placeholder="Half Day Min" required>
+                                                                <mat-error
+                                                                    *ngIf="ratesRulesForm.get('HALF_DAY_MIN').invalid && ratesRulesForm.get('HALF_DAY_MIN').hasError('required')">
+                                                                    required
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button [disabled]="!ratesRulesForm.valid" mat-button
+                                                                style="background-color:#7B1FA2;color: white"
+                                                                type="submit">
+                                                                submit
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+
+
+                                </div>
+                            </mat-expansion-panel>
+
+                        </mat-accordion>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="selectedDepartment.id && departmentDetails">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-content">
+                                    <div class="card-title">
+                                        <h4>Department Details
+                                        </h4>
+                                    </div>
+                                    <mat-accordion>
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Billing Roles
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            <!--write details here-->
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form
+                                                        (ngSubmit)="addToDepartment('billingRole',billingRoleForm.value)"
+                                                        [formGroup]="billingRoleForm">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="col-md-2">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="roleName"
+                                                                                    matInput placeholder="Role Name"
+                                                                                    required>
+                                                                                <mat-error
+                                                                                    *ngIf="billingRoleForm.get('roleName').invalid && billingRoleForm.get('roleName').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+
+                                                                        <div class="col-md-2"
+                                                                            *ngIf="program.locationBasedCosts">
+                                                                            <mat-form-field>
+                                                                                <mat-label>Select Location</mat-label>
+                                                                                <mat-select required
+                                                                                    formControlName="location"
+                                                                                    [(value)]="Onsite">
+                                                                                    <mat-option value="Onsite">Onsite
+                                                                                    </mat-option>
+                                                                                    <mat-option value="Offshore">
+                                                                                        Offshore
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                                <mat-error
+                                                                                    *ngIf="program.locationBasedCosts && billingRoleForm.get('location').invalid && billingRoleForm.get('location').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+
+                                                                        <div class="col-md-2">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="rate" matInput
+                                                                                    placeholder="Rate" required
+                                                                                    type="number">
+                                                                                <mat-error
+                                                                                    *ngIf="billingRoleForm.get('rate').invalid && billingRoleForm.get('rate').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="priority"
+                                                                                    matInput placeholder="Priority"
+                                                                                    required>
+                                                                                <mat-error
+                                                                                    *ngIf="billingRoleForm.get('priority').invalid && billingRoleForm.get('priority').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <button [disabled]="!billingRoleForm.valid"
+                                                                                mat-button
+                                                                                style="background-color:#7B1FA2;color: white"
+                                                                                type="submit">
+                                                                                submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="billingRoles" class="row">
+                                                <div class="col-md-12">
+                                                    <div class="table">
+                                                        <mat-table [dataSource]="billingRolesDataSource"
+                                                            class="mat-elevation-z8">
+                                                            <ng-container matColumnDef="Role Name">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Role
+                                                                    Name
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.roleName}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="program.locationBasedCosts"
+                                                                matColumnDef="Location">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Location
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.location}} </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Rate">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Rate
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.rate}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Priority">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Priority
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element">
+                                                                    {{element.priority}} </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row *matHeaderRowDef="billingRolesColumns">
+                                                            </mat-header-row>
+                                                            <mat-row
+                                                                *matRowDef="let row; columns: billingRolesColumns;">
+                                                            </mat-row>
+                                                        </mat-table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    Responsibles
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    Responsibles Details
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form
+                                                        (ngSubmit)="addToDepartment('responsible',responsibleForm.value)()"
+                                                        [formGroup]="responsibleForm">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-2">
+                                                                            <mat-form-field>
+                                                                                <mat-select formControlName="type"
+                                                                                    placeholder="Type" required>
+                                                                                    <mat-option value="Director">
+                                                                                        Director
+                                                                                    </mat-option>
+                                                                                    <mat-option value="Admin">
+                                                                                        Admin
+                                                                                    </mat-option>
+                                                                                    <mat-option value="ProjectManager">
+                                                                                        Project
+                                                                                        Manager
+                                                                                    </mat-option>
+                                                                                    <mat-option
+                                                                                        value="TCSRepresentative">
+                                                                                        TCS
+                                                                                        Representative
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                                <mat-error
+                                                                                    *ngIf="responsibleForm.get('type').invalid && responsibleForm.get('type').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="name" matInput
+                                                                                    placeholder="Name" required>
+                                                                                <mat-error
+                                                                                    *ngIf="responsibleForm.get('name').invalid && responsibleForm.get('name').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="email" matInput
+                                                                                    placeholder="Email" required>
+                                                                                <mat-error
+                                                                                    *ngIf="responsibleForm.get('email').invalid && responsibleForm.get('email').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                                <mat-error
+                                                                                    *ngIf="responsibleForm.get('email').invalid && responsibleForm.get('email').hasError('email')">
+                                                                                    not
+                                                                                    a
+                                                                                    valid
+                                                                                    email
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="number" matInput
+                                                                                    placeholder="phone number" required
+                                                                                    type="number">
+                                                                                <mat-error
+                                                                                    *ngIf="responsibleForm.get('number').invalid && responsibleForm.get('number').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <button [disabled]="!responsibleForm.valid"
+                                                                                mat-button
+                                                                                style="background-color:#7B1FA2;color: white"
+                                                                                type="submit">
+                                                                                submit
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="responsibles" class="row">
+                                                <div class="col-md-12">
+                                                    <div class="table">
+                                                        <mat-table [dataSource]="responsiblesDataSource"
+                                                            class="mat-elevation-z8">
+                                                            <ng-container matColumnDef="Type">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Type
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.type}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Name">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Name
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.name}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="Email">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    Email
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.email}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <ng-container matColumnDef="phone No">
+                                                                <mat-header-cell *matHeaderCellDef>
+                                                                    phone
+                                                                    No
+                                                                </mat-header-cell>
+                                                                <mat-cell *matCellDef="let element"> {{element.number}}
+                                                                </mat-cell>
+                                                            </ng-container>
+                                                            <mat-header-row *matHeaderRowDef="resposiblesColumns">
+                                                            </mat-header-row>
+                                                            <mat-row *matRowDef="let row; columns: resposiblesColumns;">
+                                                            </mat-row>
+                                                        </mat-table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                        <mat-expansion-panel>
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    other Details
+                                                </mat-panel-title>
+                                                <mat-panel-description>
+                                                    teams, systems and positions
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <form
+                                                        (ngSubmit)="addToDepartment(stringsForm.get('type').value,stringsForm.value)"
+                                                        [formGroup]="stringsForm">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-4">
+                                                                            <mat-form-field>
+                                                                                <mat-select formControlName="type"
+                                                                                    placeholder="type" required>
+                                                                                    <mat-option value="team">
+                                                                                        Team
+                                                                                    </mat-option>
+                                                                                    <mat-option value="system">
+                                                                                        System
+                                                                                    </mat-option>
+                                                                                    <mat-option value="position">
+                                                                                        Position
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                                <mat-error
+                                                                                    *ngIf="stringsForm.get('type').invalid && stringsForm.get('type').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <mat-form-field>
+                                                                                <input formControlName="value" matInput
+                                                                                    placeholder="Value" required>
+                                                                                <mat-error
+                                                                                    *ngIf="stringsForm.get('value').invalid && stringsForm.get('value').hasError('required')">
+                                                                                    required
+                                                                                </mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="col-md-3">
+                                                                                <button [disabled]="!stringsForm.valid"
+                                                                                    mat-button
+                                                                                    style="background-color:#7B1FA2;color: white"
+                                                                                    type="submit">
+                                                                                    submit
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-4">
+                                                                            <div class="table">
+                                                                                <mat-table
+                                                                                    [dataSource]="teamsDataSource"
+                                                                                    class="mat-elevation-z8">
+                                                                                    <ng-container matColumnDef="Teams">
+                                                                                        <mat-header-cell
+                                                                                            *matHeaderCellDef>
+                                                                                            Teams
+                                                                                        </mat-header-cell>
+                                                                                        <mat-cell
+                                                                                            *matCellDef="let element">
+                                                                                            {{element}} </mat-cell>
+                                                                                    </ng-container>
+                                                                                    <mat-header-row
+                                                                                        *matHeaderRowDef="teamsColumns">
+                                                                                    </mat-header-row>
+                                                                                    <mat-row
+                                                                                        *matRowDef="let row; columns: teamsColumns;">
+                                                                                    </mat-row>
+                                                                                </mat-table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="table">
+                                                                                <mat-table
+                                                                                    [dataSource]="systemsDataSource"
+                                                                                    class="mat-elevation-z8">
+                                                                                    <ng-container
+                                                                                        matColumnDef="Systems">
+                                                                                        <mat-header-cell
+                                                                                            *matHeaderCellDef>
+                                                                                            Systems
+                                                                                        </mat-header-cell>
+                                                                                        <mat-cell
+                                                                                            *matCellDef="let element">
+                                                                                            {{element}} </mat-cell>
+                                                                                    </ng-container>
+                                                                                    <mat-header-row
+                                                                                        *matHeaderRowDef="systemsColumns">
+                                                                                    </mat-header-row>
+                                                                                    <mat-row
+                                                                                        *matRowDef="let row; columns: systemsColumns;">
+                                                                                    </mat-row>
+                                                                                </mat-table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="table">
+                                                                                <mat-table
+                                                                                    [dataSource]="positionsDataSource"
+                                                                                    class="mat-elevation-z8">
+                                                                                    <ng-container
+                                                                                        matColumnDef="Positions">
+                                                                                        <mat-header-cell
+                                                                                            *matHeaderCellDef>
+                                                                                            Positions
+                                                                                        </mat-header-cell>
+                                                                                        <mat-cell
+                                                                                            *matCellDef="let element">
+                                                                                            {{element}} </mat-cell>
+                                                                                    </ng-container>
+                                                                                    <mat-header-row
+                                                                                        *matHeaderRowDef="positionsColumns">
+                                                                                    </mat-header-row>
+                                                                                    <mat-row
+                                                                                        *matRowDef="let row; columns: positionsColumns;">
+                                                                                    </mat-row>
+                                                                                </mat-table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

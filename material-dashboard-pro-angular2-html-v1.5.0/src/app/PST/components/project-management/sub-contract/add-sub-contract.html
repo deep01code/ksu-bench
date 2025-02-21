@@ -1,0 +1,146 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>PO Details</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden">
+  <form #form="ngForm" ngForm="form">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                [disabled]="!data.editable"
+                name="poNumber"
+                placeholder="PO# With Main Vendor"
+                [(ngModel)]="data.subcontract.poNumber"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <mat-select
+                [disabled]="!data.editable"
+                multiple
+                placeholder="Select System Domain"
+                ngModel
+                name="projectSystemDomains"
+                id="projectSystemDomains"
+                [compareWith]="compareWithId"
+                [(ngModel)]="data.subcontract.projectSystemDomains"
+                type="text"
+                required
+                #system="ngModel"
+              >
+                <mat-option
+                  *ngFor="let system of data.systemDomains; let i = index"
+                  [value]="system"
+                >
+                  {{ system.systemDomainEngName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field style="width: 90%">
+              <mat-select
+                placeholder="Select Subcontractor"
+                [disabled]="!data.editable"
+                ngModel
+                name="subVendor"
+                id="subVendor"
+                [compareWith]="compareWithId"
+                [(ngModel)]="data.subcontract.subVendor"
+                type="text"
+                required
+                #subVendor="ngModel"
+              >
+                <mat-option
+                  *ngFor="let vendor of data.subVendors; let i = index"
+                  [value]="vendor"
+                >
+                  {{ vendor.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                [disabled]="!data.editable"
+                name="subContractStartDate"
+                [(ngModel)]="data.subcontract.subContractStartDate"
+                [matDatepicker]="subContractStartDate"
+                placeholder="Start Date of Subcontractor"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="subContractStartDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #subContractStartDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                [disabled]="!data.editable"
+                name="subContractEndDate"
+                [(ngModel)]="data.subcontract.subContractEndDate"
+                [matDatepicker]="subContractEndDate"
+                placeholder="End Date of Subcontractor"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="subContractEndDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #subContractEndDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field>
+              <input
+                matInput
+                required
+                [disabled]="!data.editable"
+                name="comment"
+                placeholder="Comment"
+                [(ngModel)]="data.subcontract.comment"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      &nbsp;
+      <div class="row">
+        <div class="col-md-12">
+          <hr />
+          <h1 mat-dialog-title style="text-decoration: underline">
+            <strong>Contact Details</strong>
+          </h1>
+          <app-VendorContactForm
+            [inContact]="data.subcontract.contacts"
+            [editable]="data.editable"
+          >
+          </app-VendorContactForm>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button
+    mat-button
+    [disabled]="!form.valid"
+    [mat-dialog-close]="data"
+    cdkFocusInitial
+  >
+    Ok
+  </button>
+</div>

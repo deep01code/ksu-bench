@@ -1,0 +1,236 @@
+<div class="card">
+    <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+        </div>
+        <div class="card-header">
+            <h4 class="card-title">Fill below form to get Cost Data</h4>
+        </div>
+        <form ngForm="form" #form="ngForm" (ngSubmit)="submitForm()">
+            <div class="card-body card-content">
+
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-4">
+                        <mat-form-field>
+                            <mat-select (onClose)="setMoudles(); projectFilter=''"
+                                        multiple tabindex="1"
+                                        placeholder="Choose Projects"
+                                        [(ngModel)]="selectedProjects"
+                                        name="projects"
+                                        required
+                                        #project="ngModel"
+                            >
+                                <input placeholder="Filter ..." matInput class="input-sm"
+                                       style="width: 60%; margin: 5px; border: solid thin gray"
+                                       name="filter" [(ngModel)]="projectFilter"
+                                       (blur)="$event.target.value='';"
+                                       MatFormControler>
+                                <button class="btn btn-primary"
+                                        mat-raised-button
+                                        *ngIf="!(projectFilter.length > 0)"
+                                        style="width: 30%"
+                                        (click)="selectAll(project, projects, $event.target)">
+                                    Select All
+                                </button>
+                                <mat-option [hidden]="!project.toUpperCase().includes(projectFilter.toUpperCase())"
+                                            *ngFor="let project of projects"
+                                            [value]="project">
+                                    {{ project }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-select [disabled]="!project.valid" (onClose)="setBillingRoles(); moduleFilter=''"
+                                        multiple
+                                        tabindex="2"
+                                        placeholder="Choose Sub Projects"
+                                        [(ngModel)]="selectedModules"
+                                        name="modules"
+                                        #module="ngModel">
+                                <input placeholder="Filter ..." matInput class="input-sm"
+                                       style="width: 60%; margin: 5px; border: solid thin gray"
+                                       name="filter" [(ngModel)]="moduleFilter"
+                                       (blur)="$event.target.value='';"
+                                       MatFormControler>
+                                <button class="btn btn-primary"
+                                        mat-raised-button
+                                        *ngIf="!(moduleFilter.length > 0)"
+                                        style="width: 30%"
+                                        (click)="selectAll(module, modules, $event.target)">
+                                    <div *ngIf="module && modules">
+                                        <div *ngIf="modules || !module.valid || (module.value.length < modules.length);
+                                        else Deselect">Select All</div>
+                                        <ng-template #Deselect> <div>Deselect All</div> </ng-template>
+                                    </div>
+                                </button>
+                                <mat-option [hidden]="!module.toUpperCase().includes(moduleFilter.toUpperCase())"
+                                            *ngFor="let module of modules" [value]="module">
+                                    {{ module }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-4">
+                        <mat-form-field>
+                            <mat-datepicker-toggle matSuffix [for]="startDatePicker">
+                            </mat-datepicker-toggle>
+                            <input matInput tabindex="3"
+                                   [disabled]="project.invalid"
+                                   (change)="test(sDate)"
+                                   [matDatepicker]="startDatePicker"
+                                   [(ngModel)]="startDate"
+                                   name="startDate"
+                                   required
+                                   #sDate="ngModel"
+                                   [matDatepickerFilter]="startDateFilter"
+                                   placeholder="Pick start date">
+                            <mat-datepicker
+                                    (selectedChanged)="onStartDateChange($event)"
+                                    #startDatePicker
+                                    [startView]="'month'">
+                            </mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                            <input  matInput tabindex="4"
+                                    [disabled]="!startDate"
+                                    [(ngModel)]="endDate"
+                                    (change)="test(eDate)"
+                                    name="endDate"
+                                    required
+                                    [matDatepicker]="endDatePicker"
+                                    [matDatepickerFilter]="endDateFilter"
+                                    placeholder="Pick end date"
+                                    #eDate="ngModel">
+                            <mat-datepicker
+                                    (selectedChanged)="setEmployees($event)"
+                                    #endDatePicker
+                                    [startView]="'month'">
+                            </mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-4">
+                        <mat-form-field>
+                            <mat-select multiple tabindex="5"
+                                        placeholder="Choose Location"
+                                        [(ngModel)]="selectedLocations"
+                                        name="locations"
+                                        (onClose)="locationFilter = ''"
+                                        #location="ngModel">
+                                <input placeholder="Filter ..." matInput class="input-sm"
+                                       style="width: 60%; margin: 5px; border: solid thin gray"
+                                       name="filter" [(ngModel)]="locationFilter"
+                                       (blur)="$event.target.value='';"
+                                       MatFormControler>
+                                <button class="btn btn-primary"
+                                        mat-raised-button
+                                        style="width: 30%"
+                                        *ngIf="!(locationFilter.length > 0)"
+                                        (click)="selectAll(location, locations, $event.target)">
+                                    <div *ngIf="location && locations">
+                                        <div *ngIf="locations || !location.valid || (location.value.length < locations.length);
+                                        else Deselect">Select All</div>
+                                        <ng-template #Deselect> <div>Deselect All</div> </ng-template>
+                                    </div>
+                                </button>
+                                <mat-option [hidden]="!location.toUpperCase().includes(locationFilter.toUpperCase())"
+                                            *ngFor="let location of locations" [value]="location">
+                                    {{ location }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-select multiple tabindex="6"
+                                        placeholder="Choose Billing Role"
+                                        [(ngModel)]="selectedBillingRoles"
+                                        name="billingRoles"
+                                        (onClose)="billingRoleFilter = ''"
+                                        #billingRole="ngModel">
+                                <input placeholder="Filter ..." matInput class="input-sm"
+                                       style="width: 60%; margin: 5px; border: solid thin gray"
+                                       name="filter" [(ngModel)]="billingRoleFilter"
+                                       (blur)="$event.target.value='';"
+                                       MatFormControler>
+                                <button class="btn btn-primary"
+                                        mat-raised-button
+                                        style="width: 30%"
+                                        *ngIf="!(billingRoleFilter.length > 0)"
+                                        (click)="selectAll(billingRole, billingRoles, $event.target)">
+                                    <div *ngIf="billingRole && billingRoles">
+                                        <div *ngIf="billingRoles || !billingRole.valid || (billingRole.value.length < billingRoles.length);
+                                        else Deselect">Select All</div>
+                                        <ng-template #Deselect> <div>Deselect All</div> </ng-template>
+                                    </div>
+                                </button>
+                                <mat-option [hidden]="!billingRole.toUpperCase().includes(billingRoleFilter.toUpperCase())"
+                                            *ngFor="let billingRole of billingRoles" [value]="billingRole">
+                                    {{ billingRole }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-4">
+                        <mat-form-field>
+                            <mat-select (onClose)="setSelectedEmployeesIds(employee); employeeFiler=''" [disabled]="!eDate.valid" multiple tabindex="7"
+                                        placeholder="Choose Employee(s)"
+                                        [(ngModel)]="selectedEmployees"
+                                        name="employees"
+                                        type="text"
+                                        #employee="ngModel">
+                                <input placeholder="Filter ..." matInput class="input-sm"
+                                       style="width: 60%; margin: 5px; border: solid thin gray"
+                                       name="filter" [(ngModel)]="employeeFiler"
+                                       (blur)="$event.target.value='';"
+                                       MatFormControler>
+                                <button class="btn btn-primary"
+                                        mat-raised-button
+                                        style="width: 30%"
+                                        *ngIf="!(employeeFiler.length > 0)"
+                                        (click)="setSelectedEmployeesIds(employee); selectAll(employee, employees, $event.target)">
+                                    <div *ngIf="employee && employees">
+                                        <div *ngIf="!employee.dirty || (employee.value.length < employees.length);
+                                        else Deselect">Select All</div>
+                                        <ng-template #Deselect>Deselect All</ng-template>
+                                    </div>
+                                </button>
+                                <mat-option *ngFor="let employee of employees"
+                                            [hidden]="!employee.name.toUpperCase().includes(employeeFiler.toUpperCase())"
+                                            [value]="employee">
+                                    {{ employee.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-3">
+                        <button [disabled]="form.invalid" class="btn  btn-primary">Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--next div is the end of card-->
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-text" data-background-color="rose">
+                        <h4 class="card-title">SC Creation</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <!-- <div class="col-sm-4"> -->
+                                <mat-form-field style="width: 60%">
+                                    <mat-select (change)="select($event.value.ID, $event.value.AREA)" placeholder="High-Level Funvtional Area" >
+                                        <mat-option *ngFor="let type of scenariosAreaArr"  [value]="type"> 
+                                           {{ type.AREA }}
+                                        </mat-option>                                        
+                                    </mat-select>
+                                </mat-form-field>
+                        		
+                        		<ngx-table [configuration]="configuration" [data]="scenarioGivenArea.data" (event)="eventEmitted($event)" [columns]="columns">
+								    <ng-template let-row>
+								        <td>{{ AreaName }}</td>
+								        <td>{{row.SCENARIO}}</td>
+								        <td>{{row.EXPECTED_RESULT}}</td>
+                                       <td width="10px">
+								        <button [disabled]="isDisabled(row)"
+                                                    class="btn btn-round btn-fab btn-fab-mini "
+										            (click)="addToEdit(row,$event)"
+										            ngClass="{{isDisabled(row)?'inactive':'btn-success'}}">
+										<i class="material-icons">add</i>
+										</button>
+								        </td>
+								    </ng-template>
+								</ngx-table>
+								<hr/>
+								<ngx-table [configuration]="configuration2" [data]="editList"
+								           (event)="eventEmitted($event)" [columns]="columns">
+								    <ng-template let-row>
+								    	<td (focusout)="textChanged(row, $event.target.innerText, 'A')">
+							                 {{ row.AreaName}}
+							            </td>
+							            <td (focusout)="textChanged(row, $event.target.innerText, 'B')"
+							                 contenteditable="true">
+							                 {{row.SCENARIO}}
+							            </td>
+							            <td (focusout)="textChanged(row, $event.target.innerText, 'C')"
+							                 contenteditable="true">
+							                 {{row.EXPECTED_RESULT}}
+							            </td>
+								        <td width="10px">
+						                  <button (click)="removeFromEdit(row)"
+						                          class="btn btn-danger btn-round btn-fab btn-fab-mini">
+						                      <i class="material-icons">clear</i>
+						                  </button>
+						             	</td>
+								    </ng-template>
+								</ngx-table>
+								                        		
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

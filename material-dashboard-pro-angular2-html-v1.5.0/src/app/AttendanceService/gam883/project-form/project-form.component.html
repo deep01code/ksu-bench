@@ -1,0 +1,193 @@
+<form [formGroup]="projectForm" (ngSubmit)="submitProject(projectForm   .value)">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <mat-select placeholder="Project" [disabled]="disableProjectNameField" formControlName="projectName"
+                                        required>
+                                <mat-option *ngFor="let project of projectsNames" [value]="project">
+                                    {{project}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="projectForm.get('projectName').hasError('required')">
+                                Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Budget
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Budget Details
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" [checked]="!isNewBudget" (change)="toggleChange('budget')">
+                                                <strong>Update Budget</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <app-budget-form #budgetForm (outputBudget)="budgetEvent($event)"></app-budget-form>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="budgets.length">
+                                <div class="col-md-12">
+                                    <mat-table [dataSource]="budgetsDataSource" class="mat-elevation-z8">
+                                        <ng-container matColumnDef="Original">
+                                            <mat-header-cell *matHeaderCellDef>Original</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.original}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Current">
+                                            <mat-header-cell *matHeaderCellDef>Current</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.current}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="start date">
+                                            <mat-header-cell *matHeaderCellDef>start date</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.startDate |date:'MM/dd/yyyy'}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="end date">
+                                            <mat-header-cell *matHeaderCellDef>end date</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.endDate |date:'MM/dd/yyyy'}} </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="budgetColumns"></mat-header-row>
+                                        <mat-row
+                                                (click)="selectBudget(row)"
+                                                [ngClass]="{'highlight': updateBudget == row}"
+                                                *matRowDef="let row; columns: budgetColumns;"></mat-row>
+                                    </mat-table>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Responsibles
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Responsibles Details
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" [checked]="!isNewResponsible" (change)="toggleChange('responsible')">
+                                                <strong>Update Responsible</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                <app-responsible-form #responsibleForm (outputResponsible)="responsibleEvent($event)"></app-responsible-form>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="projectForm.get('projectResponsible').value">
+                                <div class="col-md-12">
+                                    <mat-table [dataSource]="responsiblesDataSource" class="mat-elevation-z8">
+                                        <ng-container matColumnDef="Type">
+                                            <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Name">
+                                            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Email">
+                                            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="phone No">
+                                            <mat-header-cell *matHeaderCellDef>phone No</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.number}} </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="resposiblesColumns"></mat-header-row>
+                                        <mat-row
+                                                (click)="selectResponsible(row)"
+                                                [ngClass]="{'highlight': updateResponsible == row}"
+                                                *matRowDef="let row; columns: resposiblesColumns;"></mat-row>
+                                    </mat-table>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Billing Roles
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    Billing Roles Details
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" [checked]="!isNewResponsible" (change)="toggleChange('billingRole')">
+                                                <strong>Update Role</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                <app-billing-role-form #billingRoleForm (outputRole)="billingRoleEvent($event)"></app-billing-role-form>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="billingRoles.length">
+                                <div class="col-md-12">
+                                    <mat-table [dataSource]="billingRolesDataSource" class="mat-elevation-z8">
+                                        <ng-container matColumnDef="Role Name">
+                                            <mat-header-cell *matHeaderCellDef>Role Name</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.roleName}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Rate">
+                                            <mat-header-cell *matHeaderCellDef>Rate</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.rate}} </mat-cell>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Priority">
+                                            <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.priority}} </mat-cell>
+                                        </ng-container>
+                                        <mat-header-row *matHeaderRowDef="billingRolesColumns"></mat-header-row>
+                                        <mat-row
+                                                (click)="selectRoleCost(row)"
+                                                [ngClass]="{'highlight': updateBillingRole == row}"
+                                                *matRowDef="let row; columns: billingRolesColumns;"></mat-row>
+                                    </mat-table>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div>
+                            <button mat-button type="submit" style="background-color:#7B1FA2;color: white" [disabled]="!projectForm.valid">
+                                submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

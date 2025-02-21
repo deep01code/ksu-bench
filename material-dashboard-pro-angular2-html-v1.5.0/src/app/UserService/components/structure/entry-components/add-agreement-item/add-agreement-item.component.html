@@ -1,0 +1,55 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Agreement</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+<!--
+          &lt;!&ndash; ====> domain &ndash;&gt;
+          <div class="col-sm-3" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select Domain" [(ngModel)]="tempAgreementItem.domain" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedDomain of domains; let i = index" [value]="selectedDomain.value" > {{ selectedDomain.value }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+          &lt;!&ndash; ====> jobName &ndash;&gt;
+          <div class="col-sm-3" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select Job Name" [(ngModel)]="tempAgreementItem.jobName" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedJobName of jobNames; let i = index" [value]="selectedJobName.value" > {{ selectedJobName.value }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+-->
+          <!-- ====> domain# -->
+          <div class="col-sm-3">  <div style="width: 45%">  <mat-form-field> <mat-select [compareWith]="compareObjects" placeholder="Select Domain" [(ngModel)]="tempAgreementItem.domain" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedDomain of domains; let i = index" [value]="selectedDomain" > {{ selectedDomain.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+          <!-- ====> system# -->
+          <div class="col-sm-3" *ngIf="tempAgreementItem.domain" >  <div style="width: 45%"> <mat-form-field> <mat-select [compareWith]="compareObjects" placeholder="Select System" [(ngModel)]="tempAgreementItem.system" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedSystem of tempAgreementItem.domain.domainBasicUnits | myfilter:systemFilter ; let i = index" [value]="selectedSystem" > {{ selectedSystem.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+          <!-- ====> jobName# -->
+          <div class="col-sm-3" *ngIf="tempAgreementItem.domain">  <div style="width: 45%"> <mat-form-field> <mat-select [compareWith]="compareObjects"  placeholder="Select Job Name" [(ngModel)]="tempAgreementItem.jobName" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedJobName of tempAgreementItem.domain.domainBasicUnits | myfilter:jobNameFilter ; let i = index" [value]="selectedJobName" > {{ selectedJobName.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+          <!-- ====> jobLevel# -->
+          <div class="col-sm-3" *ngIf="tempAgreementItem.domain">  <div style="width: 45%"> <mat-form-field> <mat-select  [compareWith]="compareObjects" placeholder="Select Job Level" [(ngModel)]="tempAgreementItem.jobLevel" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedJobLevel of tempAgreementItem.domain.domainBasicUnits | myfilter:jobLevelFilter ; let i = index" [value]="selectedJobLevel" > {{ selectedJobLevel.domainUnitEnglishName }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+
+            <!-- &lt;!&ndash; ====> jobName# &ndash;&gt;
+             <div class="col-sm-3" *ngIf="tempAgreementItem.domain">   <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Select Agreement" [(ngModel)]="tempPO.agreement" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedAgreement of tempPO.vendor.agreements; let i = index" [value]="selectedAgreement" > {{ selectedAgreement.name }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+
+             &lt;!&ndash; ====> JobLevel# &ndash;&gt;
+             <div class="col-sm-3" *ngIf="tempAgreementItem.domain">   <div style="width: 45%"> <mat-form-field> <mat-select placeholder="Select Agreement" [(ngModel)]="tempPO.agreement" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedAgreement of tempPO.vendor.agreements; let i = index" [value]="selectedAgreement" > {{ selectedAgreement.name }} </mat-option> </mat-select> </mat-form-field>  </div> </div>
+   -->
+          <!-- ====> onsite -->
+          <div class="col-sm-3">  <div style="width: 90%">   <mat-form-field> <input matInput type="number" [(ngModel)]="tempAgreementItem.onsiteRate"  [ngModelOptions]="{standalone: true}" placeholder="OnSite Rate" required /></mat-form-field>  </div> </div>
+          <!-- ====> offshore -->
+          <div class="col-sm-3">  <div style="width: 90%">  <mat-form-field> <input type="number" matInput [(ngModel)]="tempAgreementItem.offshoreRate"  [ngModelOptions]="{standalone: true}" placeholder="OffShore Rate" required /></mat-form-field>  </div> </div>
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addAgreementItem()" cdkFocusInitial>
+    Save
+  </button>
+</div>

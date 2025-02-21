@@ -1,0 +1,69 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="row">
+        <div class="pull-left">
+          <input label="stc email" type="text" [(ngModel)]="search">
+          <label class="btn  btn-round" (click)="loadPaginationTables()">Search:</label>
+        </div>
+        <!--<div class="pull-right" style="padding-right: 20px">
+          <button class="btn btn-success btn-round" (click)="addFinancialNumber()">Add FinancialNumber</button>
+        </div>-->
+      </div>
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Value</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Unit Name</th>
+              <th>Unit Number</th>
+              <th>Unit Type</th>
+              <th>Vendor</th>
+              <th>Agreement</th>
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of pos;">
+              <td (click)="editPO(row.id)" style="cursor: pointer"><a>{{row.financialName}}</a></td>
+              <td>{{row.financialNumber}}</td>
+              <td>{{row.value}}</td>
+              <td>{{row.startDate}}</td>
+              <td>{{row.endDate}}</td>
+              <td>{{row.managerialUnit.unitEnglishName}}</td>
+              <td>{{row.managerialUnit.unitNumber}}</td>
+              <td>{{row.managerialUnit.type}}</td>
+              <td>{{row.vendor.name}}</td>
+              <td>{{row.agreement.name}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" >
+          <div  style="padding-top: 50px;padding-left: 40%" id="pagination-container"></div>
+        </div>
+        <div class="pull-right">
+          <label for="pageSize">Page Size:</label>
+          <select id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+            <option [value]="i" *ngFor="let i of pageSizeArray">{{i}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

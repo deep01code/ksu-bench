@@ -1,0 +1,58 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" [checked]="!isNew" (change)="toggleChange()">
+                                                <strong>Update Project</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                        <app-project-form #projectForm (outputProject)="projectEvent($event)"></app-project-form>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="projects.length">
+                            <div class="col-md-12">
+                                <mat-table [dataSource]="projectsDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="Name">
+                                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Current Budget">
+                                        <mat-header-cell *matHeaderCellDef>Current Budget</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{getCurrentBudget(element.budgets)}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Director">
+                                        <mat-header-cell *matHeaderCellDef>Director</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{getResponsible(element.responsible,'Director')}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Admin">
+                                        <mat-header-cell *matHeaderCellDef>Admin</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{getResponsible(element.responsible,'Admin')}} </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="projectsColumns"></mat-header-row>
+                                    <mat-row (click)="selectProject(row)"
+                                             [ngClass]="{'highlight': updateProject.id == row.id}"
+                                             *matRowDef="let row; columns: projectsColumns;"></mat-row>
+                                </mat-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

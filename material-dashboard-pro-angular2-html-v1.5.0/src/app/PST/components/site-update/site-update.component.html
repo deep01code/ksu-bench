@@ -1,0 +1,69 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+
+
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+
+
+
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+
+        <div class="row">
+          <div class="col-xs-4 col-xs-offset-1">
+            <div class="form-group">
+              <button class="btn" (click)="downloadSiteUploadTemplate()">Download upload template</button>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="form-group">
+              <label class="btn" style="color: white"  for="file">Choose File for bulk upload</label>
+              <input  type="file" label="bulk upload" id="file"  (change)="handleFileInput($event.target.files)"  >
+            </div>
+          </div>
+        </div>
+        <!--
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card-content">
+                      <h4 class="card-title">List of Employees</h4>
+                      <ngx-table [configuration]="configuration" [data]="employees"
+                                 [columns]="columns">
+                        <ng-template let-row>
+                          <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                          <td>{{row.vendor.name}}</td>
+                          <td>{{row.employeeNumber}}</td>
+                          <td>{{row.startDate}}</td>
+                          <td>{{row.generalDepartment.gdEnName}}</td>
+                          <td>{{row.department.departmentEnglishName}}</td>
+                          <td>{{row.section.sectionEnglishName}}</td>
+                          <td>{{row.nationality}}</td>
+                          <td>{{row.stcEmail}}</td>
+                          <td>{{row.gender}}</td>
+                          <td>{{row.level}}</td>
+                          <td>{{row.project.projectName}}</td>
+                          <td>{{row.project.projectNumber}}</td>
+                          <td>{{row.project.projectType=='Projection'?"Yes":"No"}}</td>
+                          <td>{{row.workingType}}</td>
+                          <td>{{row.jobName}}</td>
+                          <td>{{row.building}}</td>
+                          <td>{{row.floor}}</td>
+                        </ng-template>
+                      </ngx-table>
+                    </div>
+                  </div>
+                </div>
+        -->
+        <!--
+                  <mat-select  (change)="reload" placeholder="Page Size"  type="text"  > <mat-option *ngFor="let tempSelectedPageSize of pageSizeArray; let i = index" [value]="tempSelectedPageSize" [(ngModel)]="selectedPageSize" > {{ tempSelectedPageSize }} </mat-option> </mat-select>  </div>
+        -->
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

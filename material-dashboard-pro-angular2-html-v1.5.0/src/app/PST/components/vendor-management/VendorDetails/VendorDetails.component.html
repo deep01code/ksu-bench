@@ -1,0 +1,130 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <h5 class="card-title"><strong>Vendor Details</strong></h5>
+
+          <div class="card-content card-body" *ngIf="vendor">
+            <div class="row">
+              <!-- ====>  name# -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="vendor.name"  [ngModelOptions]="{standalone: true}" placeholder="Vendor Name" required /></mat-form-field>    </div> </div>
+              <!-- ====>  number# -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="vendor.number"  [ngModelOptions]="{standalone: true}" placeholder="Vendor Number" required /></mat-form-field>    </div> </div>
+              <!-- ====> commercialRegistrationr# -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="vendor.commercialRegistration"  [ngModelOptions]="{standalone: true}" placeholder="Commercial Registration" required /></mat-form-field>    </div> </div>
+              <!-- ====> vatNumber# -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="vendor.vatNumber"  [ngModelOptions]="{standalone: true}" placeholder="VAT Number" required /></mat-form-field>    </div> </div>
+              <!-- ====> website# -->
+              <div class="col-sm-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="vendor.website"  [ngModelOptions]="{standalone: true}" placeholder="Website" required /></mat-form-field>    </div> </div>
+              <!-- ====> end date -->
+              <div class="col-sm-4"> <div style="width: 90%"> <mat-form-field> <input matInput [(ngModel)]="vendor.endDate"  [ngModelOptions]="{standalone: true}" placeholder="end Date" required [matDatepicker]="endDate"  disabled> <mat-datepicker-toggle matSuffix [for]="endDate" ></mat-datepicker-toggle> <mat-datepicker #endDate disabled="false"></mat-datepicker></mat-form-field> </div> </div>
+
+              <div class="col-sm-4">
+                <button  mat-button   (click)="upsertVendor()" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                  <label style="color: white" > Save</label>
+                  <i class="material-icons">add</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <hr/>
+
+        <div class="card">
+          <div class="card-content">
+            <div class="row">
+
+              <div class="tab">
+                <button class="tablinks" (click)="openTapClick($event, 'agreements')">Agreements</button>
+                <button class="tablinks" (click)="openTapClick($event, 'contacts')">Contacts</button>
+              </div>
+
+              <!-- Tab content Financial Numbers Start -->
+              <div id="agreements" class="tabcontent">
+                <h3>Agreements</h3>
+
+                <button  mat-button   (click)="openAddAgreementDialog(vendor)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                  <label style="color: white" > Add Agreement</label>
+                  <i class="material-icons">add</i>
+                </button>
+
+                <!--Start Pagination table-->
+                <div class="row" >
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+
+                      </tr>
+                      </thead>
+                      <tbody >
+                      <tr  *ngFor="let row of vendor.agreements;">
+
+                        <td (click)="editAgreement(row.id)" style="cursor: pointer"><a>{{row.name}}</a></td>
+                        <td>{{row.agreementType}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!--Start End table-->
+
+              </div>
+              <!-- Tab content Financial Numbers End -->
+
+              <!-- Tab content Financial Numbers Start -->
+              <div id="contacts" class="tabcontent">
+                <h3>Contacts</h3>
+
+                <button  mat-button   (click)="openContactDialog(vendor,null)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                  <label style="color: white" > Add Contact</label>
+                  <i class="material-icons">add</i>
+                </button>
+
+                <!--Start Pagination table-->
+                <div class="row" >
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Job Title</th>
+                        <th>Mobile Number</th>
+
+                      </tr>
+                      </thead>
+                      <tbody >
+                      <tr  *ngFor="let row of vendor.contacts;">
+
+                        <td (click)="openContactDialog(vendor,row)" style="cursor: pointer"><a>{{row.name}}</a></td>
+                        <td>{{row.emailAddress}}</td>
+                        <td>{{row.jobTitle}}</td>
+                        <td>{{row.mobileNumber}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!--Start End table-->
+
+              </div>
+              <!-- Tab content Financial Numbers End -->
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>

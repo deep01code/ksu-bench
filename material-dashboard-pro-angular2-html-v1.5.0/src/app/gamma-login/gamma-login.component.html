@@ -1,0 +1,42 @@
+<!--<div class="conainer">
+
+    <div class="row">
+        <p  >User Name: <input type="text" [(ngModel)]="username"></p>
+        <p>Password: <input type="password" [(ngModel)]="password"></p>
+        <button (click)="login()">Submit</button>
+    </div>
+
+</div>-->
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div style="padding-top: 10%" class="col-md-4 col-md-offset-4">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">person</i>
+                    </div>
+                    <div class="card-content">
+                        <h2 class="col-md-offset-5" >Login</h2>
+                        <br/>
+                        <br/>
+
+                        <form ngForm method="#" action="#">
+                            <div class="form-group label-floating">
+                                <label class="control-label">Username</label>
+                                <input type="text" class="form-control" [(ngModel)]="username" name="username">
+                            </div>
+                            <div class="form-group label-floating">
+                                <label class="control-label">Password</label>
+                                <input type="password" class="form-control"  [(ngModel)]="password" name="password">
+                            </div>
+                            <br/>
+                            <br/>
+                            <button  style="margin-left: 25%; padding-right: 20%;padding-left: 20% ;background-color:#0084bd" type="submit" (click)="login()" class="btn btn-fill ">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

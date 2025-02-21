@@ -1,0 +1,29 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <app-form2 (onSubmit)="formSubmited($event)"></app-form2>
+        <div *ngIf="columns.length>1" class="card">
+            <div class="card-content">
+                <div class="togglebutton">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="calcCost" checked (change)="prepareDataTable()">
+                        <strong>Calculate Cost</strong>
+                    </label>
+                </div>
+                <div class="togglebutton">
+                <label>
+                        <input type="checkbox" [(ngModel)]="roleSummary" checked (change)="prepareDataTable()">
+                        <strong>Billing Role Summary</strong>
+                    </label>
+                </div>
+                <button class="pull-right" (click)="getCsv()">Export to Excel</button>
+                <ngx-table [configuration]="configuration"
+                           [data]="data"
+                           [columns]="columns"
+                           (event)="eventEmitted($event)">
+                </ngx-table>
+
+            </div>
+        </div>
+    </div>
+</div>

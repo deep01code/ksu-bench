@@ -1,0 +1,17 @@
+<style type="text/css">
+    /deep/ .mat-select-panel mat-option.mat-option {
+        height: unset;
+    }
+
+    /deep/ .mat-option-text.mat-option-text {
+        white-space: normal;
+    }
+
+    .mat-form-field {
+        width:100%;
+    }
+
+</style>
+<div  [ngClass]="{'sidebar-mini':!auth.isAuthenticated()}">
+<router-outlet></router-outlet>
+</div>

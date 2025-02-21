@@ -1,0 +1,56 @@
+pipeline {
+  agent any
+	
+  triggers {
+    pollSCM('* * * * *')
+  }
+	
+  stages {
+    
+    
+    
+    stage("Fetch ") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/micro-pipeline/auth-service && pwd && ls && /usr/bin/git fetch --all '"
+
+      }
+    }
+    
+    
+    
+     stage("Reset ") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/micro-pipeline/auth-service && pwd && ls && /usr/bin/git reset --hard origin/master  '"
+    
+      }
+    }
+    
+
+	stage("Build ") {
+      steps {
+    		sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/micro-pipeline  && pwd && ls &&  /usr/bin/chmod -R 777 auth-service '"
+        	sh "sshpass -p 'yassiry@123' ssh  -o StrictHostKeyChecking=no  yassiry@172.20.214.180 'cd /home/yassiry/DevOps/micro-pipeline/auth-service && pwd && ls && /usr/bin/gradle build '"
+
+      }
+    }
+
+    stage("Build Docker Image") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/micro-pipeline/auth-service && pwd && ls &&  /usr/bin/docker build -t authservice .'"
+        }
+    }
+
+
+
+    stage("Deploy") {
+      steps {
+    	sh "sshpass -p 'bsstroot' ssh  -o StrictHostKeyChecking=no  root@172.20.214.180 'cd /home/yassiry/DevOps/compose-files/microservices/auth-service && pwd && ls && /usr/local/bin/docker-compose up -d'"
+      }
+    }
+
+	  
+  
+
+
+  }
+}

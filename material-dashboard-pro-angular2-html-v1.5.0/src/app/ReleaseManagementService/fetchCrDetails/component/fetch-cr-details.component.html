@@ -1,0 +1,121 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">assignment</i>
+            </div>
+            <app-loading *ngIf="isLoading"></app-loading>
+
+
+                <div class="card-content">
+                    <div class="card-title">
+                        Fetch CR details
+                    </div>
+                    <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <form style="padding-left: 5px" #form="ngForm" ngForm="form" (ngSubmit)="submit()">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Issue#" ngModel name="issueId">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-sm btn-primary" type="submit">Fetch</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div *ngIf="dataSource.data.length">
+                                <hr/>
+                                <div class="example-container mat-elevation-z8">
+                                    <div style="padding-left: 5px" class="example-header">
+                                        <mat-form-field>
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+
+                                    <mat-table cdkScrollable #table [dataSource]="dataSource">
+                                        <ng-container matColumnDef="BU">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> BU# </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.BU}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="CR">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> CR# </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.CR}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="SYS">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> SYS# </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.SYS}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container data-width="30%" matColumnDef="Summary">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Summary </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.Summary}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Rel">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Rel </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.Rel}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Issue">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Issue Type </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.Issue}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="Status">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Status </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.Status}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="ApprovedDate">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Approved Date </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.ApprovedDate}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="DesignEfforts">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Design Efforts </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.DesignEfforts}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="DevEfforts">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Dev Efforts </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.DevEfforts}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="TestEfforts">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Test Efforts </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.TestEfforts}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="DeliveryEstimates">
+                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Delivery Estimates </mat-header-cell>
+                                            <mat-cell *matCellDef="let element"> {{element.DeliveryEstimates}} </mat-cell>
+                                        </ng-container>
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                                    </mat-table>
+                                    <mat-paginator #paginator
+                                                   [pageSize]="5"
+                                                   [pageSizeOptions]="[5, 10, 20]"
+                                    >
+                                    </mat-paginator>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

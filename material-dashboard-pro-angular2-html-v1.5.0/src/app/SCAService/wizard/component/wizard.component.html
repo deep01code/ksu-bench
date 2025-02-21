@@ -1,0 +1,103 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <mat-horizontal-stepper disabled="true" linear #stepper>
+                <mat-step [completed]="firstStepCompleted" optional="false">
+                    <ng-template matStepLabel>Catalogue</ng-template>
+                    <div class="form-group label-floating">
+                        <label></label>
+                        <mat-form-field style="width: 90%; margin-left: 5%">
+                            <mat-select #list required placeholder="offer catalogue" [(ngModel)]="offerType">
+                                <mat-input-container style="width: 100%; padding-left: 5px;">
+                                    <input #filter value="" matInput type="search" placeholder="search">
+                                </mat-input-container>
+                                <div class="mat-option" *ngFor="let sc of SClist; let i = index">
+                                    <mat-option *ngIf="!sc.children"
+                                            (click)="goNext(stepper)"
+                                                [value]="sc.value"
+                                                [hidden]="sc.isHidden || !sc.value.toUpperCase().includes(filter.value.toUpperCase())"
+                                                [routerLink]="sc.link">
+                                        {{ sc.value }}
+                                    </mat-option>
+                                </div>
+
+                                <!--                                <mat-option (click)="goNext(stepper)" value="Add new branch" routerLink="gam259">
+                                                                    Add new branch
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)" value="App update" routerLink="gam266">
+                                                                    App update
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)" value="Update branch" routerLink="gam258">
+                                                                    Update branch
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)"  value="Stop Vouchers"  routerLink="gamvouchers">
+                                                                    Stop Vouchers
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)"  value="Prepaid Vouchers"  routerLink="gamPrepaidVouchers">
+                                                                    Prepaid Vouchers
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)"  value="Update Postpaid packages"  routerLink="postpaid">
+                                                                    Update Postpaid Packages
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)"  value="USSD Update"  routerLink="gam267">
+                                                                    USSD Update
+                                                                </mat-option>
+                                                                <mat-option (click)="goNext(stepper)"  value="Update Operator Rates"  routerLink="gam304">
+                                                                    Update Operator Rates
+                                                                </mat-option>-->
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </mat-step>
+                <mat-step [completed]="SCDetails.isCompleted" optional="false">
+
+                    <ng-template matStepLabel>{{offerType}}</ng-template>
+
+                    <router-outlet></router-outlet>
+                    <div>
+                        <button mat-button style="background-color:#ec407a;color: white" matStepperPrevious>Back
+                        </button>
+                        <button mat-button style="background-color:#ec407a;color: white" (click)="goNext(stepper)">
+                            Next
+                        </button>
+                    </div>
+
+                </mat-step>
+                <mat-step [completed]="modifiedScenarioAreaList.length > 0" optional="false">
+
+                    <ng-template matStepLabel>Scenarios</ng-template>
+
+                    <app-gam220></app-gam220>
+
+                    <div>
+                        <button mat-button style="background-color:#ec407a;color: white" matStepperPrevious>Back
+                        </button>
+                        <button mat-button style="background-color:#ec407a;color: white" (click)="goNext(stepper)">
+                            Next
+                        </button>
+
+                    </div>
+
+                </mat-step>
+                <mat-step optional="false">
+
+                    <ng-template matStepLabel>Details</ng-template>
+
+                    <app-gam205></app-gam205>
+
+                    <div>
+                        <button mat-button style="background-color:#ec407a;color: white" matStepperPrevious>Back
+                        </button>
+                        <button mat-button style="background-color:#ec407a;color: white" (click)="getScBasicInfo()">
+                            Submit
+                        </button>
+                    </div>
+
+                </mat-step>
+
+
+            </mat-horizontal-stepper>
+        </div>
+    </div>
+</div>

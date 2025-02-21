@@ -1,0 +1,348 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Add/Update offer Details</h4>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <form #addOffer="ngForm" ngForm (ngSubmit)="addNewOffer(addOffer)">
+                                            <fieldset style="width: 100%">
+                                                <legend style="margin-left: 10px">New Offer</legend>
+                                                <div class="row">
+                                                    <div class="container-fluid">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group label-floating">
+                                                            <label  for="EnglishName" class="control-label">English Name</label>
+                                                            <input required
+                                                                   ngModel
+                                                                   id="EnglishName"
+                                                                   name="EnglishName"
+                                                                   matInput class="form-control"
+                                                                   >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group label-floating">
+                                                            <label  for="ArabicName" class="control-label">Arabic Name</label>
+                                                            <input required
+                                                                   ngModel
+                                                                   id="ArabicName"
+                                                                   name="ArabicName"
+                                                                   matInput class="form-control"
+                                                                   >
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <button [disabled]="addOffer.invalid"
+                                                                    class="btn btn-primary" type="submit">Add New Offer
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <fieldset style="width: 100%">
+                                            <legend style="margin-left: 10px;">Select Offer</legend>
+                                            <div class="card-content">
+                                                <div>
+                                                    <div class="container-fluid">
+                                                        <ngx-table style="width:100%;" [configuration]="configuration"
+                                                                   [data]="listOfOffers"
+                                                                   (event)="eventEmitted($event)" [columns]="columns">
+                                                            <ng-template let-row>
+                                                                <td>{{+row.ID}}</td>
+                                                                <td>{{row.ENGLISHNAME}}</td>
+                                                                <td>{{row.ARABICNAME}}</td>
+                                                                <td width="10px">
+                                                                    <button
+                                                                            [disabled]="containsByENGLISHNAME(row,editList)"
+                                                                            class="btn btn-round btn-fab btn-fab-mini "
+                                                                            (click)="addToEdit(row)"
+                                                                            ngClass="{{containsByENGLISHNAME(row,editList)?'inactive':'btn-success'}}">
+                                                                        <i class="material-icons">add</i>
+                                                                    </button>
+                                                                </td>
+                                                            </ng-template>
+                                                        </ngx-table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="editList.length" class="row">
+                                    <hr>
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                            <tr>
+                                                <!--<th>ID</th>-->
+                                                <th>English Name</th>
+                                                <th>Arabic Name</th>
+                                                <th width="10px"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let item of editList; let i = index" (click)="trClicked(i)"
+                                                [class.active]="i == selectedRow">
+                                                <!--<td width="10%"> {{item.ID}} </td>-->
+                                                <td width="50%"> {{item.ENGLISHNAME}}</td>
+                                                <td width="50%"> {{item.ARABICNAME}}</td>
+                                                <td style="padding: 2px; margin: 2px; width: 10%">
+                                                    <button tool (click)="removeFromEdit(item,i)"
+                                                            class="btn btn-danger btn-round btn-fab btn-fab-mini">
+                                                        <i matTooltip="Remove" class="material-icons small">clear</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-7" *ngIf="editList.length>0">
+                                <div class="card">
+                                    <div class="card-header card-header-icon" data-background-color="rose">
+                                        <div>Offer Details</div>
+                                    </div>
+                                    <div [hidden]="i!==selectedRow"
+                                         *ngFor="let item of editList; let i = index">
+                                        <h4 class="card-title"></h4>
+                                        <div class="card-content">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group label-floating">
+                                                                <label  for="editedEnglishName" class="control-label">English Name</label>
+                                                                <input
+                                                                       [(ngModel)]="editList[i].NEWENGLISHNAME"
+                                                                       id="editedEnglishName"
+                                                                       name="EnglishName"
+                                                                       matInput class="form-control"
+                                                                       (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group label-floating">
+                                                                <label  for="editedArabicName" class="control-label">Arabic Name</label>
+                                                                <input
+                                                                       [(ngModel)]="editList[i].NEWARABICNAME"
+                                                                       id="editedArabicName"
+                                                                       name="ArabicName"
+                                                                       matInput class="form-control"
+                                                                       (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group label-floating">
+                                                            <label  for="EnglishDescription" class="control-label">English Description*</label>
+                                                            <input required
+                                                                   [(ngModel)]="editList[i].ENGLISHDESCRIPTION"
+                                                                   id="EnglishDescription"
+                                                                   name="EnglishDescription"
+                                                                   matInput class="form-control"
+                                                                   (focusout)="fieldChanged(item)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group label-floating">
+                                                            <label  for="ArabicDescription" class="control-label">Arabic Description*</label>
+                                                            <input required
+                                                                   [(ngModel)]="editList[i].ARABICDESCRIPTION"
+                                                                   id="ArabicDescription"
+                                                                   name="ArabicDescription"
+                                                                   matInput class="form-control"
+                                                                   (focusout)="fieldChanged(item)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group label-floating">
+                                                                <label  for="compatibleProducts" class="control-label">Compatible Products</label>
+                                                                <input
+                                                                        [(ngModel)]="editList[i].COMPATIBLEPRODUCTS"
+                                                                        id="compatibleProducts"
+                                                                        name="compatibleProducts"
+                                                                        matInput class="form-control"
+                                                                        (focusout)="fieldChanged(item)">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12" *ngIf="editList[i].ID;else serviceId">
+                                                            <div class="form-group label-floating">
+                                                                <label  for="updateInPackage" class="control-label">Update in Package</label>
+                                                                <input
+                                                                        required
+                                                                        [(ngModel)]="editList[i].UPDATEINPACKAGE"
+                                                                        id="updateInPackage"
+                                                                        name="updateInPackage"
+                                                                        matInput class="form-control"
+                                                                        (focusout)="fieldChanged(item)">
+                                                            </div>
+                                                        </div>
+                                                        <ng-template #serviceId>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group label-floating">
+                                                                    <label  for="serviceID" class="control-label">Service ID</label>
+                                                                    <input
+                                                                           [(ngModel)]="editList[i].SERVICEID"
+                                                                           id="serviceID"
+                                                                           name="serviceID"
+                                                                           matInput class="form-control"
+                                                                           (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group label-floating">
+                                                                    <label  for="DataPackage" class="control-label">Data Package(Quota)</label>
+                                                                    <input
+                                                                           [(ngModel)]="editList[i].DATAPACKAGE"
+                                                                           id="DataPackage"
+                                                                           name="DataPackage"
+                                                                           matInput class="form-control"
+                                                                           (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group label-floating">
+                                                                    <label  for="wifiPackage" class="control-label">Wi-Fi Package(Quota)</label>
+                                                                    <input
+                                                                           [(ngModel)]="editList[i].WIFIPACKAGE"
+                                                                           id="wifiPackage"
+                                                                           name="wifiPackage"
+                                                                           matInput class="form-control"
+                                                                           (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <div class="form-group label-floating">
+                                                                <label  for="MonthlyPrice" class="control-label">Monthly Price</label>
+                                                                <input
+                                                                       [(ngModel)]="editList[i].MONTHLYPRICE"
+                                                                       id="MonthlyPrice"
+                                                                       name="MonthlyPrice"
+                                                                       matInput class="form-control"
+                                                                       (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group label-floating">
+                                                                <label  for="freeSMS" class="control-label">Free SMS</label>
+                                                                <input
+                                                                       [(ngModel)]="editList[i].FREESMS"
+                                                                       id="freeSMS"
+                                                                       name="FreeSMS"
+                                                                       matInput class="form-control"
+                                                                       (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group label-floating">
+                                                                <label  for="freeMinutes" class="control-label">Free Minutes</label>
+                                                                <input
+                                                                       [(ngModel)]="editList[i].FREEMINUTES"
+                                                                       id="freeMinutes"
+                                                                       name="FreeMinutes"
+                                                                       matInput class="form-control"
+                                                                       (focusout)="fieldChanged(item)">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <mat-input-container>
+                                                                    <input matInput required
+                                                                           [(ngModel)]="editList[i].OFFERSTARTTIME"
+                                                                           [matDatepicker]="startDate"
+                                                                           placeholder="Offer Start Date"
+                                                                           (change)="fieldChanged(item)">
+                                                                    <mat-datepicker-toggle matSuffix [for]="startDate"
+                                                                                           (focusout)="fieldChanged(item)">
+                                                                    </mat-datepicker-toggle>
+                                                                </mat-input-container>
+                                                                <mat-datepicker
+                                                                        (change)="fieldChanged(item)"
+                                                                        #startDate
+                                                                        [touchUi]="touch"
+                                                                        [startView]="'month'">
+                                                                </mat-datepicker>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <mat-input-container>
+                                                                    <input matInput required
+                                                                           [(ngModel)]="editList[i].OFFERENDTIME" [matDatepicker]="endDate"
+                                                                           placeholder="Offer End Date"
+                                                                           (change)="fieldChanged(item)">
+                                                                    <mat-datepicker-toggle matSuffix [for]="endDate"
+                                                                                           (focusout)="fieldChanged(item)">
+                                                                    </mat-datepicker-toggle>
+                                                                </mat-input-container>
+                                                                <mat-datepicker
+                                                                        #endDate
+                                                                        [touchUi]="touch"
+                                                                        [startView]="'month'">
+                                                                </mat-datepicker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="container">
+                                                    <h6 *ngIf="differenceBetweenArrays(editList,modifiedList).length>0">
+                                                        Please update at least one field or fill all required fields for new offer(s)
+                                                    </h6>
+                                                    <p *ngFor="let item of differenceBetweenArrays(editList,modifiedList)">
+                                                        {{item.ENGLISHNAME}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

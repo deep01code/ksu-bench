@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.10.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+
+}
+group = 'com.mustajal'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+repositories {
+	mavenCentral()
+
+}
+ext {
+	set('springCloudVersion', "Greenwich.SR3")
+	mapstructVersion = "1.4.0.Final"
+	lombokVersion = "1.18.12"
+}
+
+
+dependencies {
+	annotationProcessor "org.projectlombok:lombok:1.18.22"
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	compile files('libs/ojdbc7.jar')
+	implementation 'org.postgresql:postgresql'
+	//runtimeOnly 'com.h2database:h2'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+/*
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+*/

@@ -1,0 +1,108 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="row">
+        <div class="col-xs-3 col-xs-offset-4">
+          <div class="form-group">
+            <button class="btn" (click)="downloadEmployeeUploadTemplate()">Download upload template</button>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="form-group">
+            <label class="btn" style="color: white"  for="file">Choose File for bulk upload</label>
+            <input  type="file" label="bulk upload" id="file"  (change)="handleFileInput($event.target.files)"  >
+          </div>
+        </div>
+      </div>
+
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+
+
+      <div class="row">
+        <div class="pull-left">
+          <input label="stc email" type="text" [(ngModel)]="search">
+          <label class="btn  btn-round" (click)="reload()">Search By Email</label>
+        </div>
+        <div class="pull-right" style="padding-right: 20px">
+          <button class="btn btn-success btn-round" (click)="addEmployee()">Add Employee</button>
+        </div>
+      </div>
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+<!--
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card-content">
+              <h4 class="card-title">List of Employees</h4>
+              <ngx-table [configuration]="configuration" [data]="employees"
+                         [columns]="columns">
+                <ng-template let-row>
+                  <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+                  <td>{{row.vendor.name}}</td>
+                  <td>{{row.employeeNumber}}</td>
+                  <td>{{row.startDate}}</td>
+                  <td>{{row.generalDepartment.gdEnName}}</td>
+                  <td>{{row.department.departmentEnglishName}}</td>
+                  <td>{{row.section.sectionEnglishName}}</td>
+                  <td>{{row.nationality}}</td>
+                  <td>{{row.stcEmail}}</td>
+                  <td>{{row.gender}}</td>
+                  <td>{{row.level}}</td>
+                  <td>{{row.project.projectName}}</td>
+                  <td>{{row.project.projectNumber}}</td>
+                  <td>{{row.project.projectType=='Projection'?"Yes":"No"}}</td>
+                  <td>{{row.workingType}}</td>
+                  <td>{{row.jobName}}</td>
+                  <td>{{row.building}}</td>
+                  <td>{{row.floor}}</td>
+                </ng-template>
+              </ngx-table>
+            </div>
+          </div>
+        </div>
+-->
+<!--
+          <mat-select  (change)="reload" placeholder="Page Size"  type="text"  > <mat-option *ngFor="let tempSelectedPageSize of pageSizeArray; let i = index" [value]="tempSelectedPageSize" [(ngModel)]="selectedPageSize" > {{ tempSelectedPageSize }} </mat-option> </mat-select>  </div>
+-->
+
+        <div class="table-responsive">
+           <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Unit</th>
+              <th>PO</th>
+              <th>Domain</th>
+              <th>Email</th>
+              <th>Working Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of employees;">
+              <td (click)="editEmployee(row.id)" style="cursor: pointer"><a>{{row.employeeEnglishName}}</a></td>
+              <td>{{(row.employeeManagerialUnit)?row.employeeManagerialUnit.unitEnglishName:'---'}}</td>
+              <td>{{(row.employeeFinancialUnit)?row.employeeFinancialUnit.financialName:'---'}}</td>
+              <td>{{(row.jobName)?row.jobName.domainUnitEnglishName:'---'}}</td>
+              <td>{{row.stcEmail}}</td>
+              <td>{{row.workingType}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" >
+          <div  style="padding-top: 50px;padding-left: 40%" id="pagination-container"></div>
+        </div>
+        <div class="pull-right">
+          <label for="pageSize">Page Size:</label>
+          <select id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="reload()" name="sel2">
+            <option [value]="i" *ngFor="let i of pageSizeArray">{{i}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

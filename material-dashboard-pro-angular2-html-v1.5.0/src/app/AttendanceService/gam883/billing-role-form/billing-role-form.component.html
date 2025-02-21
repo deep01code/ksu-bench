@@ -1,0 +1,46 @@
+<form [formGroup]="billingRoleForm" (ngSubmit)="submitBillingRole(billingRoleForm.value)">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputRole.roleName" placeholder="Role Name" formControlName="roleName"
+                                   required>
+                            <mat-error
+                                    *ngIf="billingRoleForm.get('roleName').invalid && billingRoleForm.get('roleName').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputRole.rate" type="number" placeholder="Rate" formControlName="rate"
+                                   required>
+                            <mat-error
+                                    *ngIf="billingRoleForm.get('rate').invalid && billingRoleForm.get('rate').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="inputRole.priority" placeholder="Priority" formControlName="priority"
+                                   required>
+                            <mat-error
+                                    *ngIf="billingRoleForm.get('priority').invalid && billingRoleForm.get('priority').hasError('required')">
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <button mat-button type="submit" style="background-color:#7B1FA2;color: white" [disabled]="!billingRoleForm.valid">
+                            submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

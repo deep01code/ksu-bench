@@ -1,0 +1,5 @@
+this is used to get token
+URL: http://localhost:443/oauth/token?grant_type=password&scope=webclient&username=admin&password=admin
+
+this is to get user info
+URL: http://localhost:443/user

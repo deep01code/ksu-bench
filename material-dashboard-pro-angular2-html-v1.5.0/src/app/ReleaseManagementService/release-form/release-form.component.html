@@ -1,0 +1,216 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-text">
+                        <h3>release form</h3>
+                    </div>
+                    <div class="card-content">
+                        <br>
+                        <br>
+                        <form [formGroup]="releaseForm" (ngSubmit)="addRelease(releaseForm.value)">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="togglebutton">
+                                                <label>
+                                                    <input type="checkbox" [checked]="!isNew" (change)="toggleChange()"> update
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Release No."
+                                                           [formControl]="releaseForm.get('releaseNumber')"
+                                                           [errorStateMatcher]="matcher"
+                                                           (blur)="calculateFields()">
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('releaseNumber').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mat-form-field>
+                                                    <input readonly matInput [(ngModel)]="hldApproval" [matDatepicker]="hldDate"
+                                                           placeholder="HLD Approval Date"
+                                                           [formControl]="releaseForm.get('hldApprovalDate')"
+                                                           [errorStateMatcher]="matcher"
+                                                            (dateChange)="calculateFields()">
+                                                    <mat-datepicker-toggle matSuffix
+                                                                           [for]="hldDate"></mat-datepicker-toggle>
+                                                    <mat-datepicker touchUi #hldDate ></mat-datepicker>
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('releaseNumber').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mat-form-field>
+                                                    <input type="number" matInput placeholder="Dev Weeks"
+                                                           [formControl]="releaseForm.get('developmentWeeks')"
+                                                           [errorStateMatcher]="matcher"
+                                                           (blur)="calculateFields()">
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('developmentWeeks').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mat-form-field>
+                                                    <input type="number" matInput placeholder="Test Weeks"
+                                                           [formControl]="releaseForm.get('testWeeks')"
+                                                           [errorStateMatcher]="matcher"
+                                                           (blur)="calculateFields()">
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('testWeeks').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Dev Start Date"
+                                                           [formControl]="releaseForm.get('developmentStartDate')"
+                                                           [errorStateMatcher]="matcher"
+                                                           [(ngModel)]="devStartDate"
+                                                    >
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('developmentStartDate').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Dev End Date"
+                                                           [formControl]="releaseForm.get('developmentEndDate')"
+                                                           [errorStateMatcher]="matcher"
+                                                           [(ngModel)]="devEndDate"
+                                                    >
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('developmentEndDate').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="External System Readiness"
+                                                           [formControl]="releaseForm.get('externalSystemReadinessDate')"
+                                                           [errorStateMatcher]="matcher"
+                                                           [(ngModel)]="externalReadiness"
+                                                    >
+                                                    <mat-error
+                                                            *ngIf="releaseForm.get('externalSystemReadinessDate').hasError('required')">
+                                                        <strong>required</strong>
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="Testing Start Date"
+                                                                   [formControl]="releaseForm.get('testingStartDate')"
+                                                                   [errorStateMatcher]="matcher"
+                                                                   [(ngModel)]="testingStartDate"
+                                                            >
+                                                            <mat-error
+                                                                    *ngIf="releaseForm.get('testingStartDate').hasError('required')">
+                                                                <strong>required</strong>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="Testing Start Date"
+                                                                   [formControl]="releaseForm.get('testingEndDate')"
+                                                                   [errorStateMatcher]="matcher"
+                                                                   [(ngModel)]="testingEndDate"
+                                                            >
+                                                            <mat-error
+                                                                    *ngIf="releaseForm.get('testingEndDate').hasError('required')">
+                                                                <strong>required</strong>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="Production Deployment Date"
+                                                                   [formControl]="releaseForm.get('productionDeploymentDate')"
+                                                                   [errorStateMatcher]="matcher"
+                                                                   [(ngModel)]="productionDate"
+                                                            >
+                                                            <mat-error
+                                                                    *ngIf="releaseForm.get('productionDeploymentDate').hasError('required')">
+                                                                <strong>required</strong>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <button mat-button style="background-color:#7B1FA2;color: white" (click)="addRelease(releaseForm.value)" [disabled]="!releaseForm.valid || !checkOtherRequiredFieldsAreValid()">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <br>
+                        <br>
+                        <br>
+                        <div class="row" *ngIf="releases.length">
+                            <div class="col-md-12">
+                                <mat-table [dataSource]="releasesDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="Release No.">
+                                        <mat-header-cell *matHeaderCellDef> Release No.</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.releaseNumber}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="HLD Approval Date">
+                                        <mat-header-cell *matHeaderCellDef> HLD Approval Date</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.hldApprovalDate}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Dev Weeks">
+                                        <mat-header-cell *matHeaderCellDef> Dev Weeks</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.developmentWeeks}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Test Weeks">
+                                        <mat-header-cell *matHeaderCellDef>Test Weeks</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.testWeeks}}</mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="releasesColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row;  columns: releasesColumns;"
+                                             (click)="fillFormToUpdate(row)"
+                                             [ngClass]="{'highlight': selectedRowReleaseNumber == row.releaseNumber}"></mat-row>
+                                </mat-table>
+                            </div>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" ></mat-paginator>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content card-body">
+            <app-loading *ngIf="isLoading"></app-loading>
+
+            <h5 class="card-title"><strong>Reports</strong></h5>
+
+              <label>Select Search Filters</label>
+              <div class="card-content card-body">
+                <div class="row">
+
+                <!-- ====> managerialUnitList -->
+                <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Managerial Unit" [(ngModel)]="managerialUnitList" name="managerialUnitList" id="managerialUnitList" type="text" required multiple> <mat-option *ngFor="let unit of reportFilterDataDTO.managerialUnitList; let i = index" [value]="unit" > {{ unit.unitEnglishName }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleManagerialUnit"  (change)="toggleManagerialUnitFunction(toggleManagerialUnit)" >
+                </div>
+
+                <!-- ====> vendorList -->
+               <!-- <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Vendors" [(ngModel)]="vendorList" name="vendorList" id="vendorList" type="text" required multiple> <mat-option *ngFor="let vendor of reportFilterDataDTO.vendorList; let i = index" [value]="vendor" > {{ vendor.name }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleVendor"  (change)="toggleVendorFunction(toggleVendor)" >
+                </div>-->
+
+                <!-- ====> genderList -->
+                <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Gender" [(ngModel)]="genderList" name="genderList" id="genderList" type="text" required multiple> <mat-option *ngFor="let gender of reportFilterDataDTO.genderList; let i = index" [value]="gender" > {{ gender }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleGender"  (change)="toggleGenderFunction(toggleGender)" >
+                </div>
+
+                <!--&lt;!&ndash; ====> jobCategoryList &ndash;&gt;
+                <div class="col-md-2">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="job Category" [(ngModel)]="jobCategoryList" name="jobCategoryList" id="jobCategoryList" type="text" required multiple> <mat-option *ngFor="let jobCategory of reportFilterDataDTO.jobCategoryList; let i = index" [value]="jobCategory" > {{ jobCategory }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleJobCategory"  (change)="toggleJobCategoryFunction(toggleJobCategory)" >
+                </div>
+
+                &lt;!&ndash; ====> jobNameList &ndash;&gt;
+                <div class="col-md-2">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Job Name" [(ngModel)]="jobNameList" name="jobNameList" id="jobNameList" type="text" required multiple> <mat-option *ngFor="let jobName of reportFilterDataDTO.jobNameList; let i = index" [value]="jobName" > {{ jobName }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleJobName"  (change)="toggleJobNameFunction(toggleJobName)" >
+                </div>-->
+
+                <!-- ====> nationalityList -->
+                <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Nationality" [(ngModel)]="nationalityList" name="nationalityList" id="nationalityList" type="text" required multiple> <mat-option *ngFor="let nationality of reportFilterDataDTO.nationalityList; let i = index" [value]="nationality" > {{ nationality }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleNationality"  (change)="toggleNationalityFunction(toggleNationality)" >
+                </div>
+
+                <!-- ====> workingTypeList -->
+                <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Working Type" [(ngModel)]="workingTypeList" name="workingTypeList" id="workingTypeList" type="text" required multiple> <mat-option *ngFor="let workingType of reportFilterDataDTO.workingTypeList; let i = index" [value]="workingType" > {{ workingType }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleWorkingType"  (change)="toggleWorkingTypeFunction(toggleWorkingType)" >
+                </div>
+
+
+
+
+                <br/>
+                <hr/>
+              </div>
+              <div class="row">
+                <!-- ====> buildingList -->
+                <div class="col-md-3">
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Building" [(ngModel)]="buildingList" name="buildingList" id="buildingList" type="text" required multiple> <mat-option *ngFor="let building of reportFilterDataDTO.buildingList; let i = index" [value]="building" > {{ building }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toggleBuilding"  (change)="toggleBuildingFunction(toggleBuilding)" >
+                </div>
+
+                <div class="col-md-3">
+                  <button (click)="searchFilter()" class="btn btn-primary btn-round" >Search</button>
+                </div>
+                <div *ngIf="totalNumberOfEmployees " class="col-md-3">
+                  <h4>Total Filtered Result is : {{ totalNumberOfEmployees }}</h4>
+                </div>
+              </div>
+
+            </div>
+            <!--table part-->
+            <div class="row"></div>
+
+
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Unit</th>
+                  <th>PO</th>
+                  <th>Domain</th>
+                  <th>Email</th>
+                  <th>Working Type</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of employees;">
+                  <td>{{row.employeeEnglishName}}</td>
+                  <td>{{(row.employeeManagerialUnit)?row.employeeManagerialUnit.unitEnglishName:'---'}}</td>
+                  <td>{{(row.employeeFinancialUnit)?row.employeeFinancialUnit.financialName:'---'}}</td>
+                  <td>{{(row.jobName)?row.jobName.domainUnitEnglishName:'---'}}</td>
+                  <td>{{row.stcEmail}}</td>
+                  <td>{{row.workingType}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row" >
+              <div  style="padding-top: 50px;padding-left: 40%" id="pagination-container"></div>
+            </div>
+            <div class="pull-right">
+              <label for="pageSize">Page Size:</label>
+              <select id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="reload()" name="sel2">
+                <option [value]="i" *ngFor="let i of pageSizeArray">{{i}}</option>
+              </select>
+            </div>
+
+            <div class="row">
+
+
+
+              <br/>
+              <br/>
+              <hr>
+
+              <div class="col-md-4">
+                <!-- ====> reportFieldsList -->
+                  <mat-form-field style="width: 90%">  <mat-select  placeholder="Report Fields" [(ngModel)]="reportFieldsList" name="reportFieldsList" id="reportFieldsList" type="text" required multiple> <mat-option *ngFor="let field of reportFields; let i = index" [value]="field" > {{ changeCamelCaseToNormal(field)  }} </mat-option> </mat-select> </mat-form-field>
+                  <input type="checkbox" [(ngModel)]="toogleReportFields"  (change)="toggleReportFieldsFunction(toogleReportFields)" >
+              </div>
+
+              <div class="col-md-3  col-md-offset-1">
+                <button class="pull-right" (click)="generateReport()" class="btn btn-success btn-round" >Generate Report</button>
+              </div>
+
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

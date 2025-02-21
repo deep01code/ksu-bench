@@ -1,0 +1,30 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong *ngIf="unitParent">New {{getModalTitle(unitParent.type)}} Unit</strong>
+  <strong *ngIf="unitParent==null">New Sector Unit</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> type -->
+          <div class="col-md-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="tempUnit.unitNumber"  [ngModelOptions]="{standalone: true}" placeholder="Unit Number" required /></mat-form-field>    </div> </div>
+          <!-- ====> amount -->
+          <div class="col-md-4">  <div style="width: 90%"> <mat-form-field> <input matInput type="text" [(ngModel)]="tempUnit.unitEnglishName"  [ngModelOptions]="{standalone: true}" placeholder="Unit English Name" required /></mat-form-field>    </div> </div>
+          <!-- ====> date -->
+          <div class="col-md-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempUnit.unitArabicName"  [ngModelOptions]="{standalone: true}" placeholder="Unit Arabic Name" required /></mat-form-field>   </div> </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addManagerialUnit()" cdkFocusInitial>
+    Save
+  </button>
+</div>

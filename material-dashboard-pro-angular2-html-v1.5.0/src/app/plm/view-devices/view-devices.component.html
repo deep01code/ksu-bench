@@ -1,0 +1,364 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="card-title card-header">
+                <strong>Devices</strong>
+            </div>
+            <div class="card-body">
+                <div class="card-content">
+                <app-loading *ngIf="isLoading"></app-loading>
+
+    <!--                <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-content">
+                                <h4 class="card-title">List of Devices</h4>
+                                <ngx-table *ngIf="data"
+                                           [configuration]="configuration" [data]="data"
+                                           [pagination]="pagination"
+                                           (event)="eventEmitted($event)" [columns]="columns">
+                                </ngx-table>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div  class="row">
+                                <div  class="col-md-12" style="border-right: solid lightgray thin">
+                                        <legend style="margin-left: 10px;" >Select Device</legend>
+                                        <div class="card-content">
+                                            <div>
+
+                                                <div class="example-container mat-elevation-z8">
+                                                    <div class="example-header">
+                                                        <mat-form-field>
+                                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <mat-table #table [dataSource]="dataSource">
+
+                                                        <ng-container matColumnDef="Make">
+                                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Make </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element"> {{element.MAKE}} </mat-cell>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Model">
+                                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Model </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element"> {{element.MODEL}} </mat-cell>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Memory">
+                                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Memory </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element"> {{element.MEMORY?element.MEMORY:''}} </mat-cell>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Color">
+                                                            <mat-header-cell *matHeaderCellDef matSort mat-sort-header> Color </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element"> {{element.COLOR}} </mat-cell>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Add">
+                                                            <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element">
+                                                                <button
+                                                                        class="btn btn-round btn-fab btn-fab-mini "
+                                                                        [disabled]="hasOperator(editList, element)"
+                                                                        (click)="addToEdit(element)"
+                                                                        ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+                                                                    <i class="material-icons">add</i>
+                                                                </button>
+                                                            </mat-cell>
+                                                        </ng-container>
+<!--                                                        <td width="10px">
+                                                            <button
+                                                            class="btn btn-round btn-fab btn-fab-mini "
+
+                                                            ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+                                                            <i class="material-icons">add</i>
+                                                            </button>
+                                                        </td>-->
+                                                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                                                    </mat-table>
+                                                    <mat-paginator #paginator
+                                                                   [pageSize]="5"
+                                                                   [pageSizeOptions]="[5, 10, 20]"
+                                                    >
+                                                    </mat-paginator>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div *ngIf="editList.length" class="row">
+                                <hr>
+                                <div class="col-md-12" style="border-right: solid lightgray thin">
+                                    <!--
+                                        Added Devices List
+                                    -->
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Make</th>
+                                            <th>Model</th>
+                                            <th>Memory</th>
+                                            <th>Color</th>
+                                            <th width="10px"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let item of editList; let i = index" (click)="trClicked(i)" [class.active]="i == selectedRow">
+                                            <td width="25%"> {{item.MAKE}} </td>
+                                            <td width="25%"> {{item.MODEL}} </td>
+                                            <td width="25%"> {{item.MEMORY}} </td>
+                                            <td width="25%"> {{item.COLOR}} </td>
+                                            <td style="padding: 2px; margin: 2px; width: 10%">
+                                                <button tool (click)="removeFromEdit(i)"
+                                                        class="btn btn-danger btn-round btn-fab btn-fab-mini">
+                                                    <i matTooltip="Remove" class="material-icons small">clear</i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7" *ngIf="selectedRow>=0 && editList.length">
+                            <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="rose">
+                                    <div>Device Configuration</div>
+                                </div>
+                                <div [hidden]="i!==selectedRow" *ngFor="let list of editList; let i = index">
+                                    <h4 class="card-title"></h4>
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-top: 10px">
+                                                <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <input disabled matInput placeholder="Make" type="text" [(ngModel)]="editList[i].MAKE"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <input disabled matInput
+                                                           placeholder="Model"
+                                                           [(ngModel)]="editList[i].MODEL"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <input disabled matInput
+                                                               placeholder="Memory"
+                                                               [(ngModel)]="editList[i].MEMORY"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field>
+                                                        <input disabled matInput
+                                                               placeholder="Color"
+                                                               [(ngModel)]="editList[i].COLOR"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-top: 10px">
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="Item Code"
+                                                               [(ngModel)]="editList[i].ITEM_CODE"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="SaleCo Item Code"
+                                                               [(ngModel)]="editList[i].STC_SALECO_ITEM_CODE"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="Validate IMEI"
+                                                               [(ngModel)]="editList[i].VALIDATE_IMEI_FLG"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-top: 10px">
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="Inventory Check"
+                                                               [(ngModel)]="editList[i].INVENTORY_CHECK"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="Device Price"
+                                                               [(ngModel)]="editList[i].DEVICE_COST"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="Device Subsidy Cost"
+                                                               [(ngModel)]="editList[i].DEVICE_COST_DISCOUNT"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-top: 10px">
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="Prepaid Device Price"
+                                                               [(ngModel)]="editList[i].X_STC_PREPAID_PRICE"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="Retention Device Cost"
+                                                               [(ngModel)]="editList[i].X_STC_RETENTION_DEVICE_COST"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="Eligible for Retention"
+                                                               [(ngModel)]="editList[i].X_STC_ELIGIBLE_FOR_RETENTION"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-top: 10px">
+                                                <div class="col-md-offset-2 col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="	Retail Price"
+                                                               [(ngModel)]="editList[i].RETAIL_COST"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <input matInput placeholder="	Comments"
+                                                               [(ngModel)]="editList[i].COMMENTS"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-8 col-md-4">
+                                    <button [disabled]="editList.length===0"
+                                            class="btn btn-rose"
+                                            (click)="submit()">Update</button>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr/>
+                                    <table *ngIf="response.length" class="table table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Make</th>
+                                            <th>Model</th>
+                                            <th>Memory</th>
+                                            <th>Color</th>
+                                            <th>Status</th>
+                                            <th width="10px"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let item of response; let i = index" >
+                                            <td width="25%"> {{item.device.deviceMake}} </td>
+                                            <td width="25%"> {{item.device.deviceModelName}} </td>
+                                            <td width="25%"> {{item.device.deviceMemory}} </td>
+                                            <td width="25%"> {{item.device.color}} </td>
+                                            <td width="25%"> {{item.statusCode==='failed'?"Failed":"Success"}} </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+<!--
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="example-container mat-elevation-z8">
+                                <div class="example-header">
+                                    <mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <mat-table #table [dataSource]="dataSource" matSort>
+
+                                    <ng-container matColumnDef="Make">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Make </mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.MAKE}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Model">
+                                        <mat-header-cell *matHeaderCellDef> Make </mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.MODEL}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Memory">
+                                        <mat-header-cell *matHeaderCellDef> Memory </mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.MEMORY}} </mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Color">
+                                        <mat-header-cell *matHeaderCellDef> Color </mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.COLOR}} </mat-cell>
+                                    </ng-container>
+
+                                    <td width="10px">
+                                        <button
+&lt;!&ndash;
+                                                [disabled]="editList.includes(row)"
+&ndash;&gt;
+                                                class="btn btn-round btn-fab btn-fab-mini "
+&lt;!&ndash;
+                                                (click)="addToEdit(row)"
+&ndash;&gt;
+&lt;!&ndash;
+                                                ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+&ndash;&gt;
+                                            <i class="material-icons">add</i>
+                                        </button>
+                                    </td>
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+                                </mat-table>
+                                <mat-paginator #paginator
+                                               [pageSize]="5"
+                                               [pageSizeOptions]="[5, 10, 20]"
+                                >
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

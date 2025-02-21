@@ -1,0 +1,10 @@
+C:\Users\Administrator\workpsace\old-gamma\material-dashboard-pro-angular2-html-v1.5.0\ui.bat
+C:\Users\Administrator\Desktop\deploy\auth.bat
+C:\Users\Administrator\Desktop\deploy\pst.bat
+
+
+sc.exe create BayanUI displayname= BayanUI binpath= C:\Users\Administrator\workpsace\old-gamma\material-dashboard-pro-angular2-html-v1.5.0\ui.bat start= auto
+
+sc.exe create BayanAuth displayname= BayanAuth binpath= C:\Users\Administrator\Desktop\deploy\auth.bat start= auto
+
+sc.exe create BayanCore displayname= BayanCore binpath= C:\Users\Administrator\Desktop\deploy\pst.bat start= auto depend= BayanAuth

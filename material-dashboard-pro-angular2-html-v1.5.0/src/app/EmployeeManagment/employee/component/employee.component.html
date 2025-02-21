@@ -1,0 +1,190 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="card-content">
+                <app-loading *ngIf="isLoading"></app-loading>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-content">
+                            <div *ngIf="programs" class="row">
+
+                                <!--
+
+                                <form ngForm="form" #form="ngForm" (ngSubmit)="submitForm()">
+                                    <div class="card-body card-content">
+
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-md-offset-3">
+                                                <button [disabled]="form.invalid" class="btn  btn-primary">Generate Report</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>-->
+
+                                <div id="allocation" class="tab-pane active" style="width: 98%">
+                                    <div class="col-md-12">
+                                        <form ngForm="form" #form="ngForm" (ngSubmit)="submitForm()">
+                                            <div class="card-body card-content">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput required ngModel name="employeeId"
+                                                                placeholder="Employee ID">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <input matInput required ngModel name="employeeName"
+                                                                placeholder="Employee Name">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <mat-select placeholder="Choose Program"
+                                                                [(ngModel)]="selectedProgram" name="program" type="text"
+                                                                required #program="ngModel">
+                                                                <mat-option
+                                                                    *ngFor="let program of programs; let i = index"
+                                                                    (click)="setSelectedProgramIndex(i)"
+                                                                    [value]="program.name">
+                                                                    {{ program.name }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <mat-select placeholder="Choose Department"
+                                                                [(ngModel)]="selectedDepartment" name="department"
+                                                                type="text" required #department="ngModel">
+                                                                <mat-option
+                                                                    *ngFor="let department of programs[selectedProgramIndex].departments; let i = index"
+                                                                    (click)="setSelectedDepartmentIndex(i)"
+                                                                    [value]="department.name">
+                                                                    {{ department.name }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <mat-select placeholder="Choose System"
+                                                                [(ngModel)]="selectedSystem" name="system" type="text"
+                                                                required #system="ngModel">
+                                                                <mat-option *ngFor="let system of programs[selectedProgramIndex]
+                                                                                                           .departments[selectedDepartmentIndex]
+                                                                                                           .systems;"
+                                                                    [value]="system">
+                                                                    {{ system }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <mat-select placeholder="Choose Team"
+                                                                [(ngModel)]="selectedTeam" name="team" type="text"
+                                                                required #team="ngModel">
+                                                                <mat-option *ngFor="let team of programs[selectedProgramIndex]
+                                                                                                           .departments[selectedDepartmentIndex]
+                                                                                                           .teams;"
+                                                                    [value]="team">
+                                                                    {{ team }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <mat-form-field>
+                                                            <mat-select placeholder="Choose Billing Role"
+                                                                [(ngModel)]="selectedBillingRole" name="billingRole"
+                                                                type="text" required #billingRole="ngModel">
+                                                                <mat-option *ngFor="let billingRole of programs[selectedProgramIndex]
+                                                                                                           .departments[selectedDepartmentIndex]
+                                                                                                           .roleCosts;"
+                                                                    [value]="billingRole.roleName">
+                                                                    {{ billingRole.roleName }}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <mat-form-field>
+                                                                <mat-datepicker-toggle matSuffix
+                                                                    [for]="startDatePicker">
+                                                                </mat-datepicker-toggle>
+                                                                <input matInput tabindex="3"
+                                                                    [matDatepicker]="startDatePicker"
+                                                                    [(ngModel)]="startDate" required name="startDate"
+                                                                    #sDate="ngModel"
+                                                                    [matDatepickerFilter]="startDateFilter"
+                                                                    placeholder="Pick start date">
+                                                                <mat-datepicker #startDatePicker [startView]="'month'">
+                                                                </mat-datepicker>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <button class="btn btn-primary" type="submit"
+                                                    [disabled]="form.invalid">Add new employee</button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <h4 class="card-title">List of Employees</h4>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Choose Program" [(ngModel)]="selectedProgramForList"
+                                            name="program" type="text" #programEmployees="ngModel">
+                                            <mat-option *ngFor="let program of programs; let i = index"
+                                                (click)="getEmployeesBasedOnProgram(program)" [value]="program">
+                                                {{ program.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col md 10"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"> <button hidden="true" class="btn btn-primary btn-sm"
+                                        (click)="updateAllHistory()" type="button">Fetch</button></div>
+                                <div class="col md 10"></div>
+
+                            </div>
+
+                            <ngx-table [configuration]="configuration" [data]="employees"
+                                (event)="eventEmitted($event.value.row)" [columns]="columns">
+                                <ng-template let-row>
+                                    <td (click)="goToHistory(row)" style="cursor: pointer"><a
+                                            style="cursor: pointer">{{row.employeeName}}</a></td>
+                                    <td>{{row.employeeId}}</td>
+                                    <td>{{row.program}}</td>
+                                    <td>{{row.department}}</td>
+                                    <td>{{row.team}}</td>
+                                    <td>{{row.system}}</td>
+                                    <td>{{row.billingRole}}</td>
+                                    <td>{{row.role}}</td>
+                                    <td>{{row.resignDate}}</td>
+                                </ng-template>
+                            </ngx-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

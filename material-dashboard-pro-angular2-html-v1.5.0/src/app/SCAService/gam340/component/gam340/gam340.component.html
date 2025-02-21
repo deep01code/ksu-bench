@@ -1,0 +1,91 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Select Services that need to be updated</h4>
+                        <ngx-table
+                                [configuration]="configuration" [data]="multiMediaServiceList" (event)="eventEmitted($event)" [columns]="columns">
+                            <ng-template let-row>
+                                <td style="width: 5%;text-align: center">{{row.ID}}</td>
+                                <td style="width: 20%">{{row.CODE}}</td>
+                                <td style="width: 20%">
+                                    {{row.SID}}
+                                </td>
+                                <td style="width: 20%">
+                                    {{row.PRICE}}
+                                </td>
+                                <td style="width: 30%">
+                                    {{row.CONDITION}}
+                                </td>
+                                <td>
+                                    <button     [disabled]="editList.includes(row)"
+                                                class="btn btn-round btn-fab btn-fab-mini "
+                                                (click)="addToEdit(row)"
+                                                ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </td>
+                            </ng-template>
+                        </ngx-table>
+                        <div *ngIf="editList.length">
+                            <hr/>
+
+                            <h4 class="card-title">Update Service(s) to proceed </h4>
+                            <br/>
+                            <div style="padding-left: 15px" class="row">
+                                <div class="col-sm-12  col-md-6 alert-danger"  style="color: red; border-top: solid red thin;"
+                                     *ngIf="editList.length && modifiedList.length !== editList.length">
+                                    <i class="material-icons">warning</i>
+                                    <b>Below Service(s) IDs has been added to edit list but not modified.
+                                        <div *ngFor="let item of editList">
+                                            <div class="col-md-3" *ngIf="isNotChanged(item)">{{ item.ID }}</div>
+                                        </div>
+                                    </b>
+                                </div>
+                            </div>
+                            <ngx-table *ngIf="editList" [configuration]="configuration2" [data]="editList"
+                                       (event)="eventEmitted($event)" [columns]="columns">
+                                <ng-template let-row>
+                                    <td style="text-align: center"> {{row.ID}}</td>
+
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'CODE')"
+                                        style="width: 20%"
+                                        contenteditable="true">
+                                        {{row.CODE}}
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'SID')"
+                                        style="width: 20%"
+                                        contenteditable="true">
+                                        {{row.SID}}
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'PRICE')"
+                                        style="width: 20%"
+                                        contenteditable="true">
+                                        {{row.PRICE}}
+                                    </td>
+                                    <td (focusout)="textChanged(row, $event.target.innerText, 'CONDITION')"
+                                        style="width: 20%"
+                                        contenteditable="true">
+                                        {{row.CONDITION}}
+                                    </td>
+                                    <td width="10px">
+                                        <button (click)="removeFromEdit(row)"
+                                                class="btn btn-danger btn-round btn-fab btn-fab-mini">
+                                            <i class="material-icons">clear</i>
+                                        </button>
+                                    </td>
+                                </ng-template>
+                            </ngx-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

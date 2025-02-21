@@ -1,0 +1,309 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Update Rate</h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <form #addOperator="ngForm" ngForm (ngSubmit)="addNewOperator(addOperator)">
+                                        <fieldset>
+                                                <legend style="margin-left: 10px" >New Country/Operator</legend>
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <input required
+                                                               ngModel
+                                                               name="COUNTRY"
+                                                               style="margin-left: 10px" matInput class="form-control"
+                                                               placeholder="Country">
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <input required
+                                                               ngModel
+                                                               name="OPERATOR"
+                                                               style="margin-left: 10px" matInput class="form-control"
+                                                               placeholder="Operator">
+
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <button [disabled]="addOperator.invalid" class="btn btn-primary" type="submit">Add New Operator</button>
+                                                    </div>
+                                                </div>
+                                        </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <fieldset style="width: 100%" >
+                                                <legend style="margin-left: 10px;" >Select Country/Operator</legend>
+                                            <div class="card-content">
+                                                <div>
+<!--                                                    <ngx-table [data]="listOfOperators"
+                                                               [configuration]="configuration"
+                                                               [columns]="columns"></ngx-table>-->
+                                                    <ngx-table style="width:100%;" [configuration]="configuration" [data]="listOfOperators"
+                                                               (event)="eventEmitted($event)" [columns]="columns">
+                                                        <ng-template let-row>
+                                                            <td>{{+row.ID}}</td>
+                                                            <td>{{row.COUNTRY}}</td>
+                                                            <td>{{row.OPERATOR}}</td>
+                                                            <td width="10px">
+                                                                <button
+                                                                        [disabled]="editList.includes(row)"
+                                                                        class="btn btn-round btn-fab btn-fab-mini "
+                                                                        (click)="addToEdit(row)"
+                                                                        ngClass="{{editList.includes(row)?'inactive':'btn-success'}}">
+                                                                    <i class="material-icons">add</i>
+                                                                </button>
+                                                            </td>
+                                                        </ng-template>
+                                                    </ngx-table>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div *ngIf="editList.length" class="row">
+                                    <hr>
+                                    <div class="col-md-12" style="border-right: solid lightgray thin">
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Country</th>
+                                                <th>Operator</th>
+                                                <th width="10px"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of editList; let i = index" (click)="trClicked(i)" [class.active]="i == selectedRow">
+                                                    <td width="50%"> {{item.COUNTRY}} </td>
+                                                    <td width="50%"> {{item.OPERATOR}} </td>
+                                                    <td style="padding: 2px; margin: 2px; width: 10%">
+                                                        <button tool (click)="removeFromEdit(i)"
+                                                                class="btn btn-danger btn-round btn-fab btn-fab-mini">
+                                                            <i matTooltip="Remove" class="material-icons small">clear</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8" *ngIf="selectedRow>-1">
+                                <div class="card">
+                                    <div class="card-header card-header-icon" data-background-color="rose">
+                                        <div>Configuration Details</div>
+                                    </div>
+                                    <div [hidden]="i!==selectedRow"
+                                          *ngFor="let list of editList; let i = index">
+                                    <h4 class="card-title"></h4>
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-offset-3 col-md-3">
+                                                    <div class="checkbox form-horizontal-checkbox">
+                                                        <label>
+                                                            <input type="checkbox" [(ngModel)]="editList[i].PREPAID_AVAIL"
+                                                                   [checked]="editList[i].PREPAID_AVAIL" />
+                                                            Prepaid Available
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="checkbox form-horizontal-checkbox">
+                                                        <label>
+                                                            <input type="checkbox"
+                                                                   [(ngModel)]="editList[i].POSTPAID_AVAIL"
+                                                                   [checked]="editList[i].POSTPAID_AVAIL" />
+                                                            Postpaid Available
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="checkbox form-horizontal-checkbox">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               [(ngModel)]="editList[i].ROAMING_CALLS"
+                                                               [checked]="editList[i].ROAMING_CALLS"
+                                                                />
+                                                        Roaming Calls
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="checkbox form-horizontal-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" [(ngModel)]="editList[i].ROAMING_INTERNET"
+                                                               [checked]="editList[i].ROAMING_INTERNET"
+                                                               />
+                                                        Roaming Internet
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="checkbox form-horizontal-checkbox">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               [(ngModel)]="editList[i].RECEIVING_CALLS_PACKAGE"
+                                                               [checked]="editList[i].RECEIVING_CALLS_PACKAGE"
+                                                               />
+                                                        Receiving Calls Package
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                                <div class="checkbox form-horizontal-checkbox">
+                                                    <label>
+                                                        <input type="checkbox" [(ngModel)]="editList[i].CREDIT_RECHARGE"
+                                                               [checked]="editList[i].CREDIT_RECHARGE"
+                                                               />
+                                                        Credit Recharge
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-md-3 col-md-offset-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput
+                                                               placeholder="Local Calls"
+                                                               [(ngModel)]="editList[i].LOCAL_CALLS"
+                                                               >
+                                                    </mat-input-container>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput placeholder="Calls to KSA"
+                                                               [(ngModel)]="editList[i].CALLS_TO_KSA"
+                                                               >
+                                                    </mat-input-container>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 col-md-offset-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput placeholder="Receiver Calls"
+                                                               [(ngModel)]="editList[i].RECEIVER_CALLS"
+                                                               formContro>
+                                                    </mat-input-container>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput placeholder="Sent SMS"
+                                                               [(ngModel)]="editList[i].SENT_SMS"
+                                                               >
+                                                    </mat-input-container>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 col-md-offset-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput placeholder="International Calls"
+                                                               [(ngModel)]="editList[i].INTERNATIONAL_CALLS"
+                                                               >
+                                                    </mat-input-container>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-input-container>
+                                                        <input type="number" matInput placeholder="Jawalnet and SMS"
+                                                               [(ngModel)]="editList[i].JAWALNET_AND_SMS"
+                                                               >
+                                                    </mat-input-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-12" style="text-align: center;">
+                                                <fieldset>
+                                                <legend style="z-index: -1; width: 40%">Package1:</legend>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Volume"
+                                                               [(ngModel)]="editList[i].VOLUME_PKG1"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Validity"
+                                                               [(ngModel)]="editList[i].VALIDITY_PKG1"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Price"
+                                                               [(ngModel)]="editList[i].PRICE_PKG1"
+                                                               >
+                                                    </mat-input-container>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12" style="text-align: center;">
+                                                <fieldset>
+                                                    <legend style="z-index: -1; width: 40%">Package1:</legend>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Volume"
+                                                               [(ngModel)]="editList[i].VOLUME_PKG2"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Validity"
+                                                               [(ngModel)]="editList[i].VALIDITY_PKG2"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Price"
+                                                               [(ngModel)]="editList[i].PRICE_PKG2"
+                                                               >
+                                                    </mat-input-container>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-4 col-sm-12" style="text-align: center;">
+                                                <fieldset>
+                                                    <legend style="z-index: -1; width: 40%">Package1:</legend>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Volume"
+                                                               [(ngModel)]="editList[i].VOLUME_PKG3"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Validity"
+                                                               [(ngModel)]="editList[i].VALIDITY_PKG3"
+                                                               >
+                                                    </mat-input-container>
+                                                    <mat-input-container>
+                                                        <input type="text" matInput placeholder="Price"
+                                                               [(ngModel)]="editList[i].PRICE_PKG3"
+                                                               >
+                                                    </mat-input-container>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                            <mat-input-container>
+                                            <textarea matInput placeholder="Additional Info (Optional)"
+                                                      style="width: 100%"
+                                                      [(ngModel)]="editList[i].additionalInfo"></textarea>
+                                            </mat-input-container>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

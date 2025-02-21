@@ -1,0 +1,99 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-4">
+                    <div class="form-group">
+                        <button class="btn" (click)="downloadCardRateUploadTemplate()">Download upload template</button>
+                    </div>
+                </div>
+                <div class="col-xs-3 ">
+                    <div class="form-group">
+                        <label class="btn" style="color: white"  for="file">Choose File for bulk upload</label>
+                        <input  type="file" label="bulk upload" id="file"  (change)="handleFileInput($event.target.files)"  >
+                    </div>
+                </div>
+            </div>
+
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <h5 class="card-title"><strong>Agreement Details</strong></h5>
+
+          <div class="card-content card-body" *ngIf="tempAgreement">
+            <div class="row">
+                <!-- ====> Agreement Name -->
+                <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempAgreement.name"  [ngModelOptions]="{standalone: true}" placeholder="Agreement Name" required /> </mat-form-field>  </div> </div>
+                <!-- ====> financialNumber -->
+                <div class="col-sm-4" >  <div style="width: 45%"> <mat-form-field><mat-select placeholder="Select Agreement Type" [(ngModel)]="tempAgreement.agreementType" [ngModelOptions]="{standalone: true}" type="text" required > <mat-option *ngFor="let selectedPOTYPE of agreementTypes; let i = index" [value]="selectedPOTYPE" > {{ selectedPOTYPE }} </mat-option> </mat-select></mat-form-field>  </div> </div>
+
+                <div class="col-sm-4">
+                <button  mat-button   (click)="upsertAgreement()" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                  <label style="color: white" > Save</label>
+                  <i class="material-icons">add</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <hr/>
+
+        <div class="card">
+          <div class="card-content">
+            <div class="row">
+
+
+
+              <div class="col-sm-12">
+                  <h3>Card Rates</h3>
+
+                  <button  mat-button   (click)="openAddAgreementItemDialog(tempAgreement)" cdkFocusInitial class="btn btn-round " style="background-color: #7b1fa2">
+                      <label style="color: white" > Add Card Rate</label>
+                      <i class="material-icons">add</i>
+                  </button>
+
+                  <!--Start Pagination table-->
+                  <div class="row" >
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <thead>
+                              <tr>
+                                  <th>Domain</th>
+                                  <th>System</th>
+                                  <th>Job Name</th>
+                                  <th>Job Level</th>
+                                  <th>Onsite Rate</th>
+                                  <th>Offshore Rate</th>
+
+                              </tr>
+                              </thead>
+                              <tbody >
+                              <tr  *ngFor="let row of tempAgreement.agreementItems;">
+
+                                  <td (click)="openEditAgreementItemDialog(tempAgreement,row)" style="cursor: pointer"><a>{{row.domain.domainUnitEnglishName}}</a></td>
+                                  <td>{{row.system.domainUnitEnglishName}}</td>
+                                  <td>{{row.jobName.domainUnitEnglishName}}</td>
+                                  <td>{{row.jobLevel.domainUnitEnglishName}}</td>
+                                  <td>{{row.onsiteRate}}</td>
+                                  <td>{{row.offshoreRate}}</td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <!--Start End table-->
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

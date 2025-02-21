@@ -1,0 +1,17 @@
+.nav-pills-rose {
+  >li {
+    &.active>a {
+      &, &:focus, &:hover {
+        margin-left: 5px;
+        border-bottom: solid black thin;
+        box-shadow: none;
+        background-color: #eb407a;
+        color: white;
+      }
+    }
+  }
+}
+
+.selectedRow {
+  background-color: lightblue;
+}

@@ -1,0 +1,133 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <form [formGroup]="reportForm" (ngSubmit)="getSummary(reportForm.value)">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <mat-select id="programId" placeholder="Program Name"
+                                                        formControlName="programId"
+                                                        required>
+                                                <mat-option *ngFor="let program of programs" [value]="program"
+                                                required>
+                                                <!--(click)="changeProgram(program)"-->
+                                                    {{program.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!--<div class="col-md-2">-->
+                                        <!--<mat-form-field>-->
+                                            <!--<mat-select id="departmentId" placeholder="Department Name"-->
+                                                        <!--formControlName="departmentId"-->
+                                                        <!--[disabled]="!departments"-->
+                                                        <!--required>-->
+                                                <!--<mat-option *ngFor="let department of departments" [value]="department.id">-->
+                                                    <!--{{department.name}}-->
+                                                <!--</mat-option>-->
+                                            <!--</mat-select>-->
+                                        <!--</mat-form-field>-->
+                                    <!--</div>-->
+
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <input matInput formControlName="startDate"
+                                                   [matDatepicker]="startDate"
+                                                   placeholder="Start Date" required>
+                                            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                                            <mat-datepicker #startDate disabled="false"></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <mat-form-field>
+                                            <input [matDatepickerFilter]="endDateFilter" matInput formControlName="endDate" [matDatepicker]="endDate"
+                                                   placeholder="End Date" required>
+                                            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                                            <mat-datepicker  #endDate disabled="false"></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <button mat-button type="submit" style="background-color:#7B1FA2;color: white" [disabled]="!reportForm.valid">
+                                            submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row" *ngIf="reportSummary">
+                            <div class="col-md-12">
+                                <mat-table [dataSource]="reportSummaryDataSource" class="mat-elevation-z8">
+                                    <ng-container matColumnDef="Role">
+                                        <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.roleName}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container *ngIf="reportSummary.locationBased" matColumnDef="Location">
+                                        <mat-header-cell *matHeaderCellDef> Location</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.location}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Normal Days">
+                                        <mat-header-cell *matHeaderCellDef> Normal Days</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.normalManDays}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Weekends">
+                                        <mat-header-cell *matHeaderCellDef> Weekends</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.approvedWeekEnds}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Counted Exceptions">
+                                        <mat-header-cell *matHeaderCellDef> Counted Exceptions</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.exceptionsCounted}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Total Days">
+                                        <mat-header-cell *matHeaderCellDef> Total Days</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.totalManDays}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="No Of Employees">
+                                        <mat-header-cell *matHeaderCellDef> No Of Employees</mat-header-cell>
+                                        <mat-cell  *matCellDef="let element"> {{element.numberOfEmployees}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Rate">
+                                        <mat-header-cell *matHeaderCellDef> Rate</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{element.rate}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Cost">
+                                        <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
+                                        <mat-cell *matCellDef="let element"> {{numberWithCommas(element.cost ) }}</mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="reportColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: reportColumns;"></mat-row>
+                                </mat-table>
+                                <br/>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+                                        <button mat-button style="background-color:#7B1FA2;color: white" (click)="generateWorkFlow(reportForm.value)" [disabled]="!reportForm.valid">
+                                            Generate Report
+                                        </button>
+                                            <button mat-button style="background-color:#7B1FA2;color: white" (click)="downloadWorkFlow(reportForm)" [disabled]="!reportForm.valid">
+                                                Download Report
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

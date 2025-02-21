@@ -1,0 +1,34 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+    <div class="col-md-12">
+            <div class="card-content">
+                <h4 class="card-title">list of CRs grouped by TCs Status </h4>
+                <button *ngIf="!isError" class="pull-right" (click)="getCsv()">Export to Excel</button>
+                <ngx-table *ngIf="!isError" [ngClass]="{'scrol1': data[0]}" class="clickable-table"
+                           [configuration]="configuration"
+                           [data]="data"
+                           [columns]="columns"
+                           (event)="eventEmitted($event)">
+                    <ng-template let-row>
+                        <td (click)="eventEmitted1(row)">{{row.name}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.passed}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.na}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.noRun}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.notCompleted}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.failed}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.status.blocked}}</td>
+                        <td (click)="eventEmitted1(row)">{{row.percentage}}</td>
+                        <td>
+                            <mat-form-field>
+                                <mat-select [placeholder]="row.crStatus?row.crStatus:'BAT In Progress'" (change)="onChange($event,row)">
+                                    <mat-option *ngFor="let item of crStatus" [value]="item">
+                                        {{ item.statusName }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </ng-template>
+                </ngx-table>
+            </div>
+    </div>
+</div>

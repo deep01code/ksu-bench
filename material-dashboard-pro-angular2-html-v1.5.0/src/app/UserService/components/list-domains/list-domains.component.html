@@ -1,0 +1,85 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <div class="card">
+
+      <div class="row">
+        <div class="col-xs-3 col-xs-offset-4">
+          <div class="form-group">
+            <button class="btn" (click)="downloadDomainUploadTemplate()">Download upload template</button>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="form-group">
+            <label class="btn" style="color: white"  for="file">Choose File for bulk upload</label>
+            <input  type="file" label="bulk upload" id="file"  (change)="handleFileInput($event.target.files)"  >
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card-header card-header-icon" data-background-color="rose">
+        <i class="material-icons">assignment</i>
+      </div>
+      <div class="row">
+        <div class="pull-left">
+          <input label="stc email" type="text" [(ngModel)]="search">
+          <label class="btn  btn-round" (click)="loadPaginationTables()">Search:</label>
+        </div>
+        <!--<div class="pull-right" style="padding-right: 20px">
+          <button class="btn btn-success btn-round" (click)="addFinancialNumber()">Add FinancialNumber</button>
+        </div>-->
+      </div>
+      <div class="card-content">
+        <app-loading *ngIf="isLoading"></app-loading>
+
+
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+
+              <!--
+              id;
+    domainUnitArabicName;
+    domainUnitEnglishName;
+    description;
+    companyName;
+    companyCountry;
+    domainUnitNumber;
+    managerialUnit:ManagerialUnit;
+              -->
+              <th>Arabic Name</th>
+              <th>English Name</th>
+              <th>Managerial Unit</th>
+
+
+
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of domains;">
+              <td (click)="editDomain(row.id)" style="cursor: pointer"><a>{{row.domainUnitArabicName}}</a></td>
+              <td>{{row.domainUnitEnglishName}}</td>
+              <td>{{row.managerialUnit.unitEnglishName}}</td>
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" >
+          <div  style="padding-top: 50px;padding-left: 40%" id="pagination-container"></div>
+        </div>
+        <div class="pull-right">
+          <label for="pageSize">Page Size:</label>
+          <select id="pageSize" [(ngModel)]="selectedPageSize" (ngModelChange)="loadPaginationTables()" name="sel2">
+            <option [value]="i" *ngFor="let i of pageSizeArray">{{i}}</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

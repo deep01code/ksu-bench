@@ -1,0 +1,243 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="card-content">
+                <app-loading *ngIf="isLoading"></app-loading>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-content">
+                            <form *ngIf="generalDepartments.length" ngForm="form" #form="ngForm">
+                                <mat-tab-group>
+                                    <mat-tab label="Personal Information">
+                                        <!--Start of personal information form-->
+                                        <div class="card-body card-content">
+                                            <div *ngIf="companies.length" class="row">
+
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="employeeEnglishName"
+                                                            #employeeEnglishName="ngModel" placeholder="Employee Name"
+                                                            required>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="employeeNumberOrId"
+                                                            #employeeNumberOrId="ngModel" placeholder="Employee Number"
+                                                            required>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Select Company" ngModel name="company"
+                                                            id="company" type="text" required #company="ngModel">
+                                                            <mat-option *ngFor="let com of companies; let i = index"
+                                                                [value]="com">
+                                                                {{ com.companyName }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Select Nationality" ngModel
+                                                            name="nationality" id="nationality" type="text" required
+                                                            #nationality="ngModel">
+                                                            <mat-option
+                                                                *ngFor="let nat of nationalityies; let i = index"
+                                                                [value]="nat">
+                                                                {{ nat }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input type="email" matInput ngModel name="emailAddress"
+                                                            #emailAddress="ngModel" placeholder="Employee Email"
+                                                            required>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Select Gender" ngModel name="gender"
+                                                            id="gender" type="text" required #gender="ngModel">
+                                                            <mat-option value="Male">
+                                                                Male
+                                                            </mat-option>
+                                                            <mat-option value="Female">
+                                                                Female
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select (selectionChange)="gdChanged()"
+                                                            placeholder="Select General Department" ngModel name="gd"
+                                                            type="text" required #gd="ngModel">
+                                                            <mat-option
+                                                                *ngFor="let gd of generalDepartments; let i = index"
+                                                                [value]="gd">
+                                                                {{ gd.gdName }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div *ngIf="form.value.gd && form.value.gd.departments"
+                                                    class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select (selectionChange)="departmentChanged()"
+                                                            placeholder="Select Department" ngModel name="department"
+                                                            type="text" required #department="ngModel">
+                                                            <mat-option
+                                                                *ngFor="let department of form.value.gd.departments; let i = index"
+                                                                [value]="department">
+                                                                {{ department.departmentName }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div *ngIf="form.value && form.value.department" class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Select Section" ngModel name="section"
+                                                            type="text" required #section="ngModel">
+                                                            <mat-option
+                                                                *ngFor="let section of form.value.department.sections; let i = index"
+                                                                [value]="section">
+                                                                {{ section.sectionName }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <mat-datepicker-toggle matSuffix [for]="startDatePicker">
+                                                        </mat-datepicker-toggle>
+                                                        <input matInput tabindex="3" [matDatepicker]="startDatePicker"
+                                                            [(ngModel)]="startDate" required name="startDate"
+                                                            #sDate="ngModel" [matDatepickerFilter]="startDateFilter"
+                                                            placeholder="Pick start date">
+                                                        <mat-datepicker #startDatePicker [startView]="'month'">
+                                                        </mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Select Level" ngModel name="level"
+                                                            id="level" type="text" required #nationality="ngModel">
+                                                            <mat-option *ngFor="let level of levels; let i = index"
+                                                                [value]="level">
+                                                                {{ level }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="jobTitle" #jobTitle="ngModel"
+                                                            placeholder="Job Title" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Is Projection Related?" ngModel
+                                                            name="projectionRelated" id="projectionRelated" type="text"
+                                                            required #projectionRelated="ngModel">
+                                                            <mat-option value="true">
+                                                                Yes
+                                                            </mat-option>
+                                                            <mat-option value="false">
+                                                                No
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <mat-select placeholder="Employee Location" ngModel
+                                                            name="location" id="location" type="text" required
+                                                            #location="ngModel">
+                                                            <mat-option value="Onsite">
+                                                                Onsite
+                                                            </mat-option>
+                                                            <mat-option value="Offshore">
+                                                                Offshore
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="systemOrDomain"
+                                                            #systemOrDomain="ngModel" placeholder="system(s)/Domain"
+                                                            required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="building" #building="ngModel"
+                                                            placeholder="Building" required>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field style="width: 90%;">
+                                                        <input matInput ngModel name="floor" #floor="ngModel"
+                                                            placeholder="Floor" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                        <!--End of personal info form-->
+                                    </mat-tab>
+                                    <mat-tab label="Project Information">
+                                        <!--Start of Project Information-->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <mat-form-field style="width: 90%;">
+                                                    <input matInput ngModel name="projectName" #projectName="ngModel"
+                                                        placeholder="Project Name">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <mat-form-field style="width: 90%;">
+                                                    <input matInput ngModel name="projectNumber"
+                                                        #projectNumber="ngModel" placeholder="Project Number">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <!--End of Project Information-->
+                                    </mat-tab>
+                                    <mat-tab label="Financial Information">
+                                        <!--End of Financial Information-->
+                                        <div class="row">
+
+                                        </div>
+                                        <!--End of Financial Information-->
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </form>
+                            <button type="submit" [disabled]="form && !form.valid" (click)="submitForm()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

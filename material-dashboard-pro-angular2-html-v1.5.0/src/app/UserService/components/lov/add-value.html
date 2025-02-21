@@ -1,0 +1,26 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+    <strong>New Value</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- ====> type -->
+                    <div class="col-md-4">  <div style="width: 90%"> <p>Value Type: {{dto.lovType}}</p> </div> </div>
+                    <!-- ====> amount -->
+                    <div class="col-md-4">  <div style="width: 90%">    <input  [(ngModel)]="tempValue"  [ngModelOptions]="{standalone: true}" placeholder="New Value" required /> </div> </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button  [mat-dialog-close]="data"  (click)="addValue()" cdkFocusInitial>
+        Ok
+    </button>
+</div>

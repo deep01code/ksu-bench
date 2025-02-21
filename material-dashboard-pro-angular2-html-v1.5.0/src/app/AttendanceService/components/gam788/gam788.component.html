@@ -1,0 +1,286 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="col-lg-12 col-md-12">
+            <div class="row">
+                <div class="col-md-offset-4 ">
+                    <div class="has-text-centered">
+                        <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header card-header-tabs" data-background-color="rose">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+
+                            <span class="nav-tabs-title">Tasks:</span>
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="active"  style=" cursor: pointer;margin: 0%" >
+                                    <a  data-toggle="tab"  name="PENDING" (click)="tabIsClicked($event.target.name)">
+                                        <i class="material-icons">pause_presentation</i>Pending
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class=""  style=" cursor: pointer;margin: 0%">
+                                    <a data-toggle="tab" name="APPROVED" (click)="tabIsClicked($event.target.name)" >
+                                        <i class="material-icons">thumb_up</i> Approved
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+
+                                <li class=""  style=" cursor: pointer;margin: 0%">
+                                    <a data-toggle="tab"  name="REJECTED" (click)="tabIsClicked($event.target.name)">
+                                        <i class="material-icons">thumb_down</i> Rejected
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+
+
+                                <li class=""  style=" cursor: pointer;margin: 0%">
+                                    <a data-toggle="tab" name="PAIED" (click)="tabIsClicked($event.target.name)" >
+                                        <i class="material-icons">attach_money</i> PAID
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+
+                                <router-outlet></router-outlet>
+                                <router-outlet name="popup"></router-outlet>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content col-lg-2 col-md-2 " >
+
+                    <div class="card-content table-responsive">
+
+
+                            <div (click)="select(item)" *ngFor="let item of data  |paginate: { id: 'server', itemsPerPage:4, currentPage: p, totalItems: total }" >
+                                <div class="card card-content" style=" cursor: pointer;margin: 0%">
+                                    <h5 class="h5"  >{{item.attendanceReport.projectName}}</h5>
+                                    <p>Creation Date {{item.creationTime | date}}  Request Number: {{item.id}}</p>
+                                </div>
+                                <hr/>
+                            </div>
+
+
+                    </div>
+
+                </div>
+
+                <div *ngIf="selected && line" class="card-content col-lg-10 col-md-10" style=" border-left: thin solid lightgray;">
+
+                    <div class="card-content table-responsive" >
+                        <div *ngIf="selected && line">
+
+
+
+
+                            <div class="card" >
+                                <form method="get" action="/" class="form-horizontal">
+                                    <div class="card-header card-header-text" data-background-color="rose">
+                                        <h4 class="card-title">Workflow Details: request {{line.id}}</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Program Name</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input  type="text" class="form-control" value="{{line.attendanceReport.program}}" readonly>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Start Date</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input  type="text" class="form-control" value="{{line.attendanceReport.startDate}}" readonly>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">End Date</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" class="form-control" value="{{line.attendanceReport.endDate}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Current Budget</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" class="form-control" value="{{numberWithCommas(line.attendanceReport.currentBudget)}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Current Cost</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" class="form-control" value="{{numberWithCommas(line.attendanceReport.currentCost)}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 label-on-left">Download Report</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <p class="form-control"> <a href='http://172.20.214.180:7180/workflowservice/download?path={{line.reportPath}}'>Click Here</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="currentTap=='REJECTED'" class="row">
+                                            <label class="col-sm-2 label-on-left">Justification</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" class="form-control" value="{{line.justification}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="currentTap=='APPROVED'" class="row">
+                                            <label class="col-sm-2 label-on-left">Payment</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group ">
+
+                                                    <form [formGroup]="invoiceForm" >
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-3">
+                                                                   <input type="text"  placeholder="Invoice #" class="form-control" formControlName="invoiceNo" [(ngModel)]="line.attendanceReport.invoiceNo"  required>
+
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <input type="text" placeholder="Receiving Record #" class="form-control" formControlName="receivingRecordNo" [(ngModel)]="line.attendanceReport.receivingRecordNo"    required>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <input type="text" placeholder="Technical Report #" class="form-control" formControlName="technicalReportNo" [(ngModel)]="line.attendanceReport.technicalReportNo"  required>
+                                                                </div>
+                                                                <div class="col-md-3" *ngIf="currentTap=='APPROVED'">
+                                                                    <button type="submit" (click)="payInvoice(line.id,invoiceForm.value)" class="btn btn-rose btn-fill btn-wd" [disabled]="!invoiceForm.valid">Pay Invoice</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="currentTap=='PAIED' " class="row">
+                                            <label class="col-sm-2 label-on-left">Payment</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-group ">
+
+                                                    <form [formGroup]="invoiceForm" >
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-3">
+                                                                    <label [formControlName]="invoiceNo">Invoice #</label>
+                                                                    <input type="text" disabled="true"  placeholder="Invoice #" class="form-control" formControlName="invoiceNo" [(ngModel)]="line.attendanceReport.invoiceNo"   required>
+
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label [formControlName]="receivingRecordNo">Receiving Record #</label>
+                                                                    <input type="text" disabled="true" placeholder="Receiving Record #" class="form-control" formControlName="receivingRecordNo" [(ngModel)]="line.attendanceReport.receivingRecordNo"    required>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label [formControlName]="technicalReportNo">Technical Report #</label>
+                                                                    <input type="text" disabled="true" placeholder="Technical Report #" class="form-control" formControlName="technicalReportNo"  [(ngModel)]="line.attendanceReport.technicalReportNo"   required>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+                            <div class="card">
+                                <form method="get" action="/" class="form-horizontal">
+                                    <div class="card-header card-header-text" data-background-color="rose">
+                                        <h4 class="card-title">Report Summery</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <mat-table [dataSource]="reportSummaryDataSource" class="mat-elevation-z8">
+                                            <ng-container matColumnDef="Role">
+                                                <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.roleName}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Normal Days">
+                                                <mat-header-cell *matHeaderCellDef> Normal Days</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.normalManDays}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Weekends">
+                                                <mat-header-cell *matHeaderCellDef> Weekends</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.approvedWeekEnds}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Exceptions Counted">
+                                                <mat-header-cell *matHeaderCellDef> Exceptions Counted</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.exceptionsCounted}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Total Days">
+                                                <mat-header-cell *matHeaderCellDef> Total Days</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.totalManDays}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="No Of Employees">
+                                                <mat-header-cell *matHeaderCellDef> No Of Employees</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.numberOfEmployees}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Rate">
+                                                <mat-header-cell *matHeaderCellDef> Rate</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{element.rate}}</mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Cost">
+                                                <mat-header-cell *matHeaderCellDef> Cost</mat-header-cell>
+                                                <mat-cell *matCellDef="let element"> {{numberWithCommas(element.cost)}}</mat-cell>
+                                            </ng-container>
+                                            <mat-header-row *matHeaderRowDef="reportColumns"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: reportColumns;"></mat-row>
+                                        </mat-table>
+
+
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

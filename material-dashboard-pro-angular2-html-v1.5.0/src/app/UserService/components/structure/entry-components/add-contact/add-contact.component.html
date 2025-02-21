@@ -1,0 +1,33 @@
+<h1 mat-dialog-title style="text-decoration: underline">
+  <strong>New Contact</strong>
+</h1>
+
+<div mat-dialog-content style="overflow-x: hidden;">
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <!-- ====> Contact Name -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempContact.name"  [ngModelOptions]="{standalone: true}" placeholder="Contact Name" required /> </mat-form-field>  </div> </div>
+          <!-- ====> Email Address -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempContact.emailAddress"  [ngModelOptions]="{standalone: true}" placeholder="Email Addrees" required /> </mat-form-field>  </div> </div>
+          <!-- ====> Contact jobTitle -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempContact.jobTitle"  [ngModelOptions]="{standalone: true}" placeholder="Job Title" required /> </mat-form-field>  </div> </div>
+          <!-- ====> mobileNumber -->
+          <div class="col-sm-4">  <div style="width: 90%">  <mat-form-field> <input matInput type="text" [(ngModel)]="tempContact.mobileNumber"  [ngModelOptions]="{standalone: true}" placeholder="Mobile Number" required /> </mat-form-field>  </div> </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button  [mat-dialog-close]="data"  (click)="addContact()" cdkFocusInitial>
+    Ok
+  </button>
+</div>

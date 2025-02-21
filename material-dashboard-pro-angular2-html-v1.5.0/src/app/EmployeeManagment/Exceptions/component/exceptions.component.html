@@ -1,0 +1,181 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">assignment</i>
+                </div>
+                <div class="card-title">
+                </div>
+                <div>
+                    <strong>Employees Exceptions</strong>
+                </div>
+                <br>
+                <div *ngIf="programs" class="card-content">
+                    <form ngForm="form" #form="ngForm" (ngSubmit)="submitForm()">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Choose Program"
+                                                [(ngModel)]="selectedProgram"
+                                                name="program"
+                                                type="text"
+                                                required
+                                                #program="ngModel">
+                                        <mat-option *ngFor="let program of programs; let i = index"
+                                                    (click)="setSelectedProgramIndex(i)"
+                                                    [value]="program.name">
+                                            {{ program.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Choose Department"
+                                                [(ngModel)]="selectedDepartment"
+                                                name="department"
+                                                type="text"
+                                                required
+                                                #department="ngModel">
+                                        <mat-option *ngFor="let department of programs[selectedProgramIndex].departments; let i = index"
+                                                    (click)="getDepartmentEmployees()"
+                                                    [value]="department.name">
+                                            {{ department.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Choose Employees"
+                                                [multiple]="true"
+                                                [(ngModel)]="selectedEmployees"
+                                                name="employees"
+                                                type="text"
+                                                required
+                                                #employees="ngModel">
+                                        <button class="btn btn-primary"
+                                                mat-button
+                                                style="margin-top: 5px; margin-left: 5px"
+                                                (click)="selectAll(employees, employeeList, $event.target)">
+                                            <div>
+                                                <div *ngIf="!employees.dirty || (employees.value.length < employeeList.length);
+                                            else Deselect">Select All</div>
+                                                <ng-template #Deselect>Deselect All</ng-template>
+                                            </div>
+                                        </button>
+                                        <mat-option *ngFor="let employee of employeeList; let i = index"
+                                                    [value]="employee">
+                                            {{ employee.employeeName.length<27?employee.employeeName:employee.employeeName.substr(0, 25)+"..." }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-datepicker-toggle dataformatas="dd/MM/yyyy" matSuffix [for]="startDatePicker">
+                                    </mat-datepicker-toggle>
+                                    <input matInput tabindex="3"
+                                           [matDatepicker]="startDatePicker"
+                                           [(ngModel)]="startDate"
+                                           required
+                                           name="startDate"
+                                           #sDate="ngModel"
+                                           [matDatepickerFilter]="startDateFilter"
+                                           placeholder="Pick start date">
+                                    <mat-datepicker
+                                            #startDatePicker
+                                            [startView]="'month'">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-datepicker-toggle dataformatas="dd/MM/yyyy"  matSuffix [for]="endDatePicker">
+                                    </mat-datepicker-toggle>
+                                    <input  matInput tabindex="3"
+                                           [matDatepicker]="endDatePicker"
+                                           [(ngModel)]="endDate"
+                                           required
+                                           [disabled]="!startDate"
+                                           name="endDate"
+                                           #eDate="ngModel"
+                                           [matDatepickerFilter]="endDateFilter"
+                                           placeholder="Pick end date">
+                                    <mat-datepicker
+                                            #endDatePicker
+                                            [startView]="'month'">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field style="width: 80%">
+                                    <mat-select placeholder="Choose Exception Type"
+                                                ngModel
+                                                name="exceptionType"
+                                                type="text"
+                                                required
+                                                #exceptionType="ngModel">
+                                        <mat-option *ngFor="let exception of exceptionTypes; let i = index"
+                                                    [value]="exception">
+                                            {{ exception.exceptionType }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field style="width: 80%">
+                                    <mat-select placeholder="Choose Calculation Type"
+                                                ngModel
+                                                name="calculationType"
+                                                type="text"
+                                                required
+                                                #calculationType="ngModel">
+                                        <mat-option *ngFor="let calculationType of calculationTypes; let i = index"
+                                                    [value]="calculationType">
+                                            {{ calculationType.calculationType }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-rose"> Apply Exception </button>
+                        </div>
+                        <div *ngIf="selectedEmployees && selectedEmployees.length" class="row">
+                            <div *ngIf="overlappedExceptions" class="col-md-12">
+                                <div class="warning danger bg-warning">
+                                    <div style="padding: 5px 5px 5px 5px">
+                                        <strong>Below exceptions were overlapped:</strong>
+                                    </div>
+                                    <ul *ngFor="let e of overlappedExceptions">
+                                        <li>{{(e.employee.employeeName.toLocaleLowerCase()) +'/t'}}: {{e.fromDate | date:'dd/MM/yyyy'}} - {{e.toDate | date:'dd/MM/yyyy'}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h4 class="card-title">List of Employees</h4>
+                                <ngx-table
+                                        [configuration]="configuration" [data]="selectedEmployees"
+                                        (event)="eventEmitted($event.value.row)" [columns]="columns">
+                                    <ng-template let-row>
+                                        <td>{{row.employeeName}}</td>
+                                        <td>{{row.employeeId}}</td>
+                                        <td>{{row.team}}</td>
+                                        <td>{{row.system}}</td>
+                                        <td>{{row.billingRole}}</td>
+                                        <td>{{row.role}}</td>
+                                    </ng-template>
+                                </ngx-table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+        </div>
+    </div>
+    </div>
+    </div>

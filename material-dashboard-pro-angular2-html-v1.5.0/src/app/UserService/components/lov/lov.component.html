@@ -1,0 +1,132 @@
+<style type="text/css">
+  /deep/ .mat-select-panel mat-option.mat-option {
+    height: unset;
+  }
+
+  /deep/ .mat-option-text.mat-option-text {
+    white-space: normal;
+  }
+
+  .mat-form-field {
+    width:100%;
+  }
+
+</style>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">mail_outline</i>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Lockup Settings</h4>
+
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label"></label>
+
+                  <mat-form-field>
+                    <mat-select
+                            placeholder="Select Lockup Type"
+                            ngModel
+                            name="projectType"
+                            id="projectType"
+                            [(ngModel)]="selectedLovType"
+                            type="text"
+                            required
+                            #system="ngModel"
+                    >
+                      <mat-option
+                              (click)="onSelectLoVType(type)"
+                              *ngFor="let type of lovTypesList; let i = index"
+                              [value]="type"
+                      >
+                        {{ type }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+              </div>
+              <div class="col-lg-4 col-md-offset-4">
+                <button class="btn btn-success btn-round" (click)="openAddBenefitDialog()" >Add Value</button>
+              </div>
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <div class="table-responsive">
+                  <table  class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th class="">Value</th>
+
+                      <th style="align-content: end">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of values; let i = index;">
+                      <td class="center-block">
+                        <p style="width: 20%;">
+                          {{item.value }}
+                        </p>
+                      </td>
+
+                      <td class="td-actions text-right">
+                        <button type="button"  (click)="deleteValue(item.value,selectedLovType)"
+                                class="btn btn-info btn-round">
+                          <i class="material-icons">delete</i>
+                        </button>
+
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+            </div>
+            <!--<h4 class="card-title">Register Forms</h4>
+            <div class="form-group label-floating is-empty">
+              <label class="control-label"></label>
+              <input matInput type="text" class="form-control" placeholder="Email or User Name"
+                     [(ngModel)]="username"
+              >
+            </div>
+
+            <div class="form-group label-floating is-empty">
+              <label class="control-label"></label>
+              <input matInput type="password" class="form-control" placeholder="Password" [(ngModel)]="password">
+            </div>
+
+            <div class="form-group label-floating is-empty row">
+              <span class="star">*</span> Required fields</div>
+            <div class="col-md-12">
+              <mat-form-field>
+                <mat-select multiple placeholder="Choose roles" [(ngModel)]="selectedRoles"
+                            name=rolesList[0] ariaLabel="rolesList[0]">
+                  <mat-option *ngFor="let role of rolesList" [value]="role">{{ trim(role.roleName) }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>-->
+
+
+
+          </div>
+
+
+
+
+          <!--</form>-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

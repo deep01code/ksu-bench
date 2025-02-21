@@ -1,0 +1,114 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <app-loading *ngIf="isLoading"></app-loading>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">assignment</i>
+                </div>
+                <div class="card-title">
+                </div>
+                <div>
+                    <strong>Employees Exceptions</strong>
+                </div>
+                <br>
+                <div *ngIf="programs" class="card-content">
+                    <form ngForm="form" #form="ngForm" (ngSubmit)="search()">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Choose Program"
+                                                [(ngModel)]="selectedProgram"
+                                                name="program"
+                                                type="text"
+                                                required
+                                                #program="ngModel">
+                                        <mat-option *ngFor="let program of programs; let i = index"
+                                                    (click)="setSelectedProgramIndex(i)"
+                                                    [value]="program.name">
+                                            {{ program.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-select placeholder="Choose Department"
+                                                [(ngModel)]="selectedDepartment"
+                                                name="department"
+                                                type="text"
+                                                
+                                                #department="ngModel">
+                                        <mat-option *ngFor="let department of programs[selectedProgramIndex].departments; let i = index"
+                                                    [value]="department.name">
+                                            {{ department.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="false" class="col-md-3">
+                                <mat-form-field style="width: 80%">
+                                    <mat-select placeholder="Choose Exception Type"
+                                                ngModel
+                                                name="exceptionType"
+                                                type="text"
+                                                required
+                                                #exceptionType="ngModel">
+                                        <mat-option *ngFor="let exception of exceptionTypes; let i = index"
+                                                    [value]="exception">
+                                            {{ exception.exceptionType }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="false" class="col-md-3">
+                                <mat-form-field style="width: 80%">
+                                    <mat-select placeholder="Choose Calculation Type"
+                                                ngModel
+                                                name="calculationType"
+                                                type="text"
+                                                required
+                                                #calculationType="ngModel">
+                                        <mat-option *ngFor="let calculationType of calculationTypes; let i = index"
+                                                    [value]="calculationType">
+                                            {{ calculationType.calculationType }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-rose"> Search </button>
+                        </div>
+                        <div *ngIf="employeesExceptions && employeesExceptions.length" class="row">
+                            <div class="col-md-12">
+                                <h4 class="card-title">List of Employees</h4>
+                                <ngx-table
+                                        [configuration]="configuration" [data]="employeesExceptions"
+                                        (event)="eventEmitted($event.value.row)" [columns]="columns">
+                                    <ng-template let-row>
+                                        <td>{{row.employee.employeeName}}</td>
+                                        <td>{{row.employee.employeeId}}</td>
+                                        <td>{{row.employee.team}}</td>
+                                        <td>{{row.employee.system}}</td>
+                                        <td>{{row.employee.billingRole}}</td>
+                                        <td>{{row.employee.role}}</td>
+                                        <td>{{row.exceptionId.exceptionType}}</td>
+                                        <td>{{row.calculationId.calculationType}}</td>
+                                        <td>{{row.fromDate | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{row.toDate | date:'dd/MM/yyyy'}}</td>
+                                        <td style="text-align: center">
+                                            <span (click)="removeException(row)"
+                                            style="color: red; cursor: pointer;" 
+                                            class="glyphicon glyphicon-remove"></span>
+                                        </td>
+                                    </ng-template>
+                                </ngx-table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
