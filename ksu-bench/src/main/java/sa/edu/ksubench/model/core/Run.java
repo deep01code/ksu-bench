@@ -8,6 +8,7 @@ import sa.edu.ksubench.model.lookup.RunStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -23,15 +24,22 @@ public class Run {
 
 
     @ManyToOne
-    private Project project;
+    public Project project;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private RunStatus status; // QUEUED, RUNNING, COMPLETED, FAILED
+    public LocalDateTime startTime;
+    public LocalDateTime endTime;
 
-    @OneToMany(mappedBy = "run", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public RunStatus status; // QUEUED, RUNNING, COMPLETED, FAILED
+
+    public String rootDirName;
+    public String clusterName;
+    public String clusterPort;
+
+    @OneToMany(mappedBy = "run", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @OrderColumn(name = "queue_order") // Ensures order is maintained
-    private List<Step> steps;
+    private List<Step> steps=new LinkedList<>();
     public void addStep(Step step){
         steps.add(step);
         step.setRun(this);
@@ -46,5 +54,12 @@ public class Run {
         if (this.status == null) {
             this.status = RunStatus.QUEUED; // ✅ Set default before saving
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                '}';
     }
 }

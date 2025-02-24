@@ -114,3 +114,11 @@ class SimpleCorsFilter implements Filter {
 
 
 }
+
+//todo add action listener
+//todo fix the directory
+//todo implement file download
+//todo getAllProject logs
+//todo make project temp directory configurable
+//todo create start end time for run and steps.
+//todo make docker in java not required, add it automaticlly.

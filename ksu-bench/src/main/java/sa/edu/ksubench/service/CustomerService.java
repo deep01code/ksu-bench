@@ -47,7 +47,7 @@ public class CustomerService {
 
 
     @Transactional
-    public ResponseEntity<String> createProjectRequest(OAuth2Authentication user, ProjectDTO projectDTO) {
+    public ResponseEntity<Object> createProjectRequest(OAuth2Authentication user, ProjectDTO projectDTO) {
 
 
         Actor customer= actorRepository.findByUsername(user.getPrincipal().toString());
@@ -55,8 +55,8 @@ public class CustomerService {
 
         Project project = globalMapper.getProjectFromDTO(projectDTO);
         customer.addCustomerProject(project);
-        projectRepository.saveAndFlush(project);  // ✅ Forces Hibernate to persist immediately
-        return   ResponseEntity.status(HttpStatus.OK).build();
+        Project result= projectRepository.saveAndFlush(project);  // ✅ Forces Hibernate to persist immediately
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
 
     }
 /*

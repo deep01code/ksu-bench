@@ -3,6 +3,8 @@ package sa.edu.ksubench.model.core.steps;
 import lombok.Data;
 import sa.edu.ksubench.model.core.Step;
 import sa.edu.ksubench.model.lookup.StepStatus;
+import sa.edu.ksubench.service.workflow.StepService;
+import sa.edu.ksubench.utilities.BeanUtil;
 
 import javax.persistence.Entity;
 
@@ -14,7 +16,7 @@ public class CodeTest extends Step {
 
     @Override
     public void execute() {
-
+/*
         String workDir="/temp/".concat(this.getRun().getProject().getId().toString()).concat("/").concat(this.getRun().getProject().getId().toString());
 
         this.setStatus(StepStatus.RUNNING); // Mark step as running
@@ -55,6 +57,15 @@ public class CodeTest extends Step {
         } catch (Exception e) {
             step.setStatus("FAILED");
             System.err.println("Error executing script: " + e.getMessage());
-        }
+        }*/
+
+
+        String command=" gradle test";
+        StepService stepService = BeanUtil.getBean(StepService.class); // Injected by Spring
+//        String workDir = "/Users/yasser/temp/" + this.getRun().getProject().getId() + "/" + this.getRun().getId();
+
+        //workdir is for git clone
+        stepService.executeStep(this, "cd " + this.getRun().getRootDirName()+ " && "+command,"");
+
     }
 }

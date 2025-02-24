@@ -13,6 +13,8 @@ import sa.edu.ksubench.model.lookup.ProjectType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -28,8 +30,13 @@ public class Project implements Serializable {
 
     public String name;
 
-    private ProjectType projectType; // "java", "python", etc.
-    private ClusterType clusterType; // "spark", "hadoop", etc.
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public ProjectType projectType; // "java", "python", etc.
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public ClusterType clusterType; // "spark", "hadoop", etc.
 
     public String description;
 
@@ -37,16 +44,14 @@ public class Project implements Serializable {
 
     //todo
     @ManyToOne
-    //@JsonIgnoreProperties(value = {"customerProjects"})
     @JsonIgnore
     Actor customer;
 
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonIgnoreProperties(value = {"customerProjects"})
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @JsonIgnore
-    @OrderColumn(name = "queue_order") // Ensures order is maintained
-    private List<Run> runs;
+//    @OrderColumn(name = "queue_order") // Ensures order is maintained
+    private List<Run> runs=new ArrayList<>();
     public void addRun(Run run){
         runs.add(run);
         run.setProject(this);
@@ -57,5 +62,10 @@ public class Project implements Serializable {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                '}';
+    }
 }

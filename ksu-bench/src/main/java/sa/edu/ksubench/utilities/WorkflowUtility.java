@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 
 public class WorkflowUtility {
 
+/*
     public static void execute(Step step, String command){
 
 
@@ -51,4 +52,5 @@ public class WorkflowUtility {
             System.err.println("Error executing script: " + e.getMessage());
         }
     }
+*/
 }

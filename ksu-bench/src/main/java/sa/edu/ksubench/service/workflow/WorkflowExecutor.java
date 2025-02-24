@@ -1,7 +1,12 @@
 package sa.edu.ksubench.service.workflow;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import sa.edu.ksubench.DTO.GeneralDTOs.ProjectDTO;
+import sa.edu.ksubench.DTO.GeneralDTOs.RunDTO;
+import sa.edu.ksubench.mapper.GlobalMapper;
 import sa.edu.ksubench.model.core.Project;
 import sa.edu.ksubench.model.core.Run;
 import sa.edu.ksubench.model.core.Step;
@@ -13,7 +18,9 @@ import sa.edu.ksubench.repo.ProjectRepository;
 import sa.edu.ksubench.repo.RunRepository;
 import sa.edu.ksubench.utilities.StepsFactory;
 
-@Component
+import javax.transaction.Transactional;
+
+@Service
 public class WorkflowExecutor {
 
     @Autowired
@@ -23,28 +30,63 @@ public class WorkflowExecutor {
     RunRepository runRepo;
 
     @Autowired
-    ProjectRepository projectRepo;
+    ProjectRepository projectRepository;
 
-    public void executeRun(Project project, ProjectType projectType, ClusterType clusterType) {
+    GlobalMapper globalMapper = Mappers.getMapper(GlobalMapper.class);
+
+    //@Transactional
+    public void executeRun(ProjectDTO projectDTO) {
+
+        Project project = projectRepository.findById(globalMapper.getProjectFromDTO(projectDTO).getId()).orElse(null);
+
 
         Run run = new Run();
         run.setStatus(RunStatus.RUNNING);
-
-        //add steps to the RUN
-        StepsFactory.createSteps(projectType,clusterType).forEach(step -> {run.addStep(step);});
-
         //add RUN to the project
         project.addRun(run);
-
         //Save and flush Project.
-        projectRepo.saveAndFlush(project);
+       // projectRepository.saveAndFlush(project);
+        //runRepo.saveAndFlush(run);
+        //add steps to the RUN
+        StepsFactory.createSteps(project.getProjectType(),project.getClusterType()).forEach(step -> {run.addStep(step);});
 
+
+        // Save again after steps are added
+        project=projectRepository.saveAndFlush(project);
+       // runRepo.save(run);
+
+        // 🔥 Ensure we have the latest updated Run again
+         Run createdRun = runRepo.findFirstByProjectOrderByIdDesc(project);
 
         //now execute steps.
+        executeRunSteps(createdRun);
+    }
 
-        run.getSteps().forEach(step -> { step.execute();});
 
-        run.setStatus(RunStatus.COMPLETED);
-        System.out.println("Run completed.");
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void executeRunSteps(Run run) {
+
+        try {
+            run = runRepo.findById(run.getId()).orElseThrow(() -> new RuntimeException("Run not found"));
+
+            boolean successStatus=true;
+
+            for (int i=0; i<run.getSteps().size(); i++) {
+                Step step = run.getSteps().get(i);
+                step.execute();
+                if(step.getStatus().equals(StepStatus.FAILED)) {
+                    successStatus=false;
+                    break;
+                }
+            }
+
+            run.setStatus(successStatus ? RunStatus.COMPLETED : RunStatus.FAILED);
+
+            runRepo.saveAndFlush(run);
+            System.out.println("Run completed.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }

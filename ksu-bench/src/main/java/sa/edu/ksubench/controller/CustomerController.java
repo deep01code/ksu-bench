@@ -26,6 +26,7 @@ import sa.edu.ksubench.repo.ProjectRepository;
 import sa.edu.ksubench.repo.UserRepository;
 import sa.edu.ksubench.service.CustomerService;
 import sa.edu.ksubench.service.SharedFunctionsService;
+import sa.edu.ksubench.service.workflow.WorkflowExecutor;
 
 import java.util.*;
 
@@ -51,6 +52,8 @@ public class CustomerController {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Autowired
+    WorkflowExecutor workflowExecutor;
 
 
     GlobalMapper globalMapper = Mappers.getMapper(GlobalMapper.class);
@@ -105,12 +108,19 @@ public class CustomerController {
 
     //todo create project
     @PostMapping("/create-project")
-    public ResponseEntity<String> subscribeRequest(OAuth2Authentication user,@RequestBody ProjectDTO projectDTO){
+    public ResponseEntity<Object> subscribeRequest(OAuth2Authentication user,@RequestBody ProjectDTO projectDTO){
 
         return customerService.createProjectRequest(user,projectDTO);
     }
 
     //todo run a task
+    @PostMapping("/run-project")
+    public void runProject(@RequestBody ProjectDTO projectDTO){
+
+        System.out.println("start ");
+         workflowExecutor.executeRun(projectDTO);
+
+    }
 /*
     //...done
     @GetMapping("/get-accepted-nutritionists")

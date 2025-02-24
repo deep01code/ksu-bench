@@ -41,9 +41,13 @@ public abstract class Step {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Run run;
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StepStatus status; // PENDING, RUNNING, SUCCESS, FAILED
     private String logDataFilePath;
     public abstract void execute();
@@ -53,6 +57,13 @@ public abstract class Step {
         if (this.status == null) {
             this.status = StepStatus.PENDING; // ✅ Set default before saving
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                '}';
     }
 
 }

@@ -60,14 +60,14 @@ public interface GlobalMapper {
 
 
 ///Step==========================================================================================
-    @Mappings({
+/*    @Mappings({
             @Mapping(target="id", ignore = true),
             @Mapping(target="run", ignore = true),
 
     })
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateStepFromDTO(StepDTO dto, @MappingTarget Step step);
-    Step getStepFromDTO(StepDTO dto);
+    Step getStepFromDTO(StepDTO dto);*/
 ///==========================================================================================
 
 

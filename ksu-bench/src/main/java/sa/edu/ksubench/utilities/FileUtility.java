@@ -1,6 +1,7 @@
 package sa.edu.ksubench.utilities;
 
 import sa.edu.ksubench.model.core.Run;
+import sa.edu.ksubench.model.core.Step;
 
 import java.io.File;
 import java.io.BufferedWriter;
@@ -29,9 +30,9 @@ public class FileUtility {
         }
     }
 
-    public static String saveToFile(StringBuilder output, Run run) {
+    public static String saveToFile(StringBuilder output, Run run, Step step) {
         // Ensure the directory exists
-        String directory="/temp/".concat(run.getProject().getId().toString()).concat("/").concat(run.getId().toString());
+        String directory="/Users/yasser/temp/".concat(run.getProject().getId().toString()).concat("/").concat(run.getId().toString());
 
         File dir = new File(directory);
         if (!dir.exists() && !dir.mkdirs()) {
@@ -40,7 +41,9 @@ public class FileUtility {
         }
 
         // Create the file object
-        File file = new File(dir, DateTimeUtility.getCurrentDateTime().concat(".txt"));
+        String filename=step.getClass().getSimpleName()+"-"+DateTimeUtility.getCurrentDateTime().replaceAll("/","-").replaceAll(":","-").concat(".txt");
+
+        File file = new File(dir,filename );
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(output.toString());
