@@ -36,11 +36,11 @@ public class CreateSparkClusters extends Step {
 
         // Step 2: Start Spark Master (Let OS assign ports dynamically) with RUN_ID label
         stepService.executeStep(this, String.format(
-                "docker run -d --name %s --hostname %s --network %s --label run_id=%s -p 0:7077 -p 0:8080 bitnami/spark:latest spark-class org.apache.spark.deploy.master.Master",
+                "docker run -d --name %s --hostname %s --network %s --label run_id=%s -p 0:7077 -p 0:8080 bitnami/spark:3.3.0 spark-class org.apache.spark.deploy.master.Master",
                 sparkMasterName, sparkMasterName, networkName, RUN_ID
         ), "");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,11 +51,11 @@ public class CreateSparkClusters extends Step {
 
         // Step 4: Start Spark Worker (Connect to the correct Spark Master) with RUN_ID label
         stepService.executeStep(this, String.format(
-                "docker run  -d --name %s --hostname %s --network %s --label run_id=%s bitnami/spark:latest spark-class org.apache.spark.deploy.worker.Worker spark://%s:%s",
+                "docker run  -d --name %s --hostname %s --network %s --label run_id=%s bitnami/spark:3.3.0 spark-class org.apache.spark.deploy.worker.Worker spark://%s:%s",
                 sparkWorkerName, sparkWorkerName, networkName, RUN_ID, sparkMasterName, sparkMasterPort
         ), "");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -17,7 +17,7 @@ public class StepsFactory {
         if (projectType.equals(ProjectType.JAVA_GRADLE)) {
             stepsList.add(new CreateDir());
             stepsList.add(new GitFetchStep());
-           // stepsList.add(new JavaGradleBuild());
+            stepsList.add(new JavaGradleBuild());
             //stepsList.add(new SecurityCheck());
             stepsList.add(new CodeTest());
             if(clusterType.equals(ClusterType.SPARK)){

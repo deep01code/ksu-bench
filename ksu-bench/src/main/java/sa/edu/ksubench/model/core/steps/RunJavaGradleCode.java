@@ -54,32 +54,63 @@ public class RunJavaGradleCode extends Step {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss"));
         String logFileName = String.format("RunJavaGradleCode-%s.txt", timestamp);
 
-        new Thread(() -> stepService.executeStep(this, String.format(
-                "docker run -d --name java-spark-job-%s --network spark-network-%s " +
-                        "--label run_id=%s " +
-                        " -v \"%s\":/app " +
-                        " -v \"%s\":/logs " +
-                        " --workdir /app " +
-                        "gradle:latest " +
-                        "bash -c ' " +
-                        "mkdir -p /app || { echo \"[ERROR] Failed to create /app!\"; exit 1; }; " +
-                        "cd /app || { echo \"[ERROR] Unable to enter /app directory! Exiting.\"; exit 1; }; " +
-                        "echo \"[INFO] Listing /app contents...\"; ls -lah /app; " +
-                        "if [ ! -f build.gradle ]; then echo \"[ERROR] build.gradle not found! Exiting.\"; exit 1; fi; " +
-                        "JAVA_VERSION=$(sed -n \"s/.*languageVersion.set(JavaLanguageVersion.of(\\([0-9]\\+\\))).*/\\1/p\" build.gradle || echo 11); " +
-                        "export JAVA_HOME=$(jrunscript -e \"java.lang.System.out.println(System.getProperty(\\\"java.home\\\"));\" 2>/dev/null || echo ''); " +
-                        "echo \"[INFO] Detected JAVA_HOME: $JAVA_HOME\"; " +
-                        "echo \"[INFO] Running Gradle build...\"; " +
-                        "gradle clean build || { echo \"[ERROR] Gradle build failed! Exiting.\"; exit 1; }; " +
-                        "JAR_FILE=$(find build/libs -type f -name \"*.jar\" | head -n 1); " +
-                        "if [ ! -f \"$JAR_FILE\" ]; then echo \"[ERROR] No JAR file found! Exiting.\"; exit 1; fi; " +
-                        "MAIN_CLASS=$(grep -rl 'public static void main' src/main/java | head -n 1 | sed 's|src/main/java/||;s|.java||;s|/|.|g'); " +
-                        "if [ -z \"$MAIN_CLASS\" ]; then echo \"[ERROR] No main class found! Exiting.\"; exit 1; fi; " +
-                        "echo \"[INFO] Found Main Class: $MAIN_CLASS\"; " +
-                        "echo \"[INFO] Found JAR: $JAR_FILE, executing...\"; " +
-                        "exec java -DclusterName=%s -DmasterPort=%s -cp \"$JAR_FILE\" \"$MAIN_CLASS\" | tee /logs/%s '",
-                runId, runId, runId, tempProjectDir, parentDir, sparkMasterName, sparkMasterPort, logFileName
-        ), "")).start();
+        String cmd = String.format(
+                "docker run -d --name java-spark-job-%s --network spark-network-%s --label run_id=%s " +
+                        "-v \"%s\":/app --workdir /app deep01code/ksubench-java-ping-app " +
+                        "sh -c 'java --add-opens java.base/sun.nio.ch=ALL-UNNAMED -DclusterName=%s -DmasterPort=7077 -jar /app/build/libs/*.jar'",
+                runId, runId, runId, tempProjectDir, sparkMasterName, sparkMasterPort
+        );
+
+        System.out.println("Final command: " + cmd);
+
+        new Thread(() -> stepService.executeStep(this, cmd, "")).start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
